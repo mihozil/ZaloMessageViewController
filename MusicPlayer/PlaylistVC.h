@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  PlaylistVC.h
 //  MusicPlayer
 //
-//  Created by bmxstudio04 on 9/22/16.
+//  Created by bmxstudio04 on 10/5/16.
 //  Copyright © 2016 bmxstudio04. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface PlaylistVC : UIViewController
 
 @end
-

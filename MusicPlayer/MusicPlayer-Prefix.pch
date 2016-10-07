@@ -1,0 +1,15 @@
+//
+//  MusicPlayer-Prefix.pch
+//  MusicPlayer
+//
+//  Created by bmxstudio04 on 9/30/16.
+//  Copyright © 2016 bmxstudio04. All rights reserved.
+//
+
+#ifndef MusicPlayer_Prefix_pch
+#define MusicPlayer_Prefix_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* MusicPlayer_Prefix_pch */
