@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "exitFullScreen.png",
+      "filename" : "fsExit@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "exitFullScreen@2x.png",
+      "filename" : "fsExit@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "exitFullScreen@3x.png",
+      "filename" : "fsExit@3x.png",
       "scale" : "3x"
     }
   ],
