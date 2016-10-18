@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchResultController : UIViewController
+@protocol SearchResultDelegate;
+
+@interface SearchResultController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *searchResultArray;
+
+@property (nonatomic, weak) id<SearchResultDelegate> delegate;
+
+
+@end
+
+@protocol SearchResultDelegate <NSObject>
+
+- (void) didChoseText:(NSString*)text;
 
 @end

@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CustomPresentAnimationController : NSObject
+@interface CustomPresentAnimationController : NSObject <UIViewControllerAnimatedTransitioning >
 
 @end

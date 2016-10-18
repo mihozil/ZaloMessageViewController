@@ -7,7 +7,7 @@
 //
 
 #import "SimpleTableCell.h"
-
+NSString *const simpleCellIdentifier = @"SimpleTableCell";
 @implementation SimpleTableCell
 
 - (void)awakeFromNib {

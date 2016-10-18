@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MyActivityIndicatorView : UIActivityIndicatorView
++(void) startAnimatingInView:(UIView*)view;
++(void) stopAnimating;
 
 @end

@@ -7,31 +7,286 @@
 //
 
 #import "SearchVC.h"
+#import "IOSRequest.h"
+#import "CustomTableCell.h"
+#import "VideoPlayingViewController.h"
 
 @interface SearchVC ()
 
 @end
 
-@implementation SearchVC
+@implementation SearchVC{
+    SearchResultController *searchResult;
+    NSMutableArray *items;
+    NSDictionary *addedItem;
+    MyActivityIndicatorView *activityIndicator;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [_tableView registerNib:[UINib nibWithNibName:@"CustomTableCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CustomTableCell"];
+    [self addShadow];
+    [self initVC];
+    [self createSearchBar];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
+}
+- (void) removeAds{
+    // remove ads
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    [mySingleton.bannerView removeFromSuperview];
+    mySingleton.bannerView = nil;
+    
+    // update tableview
+    [_bottomLayout setConstant:0];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) startActivityIndicatorView{
+    activityIndicator = [[MyActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
+    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    activityIndicator.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
+    activityIndicator.hidesWhenStopped = YES;
+    [self.view addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+}
+- (void) stopActivityIndicatorView{
+    [activityIndicator stopAnimating];
+    [activityIndicator removeFromSuperview];
+}
+-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+        [self stopActivityIndicatorView];
+    }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void) addShadow{
+    self.navigationController.navigationBar.layer.shadowColor = [[UIColor colorWithRed:178 green:178 blue:178 alpha:1]CGColor];
+    self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0.0, 3);
+    self.navigationController.navigationBar.layer.shadowOpacity = 0.8;
+    self.navigationController.navigationBar.layer.masksToBounds = NO;
+    self.navigationController.navigationBar.layer.shouldRasterize = YES;
+    
+    UIColor *color = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:color   ,
+                                                                      NSFontAttributeName:[UIFont fontWithName:@"SFUIDisplay-Semibold" size:17]}];
+    
 }
-*/
+- (void) initVC{
+    _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [self createSearchBar];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [self addAds];
+}
+- (void) addAds{
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    GADBannerView *bannerView = mySingleton.bannerView;
+    float bannerY = self.view.frame.size.height - 49 - bannerView.frame.size.height;
+    bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
+    [self.view addSubview:bannerView];
+    
+    [_bottomLayout setConstant:bannerView.frame.size.height];
+}
+
+- (void) createSearchBar{
+    searchResult = [[SearchResultController alloc]init];
+    searchResult.delegate = self;
+    
+    _searchController = [[UISearchController alloc]initWithSearchResultsController:searchResult];
+    _searchController.searchResultsUpdater = self;
+    _searchController.dimsBackgroundDuringPresentation = YES;
+    _searchController.searchBar.placeholder = @"Search here";
+    _searchController.searchBar.delegate = self;
+    _searchController.hidesNavigationBarDuringPresentation = YES;
+    [_searchController.searchBar sizeToFit];
+    self.definesPresentationContext = YES;
+    
+    _tableView.tableHeaderView = self.searchController.searchBar;
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [[NSUserDefaults standardUserDefaults]setObject:items forKey:@"playlistitems"];
+    // take care of this, the playlist items can be mixed by eachother and lead to mistake
+    
+    NSDictionary *item = items[indexPath.row];
+    NSString *idVideo = item[@"snippet"][@"resourceId"][@"videoId"];
+    if (!idVideo) idVideo = item[@"id"][@"videoId"];
+    
+    [[NSUserDefaults standardUserDefaults]setObject:idVideo forKey:@"idVideo"];
+    [[NSUserDefaults standardUserDefaults]setObject:item forKey:@"playingItem"];
+    [[NSUserDefaults standardUserDefaults]setObject:item[@"snippet"][@"title"] forKey:@"titleVideo"];
+    
+    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",idVideo];
+    [IOSRequest requestPath:path onCompletion:^(NSDictionary *json, NSError*error){
+        if ((!error) && ([json[@"items"] count]>0)){
+            NSDictionary *item = json[@"items"][0];
+            NSString *view = item[@"statistics"][@"viewCount"];
+            [[NSUserDefaults standardUserDefaults]setObject:view forKey:@"viewCount"];
+        }
+    }];
+    
+    [self playNonFull:idVideo];
+    
+}
+- (void) playNonFull:(NSString*)idVideo{
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    
+    [VideoPlayingViewController shareInstance].idVideo = idVideo;
+    [VideoPlayingViewController shareInstance].playingView = mySingleton.playingView;
+      [VideoPlayingViewController shareInstance].didDismiss = NO; // remember to add this to other VC 
+    [[VideoPlayingViewController shareInstance]playVideo];
+    float width = [[UIScreen mainScreen]bounds].size.width;
+    float height = width/16*9;
+    [self switchVideowithX:0 andY:0 andWidth:width andHeight:height];
+    
+    [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
+       
+    }];
+}
+
+- (void) switchVideowithX:(float)x andY:(float)y andWidth:(float)width andHeight:(float)height{
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    UIView *_playingView = mySingleton.playingView;
+    
+    [UIView animateWithDuration:0.0 animations:^{
+        _playingView.frame = CGRectMake(x, y, width, height);
+    }completion:^(BOOL finish){
+        nil;
+    }];
+    
+    [[[UIApplication sharedApplication]keyWindow] bringSubviewToFront:_playingView];
+}
+
+
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CustomTableCell *cell = (CustomTableCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    if (!cell){
+        cell = [[CustomTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    NSDictionary *item = items[indexPath.row];
+    cell.cellTextLabel.text = item[@"snippet"][@"title"];
+    
+    [cell.cellImage setImageWithURL:[NSURL URLWithString:item[@"snippet"][@"thumbnails"][@"high"][@"url"]] placeholderImage:[UIImage imageNamed:@"musicplay.png"]];
+    
+    [cell.cellButton addTarget:self action:@selector(onButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
+    cell.cellButton.tag = indexPath.row;
+    
+    return cell;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return items.count;
+}
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    if (searchBar.text){
+        [self didChoseText:searchBar.text];
+    }
+    
+}
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
+    NSString *searchText = searchController.searchBar.text;
+    NSString*path2 = [NSString stringWithFormat:@"https://suggestqueries.google.com/complete/search?ds=yt&hjson=t&client=firefox&alt=json&ie=utf_8&oe=utf_8&q=%@",searchText];
+    
+    [IOSRequest requestPath2:path2 onCompletion:^(NSArray*json, NSError*error){
+        if (!error){
+            searchResult.searchResultArray = json[1];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    [searchResult.tableView reloadData];
+            });
+            
+        }
+    }];
+}
+
+- (void)didChoseText:(NSString *)text{
+    text = [text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,text];
+    
+    [IOSRequest requestPath:path onCompletion:^(NSDictionary*json, NSError*error){
+        if (!error){
+            items = json[@"items"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    [_tableView reloadData];
+            });
+            
+        }
+    }];
+    _searchController.active = false;
+    
+    [self startActivityIndicatorView];
+}
+
+- (void) onButtonTouch:(id) sender{
+    int index = (int)[sender tag] ;
+    addedItem = items[index];
+    [self showOptionALert:(int)[sender tag]];
+}
+- (void) showOptionALert:(int) index{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        [self addPlaylist];
+    }];
+    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        [self addShare];
+    }];
+
+    [alertController addAction:addPlaylistAction];
+    [alertController addAction:addShareAction];
+    
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+    alertController.popoverPresentationController.sourceView = cell.contentView;
+    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+- (void) addShare{
+    NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/app//id%@",APPID];
+    NSString *title = [NSString stringWithFormat:@"Greate Song! Listen it: %@ Available in: %@",addedItem[@"snippet"][@"title"],url];
+    
+    NSArray *dataShare = @[title];
+    UIActivityViewController *activityController = [[UIActivityViewController alloc]initWithActivityItems:dataShare applicationActivities:nil];
+    if ( [activityController respondsToSelector:@selector(popoverPresentationController)] ) {
+        activityController.popoverPresentationController.sourceView =
+        self.view;
+    }
+    
+    activityController.excludedActivityTypes = @[UIActivityTypeAirDrop];
+    [self presentViewController:activityController animated:YES completion:nil];
+    
+}
+- (void) addPlaylist{
+    AddToPlaylistVC *addToPlaylist = [self.storyboard instantiateViewControllerWithIdentifier:@"addtoplaylistvc"];
+    addToPlaylist.item = addedItem;
+    [self presentViewController:addToPlaylist animated:YES completion:nil];
+    
+}
 
 @end

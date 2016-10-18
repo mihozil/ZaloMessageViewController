@@ -9,13 +9,19 @@
 #import "MySlider.h"
 
 @implementation MySlider
+//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+//    CGRect bounds = self.bounds;
+//    bounds = CGRectInset(bounds, -50, -50);
+//    return CGRectContainsPoint(bounds, point);
+//}
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+//- (CGRect)thumbRectForBounds:(CGRect)bounds trackRect:(CGRect)rect value:(float)value{
+//    return CGRectInset([super thumbRectForBounds:bounds trackRect:rect value:value ], -20, -20);
+//}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    CGRect bounds = self.bounds;
+    bounds = CGRectInset(bounds, -20, -20);
+    return CGRectContainsPoint(bounds, point);
 }
-*/
-
 @end

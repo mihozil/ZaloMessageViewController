@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString* const cellIdentifier;
+
 @interface CustomTableCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *cellButton;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImage;
+@property (weak, nonatomic) IBOutlet UILabel *cellTextLabel;
 
 @end

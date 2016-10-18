@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GenresVC : UIViewController
+@interface GenresVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
 
 @end

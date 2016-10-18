@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PlaylistVC : UIViewController
+
+@interface PlaylistVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
 
 @end

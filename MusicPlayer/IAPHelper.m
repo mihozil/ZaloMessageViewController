@@ -19,7 +19,7 @@ static IAPHelper * _sharedHelper;
 }
 
 - (id)init {
-    NSSet *productIdentifiers=[NSSet setWithObjects:@"MusicWorldNoAds",nil];
+    NSSet *productIdentifiers=[NSSet setWithObjects:purchaseIdentifier,nil];
     self = [super init];
     if(self) {
         // Store product identifiers
@@ -30,7 +30,7 @@ static IAPHelper * _sharedHelper;
             BOOL productPurchased = [[NSUserDefaults standardUserDefaults] boolForKey:productIdentifier];
             if (productPurchased) {
                 [purchasedProducts addObject:productIdentifier];
-                NSLog(@"Previously purchased: %@", productIdentifier);
+                NSLog(@"Previously purchased:x %@", productIdentifier);
             }
             else
             NSLog(@"Not purchased: %@", productIdentifier);
@@ -54,15 +54,17 @@ static IAPHelper * _sharedHelper;
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
 //    NSLog(@"Received products results...");
     NSLog(@"count:%lu",(unsigned long)response.products.count);
+    
     self.products = response.products;
     self.request = nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kProductsLoadedNotification object:_products];    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kProductsLoadedNotification object:_products];
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error{
 //    NSLog(@"%@",error);
     [[NSNotificationCenter defaultCenter] postNotificationName:kProductsLoadedFailNotification object:error];
 }
+
 - (void)requestDidFinish:(SKRequest *)request
 {
 }

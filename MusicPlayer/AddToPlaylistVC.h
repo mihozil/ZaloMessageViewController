@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomPlaylistCell.h"
+#import "SimpleTableCell.h"
 
-@interface AddToPlaylistVC : UIViewController
+@interface AddToPlaylistVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSDictionary *item;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 
 @end

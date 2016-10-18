@@ -9,5 +9,12 @@
 #import "CustomPresentAnimationController.h"
 
 @implementation CustomPresentAnimationController
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext{
+    return 2.5;
+    
+}
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext{
+    
+}
 
 @end

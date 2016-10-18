@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TabbarController : UITabBarController
+@interface TabbarController : UITabBarController<UIGestureRecognizerDelegate>
 
 @end

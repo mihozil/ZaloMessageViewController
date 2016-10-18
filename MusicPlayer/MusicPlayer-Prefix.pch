@@ -8,7 +8,24 @@
 
 #ifndef MusicPlayer_Prefix_pch
 #define MusicPlayer_Prefix_pch
+#define BANNER_ID @"ca-app-pub-4670588189370997/2376252463"
+#define INTERSTITIAL_ID @"ca-app-pub-4670588189370997/5329718868"
+#define APPID @"1164842883"
+#define IDIOM UI_USER_INTERFACE_IDIOM()
+#define IPAD UIUserInterfaceIdiomPad
+#define maxSongsNumber 50
+#define purchaseIdentifier @"com.andytran8791.musictube"
+#define Domain @"api.inestjsc.com"
 
+
+#import <UIImageView+AFNetworking.h>
+#import "MySingleton.h"
+#import "IOSRequest.h"
+#import <iRate/iRate.h>
+#import "IAPHelper.h"
+#import "MyActivityIndicatorView.h"
+#import <Google/Analytics.h>
+@import GoogleMobileAds;
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

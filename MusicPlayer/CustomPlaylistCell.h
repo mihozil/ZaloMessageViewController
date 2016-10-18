@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString* const playlistCellIdentifier;
+
 @interface CustomPlaylistCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UILabel *playlistLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *tickImg;
+
 
 @end

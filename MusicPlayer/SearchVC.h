@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SearchResultController.h"
+#import "AddToPlaylistVC.h"
 
-@interface SearchVC : UIViewController
+@interface SearchVC : UIViewController <UISearchControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, SearchResultDelegate>
+
+@property (nonatomic, strong) UISearchController *searchController;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
+
 
 @end

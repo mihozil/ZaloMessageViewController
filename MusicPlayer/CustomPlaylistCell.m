@@ -8,6 +8,8 @@
 
 #import "CustomPlaylistCell.h"
 
+NSString *const playlistCellIdentifier = @"CustomPlaylistCell";
+
 @implementation CustomPlaylistCell
 
 - (void)awakeFromNib {
@@ -15,10 +17,19 @@
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//
+//    if (selected){
+//        self.imgView.backgroundColor = [UIColor blackColor];
+//    }
+//}
+//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated{
+//    [super setHighlighted:highlighted animated:animated];
+//    
+//    if (highlighted){
+//        self.imgView.backgroundColor = [UIColor greenColor];
+//    }
+//}
 
 @end

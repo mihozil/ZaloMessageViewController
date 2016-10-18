@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IOSRequest.h"
+#import "CustomTableCell.h"
+#import "AppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
+@import GoogleMobileAds;
 
-@interface TopchartVC : UIViewController
+@interface TopchartVC : UIViewController <UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate,GADInterstitialDelegate>
+@property (nonatomic, strong) GADBannerView *bannerView;
 
 @end

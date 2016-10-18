@@ -7,6 +7,7 @@
 //
 
 #import "SearchResultController.h"
+#import "CustomSearchCell.h"
 
 @interface SearchResultController ()
 
@@ -17,21 +18,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [_tableView registerNib:[UINib nibWithNibName:@"CustomSearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CustomSearchCell"];
+    _tableView.separatorColor= [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+    
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _searchResultArray.count;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *cellIdentifier = @"CustomSearchCell";
+    CustomSearchCell *cell = (CustomSearchCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    if (!cell) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomSearchCell" owner:self options:nil];
+        cell = [topLevelObjects objectAtIndex:0];
+    }
+    cell.resultTextLabel.text = _searchResultArray[indexPath.row];
+    
+    return cell;
 }
-*/
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 48;
+}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *searchWord = _searchResultArray[indexPath.row];
+    [self.delegate didChoseText:searchWord];
+    
+}
 @end

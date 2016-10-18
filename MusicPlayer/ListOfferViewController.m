@@ -92,7 +92,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    appDelegate.restrictRotation = YES;
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    mySingleton.restrictRotation = YES;
+    
     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     [tracker set:kGAIScreenName value:@"ListOfferView"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
@@ -125,7 +127,7 @@
     NSString *idfaString = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         RATING_APPID, @"app_id",
+                         APPID, @"app_id",
                          @"ios", @"platform",
                          os_version, @"os_version",
                          idfaString, @"device_id",
@@ -183,7 +185,7 @@
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         RATING_APPID, @"app_id",
+                         APPID, @"app_id",
                          version, @"app_version",
                          @"ios", @"platform",
                          os_version, @"os_version",
@@ -223,9 +225,9 @@
                 
                 BOOL isPro = [[dict objectForKey:@"pro"]boolValue];
                 long remainDay = [[dict objectForKey:@"remain_days"]longValue];
-                appDelegate.isPro = isPro;
-                NSDate *date = [NSDate date];
-                appDelegate.lastCheck = date;
+                
+                
+//                NSDate *date = [NSDate date];
                 
                 if (!isPro) {
                     NSString *message = [NSString stringWithFormat:@"You are not eligible to use the PRO version. Please complete the missions to activate the PRO version."];
@@ -238,7 +240,7 @@
                                                    style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction *action)
                                                    {
-                                                       //
+                                                       
                                                    }];
                     
                     [viewMessage addAction:cancelAction];

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SimpleTableCell.h"
 
-@interface PlaylistDetailVC : UIViewController
-
+@interface PlaylistDetailVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) int index;
 @end

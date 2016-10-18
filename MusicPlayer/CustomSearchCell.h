@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString* const searchCellIdentifier;
+
 @interface CustomSearchCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *resultTextLabel;
 
 @end
