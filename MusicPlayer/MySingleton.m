@@ -33,6 +33,7 @@
         
         _blackView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, width, height)];
         _blackView.backgroundColor = [UIColor blackColor];
+        _pauseTouch = false;
         
     }
     return self;

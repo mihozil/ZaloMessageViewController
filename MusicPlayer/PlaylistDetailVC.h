@@ -10,6 +10,8 @@
 #import "SimpleTableCell.h"
 
 @interface PlaylistDetailVC : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, strong) NSString *name;

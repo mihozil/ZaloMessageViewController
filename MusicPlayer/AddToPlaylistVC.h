@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSDictionary *item;
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomLayout;
 
 @end

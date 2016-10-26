@@ -7,6 +7,9 @@
 //
 
 #import "AddToPlaylistVC.h"
+#import "PlaylistVC.h"
+#import "VideoPlayingViewController.h"
+#import "PlaylistDetailVC.h"
 
 @interface AddToPlaylistVC ()
 
@@ -15,6 +18,7 @@
 @implementation AddToPlaylistVC{
     NSMutableArray *playlists;
     NSIndexPath *currentIndexpath;
+
 }
 
 - (void)viewDidLoad {
@@ -27,10 +31,15 @@
     currentIndexpath = nil;
     [self initVC];
     [self addShadow];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
+    
 }
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
 }
+
+
 - (void) addShadow{
     _navigationBar.layer.shadowColor = [[UIColor colorWithRed:178 green:178 blue:178 alpha:1]CGColor];
     _navigationBar.layer.shadowOffset = CGSizeMake(0.0, 3);
@@ -45,6 +54,30 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [_tableView reloadData];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [self addAds];
+}
+- (void) addAds{
+    
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    GADBannerView *bannerView = mySingleton.bannerView;
+    
+    float bannerY = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - bannerView.frame.size.height;
+    
+    bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
+    
+    [self.view addSubview:bannerView];
+    [_bottomLayout setConstant:bannerView.frame.size.height];
+}
+- (void) removeAds{
+    // remove ads
+    MySingleton *mySingleton = [MySingleton sharedInstance];
+    [mySingleton.bannerView removeFromSuperview];
+    mySingleton.bannerView = nil;
+    
+    // update tableview
+    [_bottomLayout setConstant:0];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -103,7 +136,13 @@
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
         UITextField *textField = alertController.textFields[0];
-        [self addNewPlaylist:textField.text];
+        if ([textField.text isEqualToString:@""]) [self displayAlertTitle:@"Error" andMessenge:@"Playlist name is not allowed to be empty"];
+        else{
+            if ([self playlistNameExist:textField.text]) [self displayAlertTitle:@"Playlist already exists" andMessenge:@"Please try again"];
+            else
+                [self addNewPlaylist:textField.text];
+        }
+        
         
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
@@ -116,6 +155,14 @@
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+- (BOOL) playlistNameExist:(NSString*)name{
+    for (NSDictionary *playlist in playlists){
+        if ([name isEqualToString:playlist[@"name"]]) return YES;
+    }
+    return NO;
+}
+
+
 - (void) addNewPlaylist:(NSString*)name{
     if(![name isEqualToString:@""]){
         NSDictionary *playlist = @{@"name":name};
@@ -126,6 +173,10 @@
     
 }
 - (void) animatedSelectRow:(NSIndexPath*)indexPath{
+    if ([self checkBelongToPlaylist:(int)indexPath.row-1]){
+        [self displayAlertTitle:@"Error" andMessenge:@"Video already exists in Playlist"];return;
+    }
+    
         [self deSelectCell:currentIndexpath];
         
         if (indexPath!=currentIndexpath)
@@ -147,17 +198,65 @@
         [cell.tickImg setHidden:NO];
     }
     currentIndexpath= indexPath;
+    
+}
+- (BOOL) checkBelongToPlaylist:(int) index{
+    NSArray *items = playlists[index][@"items"];
+    if ([items containsObject:_item]) return YES;
+    else return NO;
+}
+- (void) displayAlertTitle:(NSString*)title andMessenge:(NSString*)messenge{
+    UIAlertController *alertControlelr = [UIAlertController alertControllerWithTitle:title message:messenge preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertControlelr addAction:actionOK];
+    [self presentViewController:alertControlelr animated:YES completion:nil];
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60;
 }
 - (IBAction)onDone:(id)sender {
+    if ([self.presentingViewController isKindOfClass:[VideoPlayingViewController class]]){
+        [MySingleton sharedInstance].restrictRotation = NO;
+    }
+    
+    
     if (currentIndexpath){
         NSDictionary *playlist = playlists[currentIndexpath.row-1];
         [self addItemToPlaylist:playlist];
+        [self updateTabbar];
+        
+    }
+    GADBannerView *bannerView = [MySingleton sharedInstance].bannerView;
+    if ([self.presentingViewController isKindOfClass:[UITabBarController class]]){
+        float adsHeight;
+        if (IDIOM ==IPAD) adsHeight = 90;
+        else adsHeight = 50;
+        
+        bannerView.frame = CGRectMake(bannerView.frame.origin.x, self.view.frame.size.height - adsHeight - 49, bannerView.frame.size.width, bannerView.frame.size.height);
+        [self.presentingViewController.view addSubview:bannerView];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void) updateTabbar{
+    UITabBarController *tabbarController;
+    if ([self.presentingViewController isKindOfClass:[UITabBarController class]]) tabbarController = (UITabBarController*)self.presentingViewController;
+    else tabbarController = (UITabBarController*) self.presentingViewController.presentingViewController;
+    
+    for (UINavigationController *nav in tabbarController.viewControllers){
+        if ([nav.topViewController isKindOfClass:[PlaylistVC class]]){
+            [nav.topViewController viewWillAppear:YES];
+            return;
+        }
+        if ([nav.topViewController isKindOfClass:[PlaylistDetailVC class]]){
+            
+            [nav.topViewController viewWillAppear:YES];
+            return;
+        }
+        NSLog(@"nav: %@",nav.topViewController);
+    }
+    
 }
 - (void) addItemToPlaylist:(NSDictionary*)playlist{
     NSMutableDictionary *updatedPlaylist = [NSMutableDictionary dictionaryWithDictionary:playlist];

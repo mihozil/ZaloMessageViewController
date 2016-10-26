@@ -14,6 +14,7 @@
 #import "VideoPlayingViewController.h"
 #import "MPMoviePlayerController+BackgroundPlayback.h"
 #import <iRate/iRate.h>
+#import "Reachability.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
@@ -26,6 +27,9 @@
     UITapGestureRecognizer *tap;
     UIPanGestureRecognizer *pan;
     CGPoint startPan, endPan;
+    UIAlertController *alertLostInternet;
+    
+    Reachability *internetReachableFoo;
 }
 
 
@@ -37,6 +41,8 @@
     [audioSession setActive:YES error:nil];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(routeChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+    
     UIBackgroundTaskIdentifier newTaskId = UIBackgroundTaskInvalid;
     newTaskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:NULL];
     [self becomeFirstResponder];
@@ -46,10 +52,14 @@
     [self getPlaylistData];
     [self setRandomRepeat];
     
-    [self createPlayingView];
-    
     [self initBannerAds];
     [self initIntestitialAds];
+    [self testInternetConnection];
+    
+    [self createPlayingView];
+    
+    [self initGoogleAnalytic];
+    
     [self initilizeAppRate];
     
       [[NSUserDefaults standardUserDefaults]setObject:@"Auto" forKey:@"videoquality"];
@@ -58,6 +68,83 @@
     
     return YES;
 }
+- (void) routeChange:(NSNotification*) noti{
+    NSNumber *reason = [noti.userInfo objectForKey:AVAudioSessionRouteChangeReasonKey];
+    if ([reason intValue] == AVAudioSessionRouteChangeReasonNewDeviceAvailable){
+        // plugin
+        
+        int pauseState = [[[NSUserDefaults standardUserDefaults]objectForKey:@"pause"]intValue];
+        if (pauseState ==1)
+            if (![MySingleton sharedInstance].pauseTouch)
+               [[VideoPlayingViewController shareInstance]onPause];
+        
+        
+    }else if ([reason intValue] == AVAudioSessionRouteChangeReasonOldDeviceUnavailable){
+        int pauseState = [[[NSUserDefaults standardUserDefaults]objectForKey:@"pause"] intValue];
+        if (pauseState ==0) {
+            // plug out; if playing will pause
+            [[VideoPlayingViewController shareInstance] onPause];
+            [MySingleton sharedInstance].pauseTouch = NO;
+        }
+        
+    }
+}
+
+- (void) initGoogleAnalytic{
+    NSError *configError;
+    [[GGLContext sharedInstance]configureWithError:&configError];
+    NSAssert(!configError, @"Error configuring Google services: %@", configError);
+    
+    GAI *gai = [GAI sharedInstance];
+    gai.trackUncaughtExceptions = YES;
+    gai.logger.logLevel = kGAILogLevelVerbose;
+    
+}
+
+- (void)testInternetConnection
+{
+    __weak typeof(self) weakself = self;
+    __weak typeof (UIAlertController) *weakAlert = alertLostInternet;
+    
+    
+    internetReachableFoo = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Internet is reachable
+    internetReachableFoo.reachableBlock = ^(Reachability*reach)
+    {
+        // Update the UI on the main thread
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakself requestAds];
+            [weakAlert dismissViewControllerAnimated:NO completion:nil];
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"InternetConnected" object:nil];
+            [[NSUserDefaults standardUserDefaults]setObject:@(1) forKey:@"internet"];
+        });
+    };
+    
+    // Internet is not reachable
+    internetReachableFoo.unreachableBlock = ^(Reachability*reach)
+    {
+        // Update the UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSUserDefaults standardUserDefaults]setObject:@(0) forKey:@"internet"];
+            [weakself alertLostConnection];
+        });
+    };
+    [internetReachableFoo startNotifier];
+}
+- (void) alertLostConnection{
+
+    UIViewController *currentVC = self.window.rootViewController.presentedViewController;
+    if (!currentVC) currentVC = self.window.rootViewController;
+    
+    alertLostInternet = [UIAlertController alertControllerWithTitle:@"Internet Error" message:@"Please check the connection again" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertLostInternet addAction:okAction];
+    [currentVC presentViewController:alertLostInternet animated:YES completion:nil];
+}
+
 - (void) createNotification{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsLoaded:) name:kProductsLoadedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:kProductPurchasedNotification object:nil];
@@ -92,14 +179,22 @@
     else adsHeight = 50;
     mySingleton.bannerView.frame = CGRectMake(0, height-49-adsHeight, width, adsHeight);
     
-    GADRequest *request = [GADRequest request];
-    [mySingleton.bannerView loadRequest:request];
 }
+- (void) requestAds{
+    GADRequest *request = [GADRequest request];
+    [[MySingleton sharedInstance].bannerView loadRequest:request];
+}
+
 - (void) initIntestitialAds{
     MySingleton *mySingleton = [MySingleton sharedInstance];
     mySingleton.intestitial = [[GADInterstitial alloc]initWithAdUnitID:INTERSTITIAL_ID];
+    mySingleton.intestitial.delegate = self;
+    GADRequest *request = [GADRequest request];
+    [mySingleton.intestitial loadRequest:request];
 }
-
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad{
+    
+}
 #pragma mark Purchase
 
 -(void)productsLoaded:(NSNotification *)notification
@@ -162,7 +257,7 @@
     float videoHeight = videoWidth/16*9;
     
     _playingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, videoWidth, videoHeight)];
-    _playingView.backgroundColor = [UIColor grayColor];
+    _playingView.backgroundColor = [UIColor colorWithRed:24/255.0 green:25/255.0 blue:27/255.0 alpha:1];
     [self.window addSubview:_playingView];
     
     tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onTap)];
@@ -182,30 +277,47 @@
 
 - (void) onPan:(id) sender{
     
+    
     float screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     if ([MySingleton sharedInstance].playingView.frame.size.width >= screenWidth) return;
 
     
     if ([sender state] == UIGestureRecognizerStateBegan){
+        
+        NSLog(@"ONPAN BEGAN");
+    
+        
+        if ([self.window.rootViewController.presentedViewController isKindOfClass:[UIAlertController class]])
+            [self.window.rootViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        
         startPan.y = [sender locationInView:self.window.rootViewController.view].y - [self smallVideoY];
         [VideoPlayingViewController shareInstance].appearBottom = YES;
         [VideoPlayingViewController shareInstance].startPan = startPan;
         [VideoPlayingViewController shareInstance].view.alpha = 0;
         
-        [self.window.rootViewController presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
+        UIViewController *currentView = self.window.rootViewController.presentedViewController;
+        if ([currentView isKindOfClass:[UIAlertController class]])  currentView = nil;
+        if (!currentView) currentView = self.window.rootViewController;
+        
+        [currentView presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
             
             [VideoPlayingViewController shareInstance].didDismiss = NO;
             [[VideoPlayingViewController shareInstance]addGesturetoVideo];
+            [VideoPlayingViewController shareInstance].controlBar.hidden = YES;
             
         }];
         
     } else if ([sender state] == UIGestureRecognizerStateEnded){
         [[VideoPlayingViewController shareInstance] endPan];
+//        [[VideoPlayingViewController shareInstance].controlBar setHidden:NO];
+        NSLog(@"ONPAN END");
         
         
     }else{
+        NSLog(@"PANNING");
         [[VideoPlayingViewController shareInstance]updateFromPan:[sender locationInView:self.window.rootViewController.view]];
     }
+    
     [[MySingleton sharedInstance].playingView bringSubviewToFront:[MySingleton sharedInstance].videoPlayerVC.moviePlayer.view];
     
 }
@@ -213,7 +325,7 @@
 - (BOOL) isPurchased{
     NSData *data = [[NSUserDefaults standardUserDefaults]objectForKey:@"Purchase"];
     NSArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    return arr[0];
+    return [arr[0] intValue];
 }
 - (float) smallVideoY{
     float screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
@@ -234,10 +346,15 @@
     // when video go from small screen to big screen: need to addgesture to video
     // go from small to big
     
+    NSLog(@"ONTAP APPDELEGATE");
+    
     MySingleton *mySingleton = [MySingleton sharedInstance];
     UIView *playingView = mySingleton.playingView;
     float screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     if (playingView.frame.size.width >= screenWidth) return;
+    
+    if ([self.window.rootViewController.presentedViewController isKindOfClass:[UIAlertController class]])
+       [self.window.rootViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
     
     float width = [UIScreen mainScreen].bounds.size.width;
     float height = width/16*9;
@@ -246,13 +363,18 @@
         playingView.frame = CGRectMake(0, 0, width, height);
     }];
     
+    UIViewController *currentView = self.window.rootViewController.presentedViewController;
+    if ([currentView isKindOfClass:[UIAlertController class]])  currentView = nil;
+    if (!currentView) currentView = self.window.rootViewController;
     
-    [self.window.rootViewController presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
+    NSLog(@"alpha: %2.2f",[VideoPlayingViewController shareInstance].view.alpha);
+    [currentView presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
         [VideoPlayingViewController shareInstance].didDismiss = NO;
         [[VideoPlayingViewController shareInstance]addGesturetoVideo];
         
     }];
 }
+
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event {
     MySingleton *mySingleton = [MySingleton sharedInstance];
@@ -266,14 +388,17 @@
              [[VideoPlayingViewController shareInstance] onPause];
             break;
             
-        case UIEventSubtypeRemoteControlNextTrack:{
-            
+        case UIEventSubtypeRemoteControlNextTrack:
             [[VideoPlayingViewController shareInstance] onNext] ;
-           
-        }
             break;
             
+        case UIEventSubtypeRemoteControlTogglePlayPause:
+            [[VideoPlayingViewController shareInstance]onPause];
+            break;
+            
+            
         case UIEventSubtypeRemoteControlPreviousTrack:
+            [[VideoPlayingViewController shareInstance]  onBack];
             
             break;
         default:
@@ -341,25 +466,46 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+//    NSLog(@"app did resign active");
+//    [MySingleton sharedInstance].videoPlayerVC.moviePlayer.backgroundPlaybackEnabled = NO;
+//    
+//        NSLog(@"videoVC: %@",[MySingleton sharedInstance].videoPlayerVC);
+    
+//    [[MySingleton sharedInstance].videoPlayerVC.moviePlayer play];
+
+    
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    int pauseState = [[[NSUserDefaults standardUserDefaults]objectForKey:@"pause"] intValue];
+    
+    if (pauseState == 0)
+     [[MySingleton sharedInstance].videoPlayerVC.moviePlayer play];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+//    NSLog(@"app did become active");
+    
+//    [MySingleton sharedInstance].videoPlayerVC.moviePlayer.backgroundPlaybackEnabled = YES;
+    
+//    NSLog(@"videoVC: %@",[MySingleton sharedInstance].videoPlayerVC);
+//    [[MySingleton sharedInstance].videoPlayerVC.moviePlayer play];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 @end

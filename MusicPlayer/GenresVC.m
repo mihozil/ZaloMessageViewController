@@ -9,6 +9,7 @@
 #import "GenresVC.h"
 #import "ContemporaryTracksVC.h"
 #import "VideoPlayingViewController.h"
+#import "CustomGenresCell.h"
 
 @interface GenresVC ()
 
@@ -27,7 +28,7 @@
     [self initVC];
     
     picking = -1;
-    
+    [_tableView registerNib:[UINib nibWithNibName:genresCellIdentifier bundle:[NSBundle mainBundle]] forCellReuseIdentifier:genresCellIdentifier];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
 }
 
@@ -56,7 +57,16 @@
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
 }
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"Genres"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated{
+    [self addScreenTracking];
+    
     NSString *outGenres = [[NSUserDefaults standardUserDefaults]objectForKey:@"outGenres"];
     
     if ((!outGenres) || ([outGenres intValue] == 1)) picking = -1;
@@ -84,24 +94,26 @@
     return playlists.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"CellGenres"];
+//    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"CellGenres" forIndexPath:indexPath];
+//    if (!cell) {
+//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellGenres"];
+//    }
+    CustomGenresCell *cell = (CustomGenresCell*)[tableView dequeueReusableCellWithIdentifier:genresCellIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CellGenres"];
+        cell = [[CustomGenresCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:genresCellIdentifier];
     }
     
     NSDictionary *playList = playlists[indexPath.row];
-    cell.textLabel.text = playList[@"name"];
-    cell.textLabel.font = [UIFont fontWithName:@"SFUIText-Medium" size:15];
-    cell.textLabel.textColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+//    cell.textLabel.text = playList[@"name"];
+//    cell.textLabel.font = [UIFont fontWithName:@"SFUIText-Medium" size:15];
+//    cell.textLabel.textColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+    cell.genresTextLabel.text = playList[@"name"];
     
     if (picking == indexPath.row){
-        [tickView removeFromSuperview];
+
+        cell.tickImg.hidden = NO;
         
-        tickView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"bluetick.png"]];
-        float size = cell.frame.size.height-30;
-        tickView.frame = CGRectMake(cell.frame.size.width - size - 10, 15, size, size);
-        [cell.contentView addSubview:tickView];
-    }
+    }else cell.tickImg.hidden = YES;
     
     return cell;
 }
@@ -129,7 +141,5 @@
     [[NSUserDefaults standardUserDefaults]setObject:@(1) forKey:@"outGenres"];
     [tickView removeFromSuperview];
 }
-
-
 
 @end

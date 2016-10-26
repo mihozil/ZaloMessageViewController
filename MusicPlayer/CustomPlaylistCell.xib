@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="SF-UI-Display-Regular.otf">
+        <array key="SF-UI-Display-Regular.otf">
             <string>SFUIDisplay-Regular</string>
-        </mutableArray>
-        <mutableArray key="SF-UI-Text-Regular.otf">
+        </array>
+        <array key="SF-UI-Text-Regular.otf">
             <string>SFUIText-Regular</string>
-        </mutableArray>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,11 +22,10 @@
             <rect key="frame" x="0.0" y="0.0" width="478" height="61"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="478" height="60"/>
+                <frame key="frameInset" width="478" height="60.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3UZ-JJ-hMN">
-                        <rect key="frame" x="10" y="5" width="90" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="3UZ-JJ-hMN" secondAttribute="height" multiplier="9:5" id="28X-3k-bp4"/>
                             <constraint firstAttribute="width" secondItem="3UZ-JJ-hMN" secondAttribute="height" multiplier="9:5" id="TVm-5l-oi9"/>
@@ -37,19 +37,16 @@
                         </variation>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Playlist Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-MI-My8">
-                        <rect key="frame" x="110" y="15" width="90" height="17"/>
                         <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="14"/>
-                        <color key="textColor" red="0.027450980390000001" green="0.027450980390000001" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.027450980390000001" green="0.027450980390000001" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THJ-IP-3pC">
-                        <rect key="frame" x="110" y="32" width="24" height="12"/>
                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="10"/>
-                        <color key="textColor" red="0.027450980390000001" green="0.027450980390000001" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.027450980390000001" green="0.027450980390000001" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bluetick.png" translatesAutoresizingMaskIntoConstraints="NO" id="2QS-Wr-gka">
-                        <rect key="frame" x="438" y="15" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="2QS-Wr-gka" secondAttribute="height" multiplier="1:1" id="93d-uc-uIa"/>
                             <constraint firstAttribute="width" secondItem="2QS-Wr-gka" secondAttribute="height" multiplier="50:51" id="oqJ-Wd-jUb"/>
@@ -61,7 +58,7 @@
                         </variation>
                     </imageView>
                 </subviews>
-                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="tTT-MI-My8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="8wX-oK-2m9"/>
                     <constraint firstItem="THJ-IP-3pC" firstAttribute="leading" secondItem="3UZ-JJ-hMN" secondAttribute="trailing" constant="10" id="Ark-pc-k6T"/>

@@ -8,6 +8,7 @@
 
 #import "SettingVC.h"
 #import <MessageUI/MessageUI.h>
+#import "ListOfferViewController.h"
 
 @interface SettingVC ()
 
@@ -35,7 +36,7 @@
 - (BOOL) isPurchased{
     NSData *data = [[NSUserDefaults standardUserDefaults]objectForKey:@"Purchase"];
     NSArray *arr = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    return arr[0];
+    return [arr[0] intValue];
 }
 
 - (void) initVC{
@@ -52,7 +53,15 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:color   ,
                                                                       NSFontAttributeName:[UIFont fontWithName:@"SFUIDisplay-Semibold" size:17]}];
 }
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"SettingVC"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated{
+    [self addScreenTracking];
     [self addAds];
 }
 - (void) addAds{
@@ -127,7 +136,7 @@
     mailController = [[MFMailComposeViewController alloc]init];
     mailController.mailComposeDelegate = self;
     [mailController setSubject:@"MusicPlayer - Feedback"];
-    [mailController setToRecipients:@[@"minhnht05.sic@gmail.com"]];
+    [mailController setToRecipients:@[@"help.bmx2015@gmail.com"]];
     [mailController setMessageBody:@"Music Player" isHTML:NO];
     [self presentViewController:mailController animated:YES completion:nil];
 }
@@ -146,8 +155,9 @@
     [[IAPHelper sharedHelper]restoreCompletedTransaction];
 }
 - (void) specialOffers{
-//    ListOfferViewController *offerVC = [[ListOfferViewController alloc]init];
-//    [self presentViewController:offerVC animated:YES completion:nil];
+    ListOfferViewController *offerVC = [[ListOfferViewController alloc]initWithNibName:@"ListOfferViewController" bundle:nil];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:offerVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)receivedAd{
@@ -198,10 +208,12 @@
                 [tableItems addObject:@"✨ Remove Ads"];
                 [tableItems addObject:@"👌 Restore Purchase"];
                 [tableItems addObject:@"🎉 Special Offers"];
+                
+                 [_tableView reloadData];
             }
         }
         
-        [_tableView reloadData];
+       
     }
 }
 

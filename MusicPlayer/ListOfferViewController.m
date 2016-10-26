@@ -34,12 +34,15 @@
                                                                style:UIBarButtonItemStyleDone
                                                               target:self
                                                               action:@selector(btnDonePressed)];
+    btnDone.tintColor = [UIColor colorWithRed:7/255.0 green:7/255.0 blue:204/255.0 alpha:1];
+    
     [self.navigationItem setLeftBarButtonItem:btnDone];
     
     UIBarButtonItem *btnRefresh = [[UIBarButtonItem alloc]initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Refresh",nil)]
                                                                   style:UIBarButtonItemStyleDone
                                                                  target:self
                                                                  action:@selector(btnRefreshPressed)];
+    btnRefresh.tintColor = [UIColor colorWithRed:7/255.0 green:7/255.0 blue:204/255.0 alpha:1];
     [self.navigationItem setRightBarButtonItem:btnRefresh];
     
     [_btnActive setTitle:[NSString stringWithFormat:NSLocalizedString(@"Active Pro Version",nil)] forState:UIControlStateNormal];

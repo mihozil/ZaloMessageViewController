@@ -22,18 +22,21 @@
     NSMutableArray *items;
     NSDictionary *addedItem;
     MyActivityIndicatorView *activityIndicator;
+    NSString *nextPageToken;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.title = self.playlistName;
+    items = [[NSMutableArray alloc]init];
 
     [_tableView registerNib:[UINib nibWithNibName:@"CustomTableCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CustomTableCell"];
     
     [self customBackBt];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
+    
 }
 - (void) removeAds{
     // remove ads
@@ -69,56 +72,89 @@
     [activityIndicator stopAnimating];
     [activityIndicator removeFromSuperview];
 }
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-        [self stopActivityIndicatorView];
-    }
-}
+//-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+//        [self stopActivityIndicatorView];
+//    }
+//}
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
 }
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"ContemporaryTracksVC"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+}
 
 - (void)viewWillAppear:(BOOL)animated{
-    [self getTopTemporaryChart];
+    [self addScreenTracking];
+    
+    if (items.count==0) [self getTopTemporaryChart];
+    
     [self initVC];
-    [self startActivityIndicatorView];
     
     [self addAds];
 }
 - (void) addAds{
+    self.navigationController.edgesForExtendedLayout = UIRectEdgeAll;
+    
     MySingleton *mySingleton = [MySingleton sharedInstance];
     GADBannerView *bannerView = mySingleton.bannerView;
-    float bannerY = self.view.frame.size.height - 49 - bannerView.frame.size.height;
+    float bannerY = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) -64 - 49 - bannerView.frame.size.height;
     bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
     [self.view addSubview:bannerView];
     
     [_bottomLayout setConstant:bannerView.frame.size.height];
 }
 
+- (void) addTableItems:(NSString*)path{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self startActivityIndicatorView];
+    });
+    
+    [IOSRequest requestPath:path onCompletion:^(NSDictionary*json, NSError*error){
+        if (!error){
+            [items addObjectsFromArray: json[@"items"]];
+            nextPageToken = json[@"nextPageToken"];
+            
+            [[NSUserDefaults standardUserDefaults]setObject:items forKey:@"temporaryPlaylistitems"];
+            
+            [[NSUserDefaults standardUserDefaults]setObject:@(0) forKey:@"outGenres"];
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                [_tableView reloadData];
+            });
+        } else NSLog(@"error");
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stopActivityIndicatorView];
+        });
+        
+    }];
+    
+}
 
 - (void) getTopTemporaryChart{
     //
     if (!_reloadData){
-        items = [[NSUserDefaults standardUserDefaults] objectForKey:@"playlistitems"];
+        items = [[NSUserDefaults standardUserDefaults] objectForKey:@"temporaryPlaylistitems"]; // change to temporary playlist items
           [[NSUserDefaults standardUserDefaults]setObject:@(0) forKey:@"outGenres"];
         [_tableView reloadData];
         return;
     }
     
     NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=%d&playlistId=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,_playlistId];
+    [self addTableItems:path];
     
-    [IOSRequest requestPath:path onCompletion:^(NSDictionary*json, NSError*error){
-        items = json[@"items"];
-        
-        [[NSUserDefaults standardUserDefaults]setObject:items forKey:@"playlistitems"];
-        [[NSUserDefaults standardUserDefaults]setObject:@(0) forKey:@"outGenres"];
-        
-        dispatch_async(dispatch_get_main_queue(),^{
-            [_tableView reloadData];
-        });
-    }];
 }
+- (void) updateTable{
+    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=%d&playlistId=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M&pageToken=%@",maxSongsNumber,_playlistId,nextPageToken];
+    [self addTableItems:path];
+}
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -141,7 +177,8 @@
     [cell.cellButton addTarget:self action:@selector(onButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
      cell.cellButton.tag = indexPath.row;
     
-    
+    if ((indexPath.row == items.count-1) && (nextPageToken))
+         [self updateTable];
     
     return cell;
 }
@@ -152,7 +189,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [[NSUserDefaults standardUserDefaults]setObject:items forKey:@"playlistitems"];
+    [[NSUserDefaults standardUserDefaults]setObject:items forKey:@"playlistitems"]; // this is very true
     // take care of this: it can be mistaken withtop chart
     
     NSDictionary *item = items[indexPath.row];
@@ -178,6 +215,7 @@
 
 - (void) playNonFull:(NSString*)idVideo{
     MySingleton *mySingleton = [MySingleton sharedInstance];
+    mySingleton.playingViewCount = (mySingleton.playingViewCount +1)%8;
     
     [VideoPlayingViewController shareInstance].idVideo = idVideo;
     [VideoPlayingViewController shareInstance].playingView = mySingleton.playingView;
@@ -186,6 +224,9 @@
     float width = [[UIScreen mainScreen]bounds].size.width;
     float height = width/16*9;
     [self switchVideowithX:0 andY:0 andWidth:width andHeight:height];
+    
+    [MySingleton sharedInstance].restrictRotation = NO;
+    
     
     [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
         
@@ -199,7 +240,7 @@
     [UIView animateWithDuration:0.0 animations:^{
         _playingView.frame = CGRectMake(x, y, width, height);
     }completion:^(BOOL finish){
-        nil;
+         [[VideoPlayingViewController shareInstance] updateActivityIndicatorPosition];
     }];
     
     [[[UIApplication sharedApplication]keyWindow] bringSubviewToFront:_playingView];
@@ -208,41 +249,44 @@
 - (void) onButtonTouch:(id) sender{
     int index = (int)[sender tag] ;
     addedItem = items[index];
-    [self showOptionALert];
+    [self showOptionALert:index];
 }
-- (void) showOptionALert{
+- (void) showOptionALert:(int) index{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         [self addPlaylist];
     }];
-    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-        [self addShare];
-    }];
-    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
-        
-    }];
+//    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+//        [self addShare:index];
+//    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     
-    alertController.modalPresentationStyle = UIModalPresentationPopover;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
-    alertController.popoverPresentationController.sourceView = cell.contentView;
-    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
+//    alertController.modalPresentationStyle = UIModalPresentationPopover;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+//    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+//    alertController.popoverPresentationController.sourceView = cell.contentView;
+//    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
     
     
     [alertController addAction:addPlaylistAction];
-    [alertController addAction:addShareAction];
-    [alertController addAction:actionCancel];
+//    [alertController addAction:addShareAction];
+    [alertController addAction:cancelAction];
+  
     [self presentViewController:alertController animated:YES completion:nil];
 }
-- (void) addShare{
+- (void) addShare:(int) index{
     NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/app//id%@",APPID];
     NSString *title = [NSString stringWithFormat:@"Greate Song! Listen it: %@ Available in: %@",addedItem[@"snippet"][@"title"],url];
     
     NSArray *dataShare = @[title];
     UIActivityViewController *activityController = [[UIActivityViewController alloc]initWithActivityItems:dataShare applicationActivities:nil];
     if ( [activityController respondsToSelector:@selector(popoverPresentationController)] ) {
-        activityController.popoverPresentationController.sourceView =
-        self.view;
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+        activityController.popoverPresentationController.sourceView = cell.contentView;
+        activityController.popoverPresentationController.sourceRect = cell.contentView.frame;
+        
     }
     
     activityController.excludedActivityTypes = @[UIActivityTypeAirDrop];

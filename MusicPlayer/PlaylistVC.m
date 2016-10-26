@@ -54,13 +54,25 @@ NSString *const kKeychainItemName = @"YouTubeSample: YouTube";
                                                                       NSFontAttributeName:[UIFont fontWithName:@"SFUIDisplay-Semibold" size:17]}];
 }
 
-
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"PlaylistVC"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+}
 
 - (void)viewWillAppear:(BOOL)animated{
+    [self addScreenTracking];
+    
     playlists = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults]objectForKey:@"myPlaylists"]];
     if (!playlists) playlists = [[NSMutableArray alloc]init];
     [_tableView reloadData];
+    
     [self addAds];
+
+}
+- (void)viewDidAppear:(BOOL)animated{
+    
 }
 - (void) addAds{
     MySingleton *mySingleton = [MySingleton sharedInstance];
@@ -165,7 +177,12 @@ NSString *const kKeychainItemName = @"YouTubeSample: YouTube";
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
         UITextField *textField = alertController.textFields[0];
-        [self addNewPlaylist:textField.text];
+        if ([textField.text isEqualToString:@""]) [self displayAlertTitle:@"Error" andMessenge:@"Playlist name is not allowed to be empty"];
+        else{
+            if ([self playlistNameExist:textField.text]) [self displayAlertTitle:@"Playlist already exists" andMessenge:@"Please try again"];
+            else
+                [self addNewPlaylist:textField.text];
+        }
         
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
@@ -180,14 +197,30 @@ NSString *const kKeychainItemName = @"YouTubeSample: YouTube";
     
     
 }
+- (BOOL) playlistNameExist:(NSString*)name{
+    for (NSDictionary *playlist in playlists){
+        if ([name isEqualToString:playlist[@"name"]]) return YES;
+    }
+    return NO;
+}
+- (void) displayAlertTitle:(NSString*)title andMessenge:(NSString*)messenge{
+    UIAlertController *alertControlelr = [UIAlertController alertControllerWithTitle:title message:messenge preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionOK = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertControlelr addAction:actionOK];
+    [self presentViewController:alertControlelr animated:YES completion:nil];
+    
+}
 - (void) changePlaylistNameALert:(NSDictionary*)playlist atIndex:(int)index{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"New Playlist" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alertController.textFields[0] setText:playlist[@"name"]];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Rename Playlist" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
         UITextField *textField = alertController.textFields[0];
-        [self renamePlaylist:playlist atIndex:index withName:textField.text];
-        
+        if ([textField.text isEqualToString:@""]) [self displayAlertTitle:@"Error" andMessenge:@"Playlist name is not allowed to be empty"];
+        else{
+            if ([self playlistNameExist:textField.text]) [self displayAlertTitle:@"Playlist already exists" andMessenge:@"Please try again"];
+            else
+                 [self renamePlaylist:playlist atIndex:index withName:textField.text];
+        }
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
         
@@ -206,6 +239,7 @@ NSString *const kKeychainItemName = @"YouTubeSample: YouTube";
 
 - (void) addNewPlaylist:(NSString*)name{
     if(![name isEqualToString:@""]){
+        
         NSDictionary *playlist = @{@"name":name};
         [playlists addObject:playlist];
         
@@ -218,7 +252,7 @@ NSString *const kKeychainItemName = @"YouTubeSample: YouTube";
 - (void) renamePlaylist:(NSDictionary*)playlist atIndex:(int)index withName:(NSString*)name{
     if (![name isEqualToString:@""]){
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:playlist];
-        dic[@"name"] = name;
+        dic[@"name"] = name; 
         
         [playlists removeObject:playlist];
         [playlists insertObject:dic atIndex:index];

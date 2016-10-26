@@ -11,6 +11,7 @@
 #import "CustomTableCell.h"
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+
 @import GoogleMobileAds;
 
 @interface TopchartVC : UIViewController <UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate,GADInterstitialDelegate>

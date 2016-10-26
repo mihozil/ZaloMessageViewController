@@ -18,7 +18,7 @@ extern float const controlHeight;
 
 typedef void (^imageCompletion) (UIImage*, NSError*);
 
-@interface VideoPlayingViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, GADInterstitialDelegate, GADBannerViewDelegate, UIViewControllerTransitioningDelegate>
+@interface VideoPlayingViewController : UIViewController <UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, GADInterstitialDelegate, GADBannerViewDelegate, UIViewControllerTransitioningDelegate,UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic, strong) NSString *idVideo;
 @property (nonatomic, strong) UIView *controlBar;
@@ -45,6 +45,9 @@ typedef void (^imageCompletion) (UIImage*, NSError*);
 - (void) changeOrientationtoPotrait;
 - (void) endPan;
 - (void) updateFromPan:(CGPoint)currentPan;
+- (void) onBack;
+- (void) updateActivityIndicatorPosition;
+- (void) onOrientationChange;
 
 
 @end

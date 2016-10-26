@@ -26,28 +26,31 @@
     NSString *playListId;
     NSMutableArray *items;
     NSDictionary *addedItem;
+    NSString *nextPageToken;
     
      MyActivityIndicatorView *activityIndicator;
+ 
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addShadow];
     [self initVC];
-    [self startActivityIndicatorView];   
+//    [self startActivityIndicatorView];
+    
     self.navigationController.navigationBar.translucent = NO;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
     
-    BOOL isPurchase = YES;
-    NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithBool:isPurchase], nil];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:arr]
-                                              forKey:@"Purchase"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Purchased" object:nil];
-  
+//    BOOL isPurchase = YES;
+//    NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:[NSNumber numberWithBool:isPurchase], nil];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:arr]
+//                                              forKey:@"Purchase"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Purchased" object:nil];
     
 }
+
 - (void) removeAds{
     // remove ads
     MySingleton *mySingleton = [MySingleton sharedInstance];
@@ -71,24 +74,35 @@
     [activityIndicator stopAnimating];
     [activityIndicator removeFromSuperview];
 }
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-        [self stopActivityIndicatorView];
-    }
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    if ([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+//        [self stopActivityIndicatorView];
+//    }
+//}
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"TopchartVC"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [self addScreenTracking];
+    
     [_tableView registerNib:[UINib nibWithNibName:@"CustomTableCell" bundle:nil] forCellReuseIdentifier:@"CustomTableCell"];
     // Do any additional setup after loading the view.
-    [self getPlaylistID];
-    [self getTopChart];
-    
+    if (items.count==0){
+        [self getPlaylistID];
+        [self getTopChart];
+    }
     // remember to remove this 
-    
     [self addAds];
+    
 }
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+    items = [[NSMutableArray alloc]init];
 }
+
 - (void) addShadow{
     self.navigationController.navigationBar.layer.shadowColor = [[UIColor colorWithRed:178 green:178 blue:178 alpha:1]CGColor];
     self.navigationController.navigationBar.layer.shadowOffset = CGSizeMake(0.0, 3);
@@ -100,16 +114,23 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:color   ,
                                                                       NSFontAttributeName:[UIFont fontWithName:@"SFUIDisplay-Semibold" size:17]}];
 }
+
 - (void) addAds{
+    
+    
     MySingleton *mySingleton = [MySingleton sharedInstance];
     GADBannerView *bannerView = mySingleton.bannerView;
+    
     float screenHeight = self.view.frame.size.height;
     float bannerY = screenHeight - 49 - bannerView.frame.size.height;
-    
     bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
+    
+    
     [self.view addSubview:bannerView];
     
+    
     [_bottomLayout setConstant:bannerView.frame.size.height];
+    
 }
 
 - (void) resetFrameTableViewWithAds{
@@ -132,24 +153,43 @@
     }
 }
 
+
 - (void) getTopChart{
-    NSString *urlString = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=%d&playlistId=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,playListId];
-    
-    NSLog(@"urlString: %@",urlString);
+        NSString *urlString = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=%d&playlistId=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,playListId];
+     [self addTableItems:urlString];
+
+}
+- (void) addTableItems:(NSString*)urlString{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self startActivityIndicatorView];
+    });
     
     [IOSRequest requestPath:urlString onCompletion:^(NSDictionary*json, NSError*error){
         
         if (!error){
             
-            items = json[@"items"];
+            [items addObjectsFromArray:json[@"items"]];
+            nextPageToken = json[@"nextPageToken"];
             dispatch_async(dispatch_get_main_queue(),^{
-                    [_tableView reloadData];
+                [_tableView reloadData];
             });
             
         }else {
             NSLog(@"error: %@",error.description);
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+                [self stopActivityIndicatorView];
+        });
+        
     }];
+    NSLog(@"addtable items");
+
+}
+
+- (void) updateTable{
+    NSString *urlString = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=%d&playlistId=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M&pageToken=%@",maxSongsNumber,playListId,nextPageToken];
+    [self addTableItems:urlString];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -176,8 +216,13 @@
     [cell.cellButton addTarget:self action:@selector(onButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
     cell.cellButton.tag = indexPath.row;
     
+    if ((indexPath.row == items.count -1) && (nextPageToken)){
+        [self updateTable];
+    }
+    
     return cell;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -202,7 +247,7 @@
         }
     }];
     
-     [self playNonFull:idVideo];
+    [self playNonFull:idVideo];
     
 }
 - (void) errorPlaying{
@@ -221,7 +266,11 @@
 }
 
 - (void) playNonFull:(NSString*)idVideo{
+    
+  
+    
     MySingleton *mySingleton = [MySingleton sharedInstance];
+    mySingleton.playingViewCount = (mySingleton.playingViewCount +1)%8;
 
     [VideoPlayingViewController shareInstance].idVideo = idVideo;
     [VideoPlayingViewController shareInstance].playingView = mySingleton.playingView;
@@ -231,6 +280,9 @@
     float height = width/16*9;
     [self switchVideowithX:0 andY:0 andWidth:width andHeight:height];
    
+    [MySingleton sharedInstance].restrictRotation = NO;
+    
+    
     [VideoPlayingViewController shareInstance].modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
         
@@ -244,7 +296,7 @@
     [UIView animateWithDuration:0.0 animations:^{
         _playingView.frame = CGRectMake(x, y, width, height);
     }completion:^(BOOL finish){
-        nil;
+        [[VideoPlayingViewController shareInstance] updateActivityIndicatorPosition];
     }];
     
     [[[UIApplication sharedApplication]keyWindow] bringSubviewToFront:_playingView];
@@ -254,29 +306,33 @@
     int index = (int)[sender tag] ;
     addedItem = items[index];
     [self showOptionALert:(int)[sender tag]];
-    
 }
+
 - (void) showOptionALert:(int) index{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         [self addPlaylist];
     }];
-    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-        [self addShare:(index)];
-        
-    }];
+//    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+//        [self addShare:(index)];
+//        
+//    }];
+    UIAlertAction *cancelAction  = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
 
     [alertController addAction:addPlaylistAction];
-    [alertController addAction:addShareAction];
+//    [alertController addAction:addShareAction];
+    [alertController addAction:cancelAction];
     
-    alertController.modalPresentationStyle = UIModalPresentationPopover;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
-    alertController.popoverPresentationController.sourceView = cell.contentView;
-    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
+//    alertController.modalPresentationStyle = UIModalPresentationPopover;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+//    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+//    alertController.popoverPresentationController.sourceView = cell.contentView;
+//    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
     
     [self presentViewController:alertController animated:YES completion:nil];
+    
 }
+
 - (void) addShare:(int) index{
     NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/app//id%@",APPID];
     NSString *title = [NSString stringWithFormat:@"Greate Song! Listen it: %@ Available in: %@",addedItem[@"snippet"][@"title"],url];
@@ -295,20 +351,18 @@
     [self presentViewController:activityController animated:YES completion:nil];
     
 }
+
 - (void) addPlaylist{
     AddToPlaylistVC *addToPlaylist = [self.storyboard instantiateViewControllerWithIdentifier:@"addtoplaylistvc"];
     addToPlaylist.item = addedItem;
     [self presentViewController:addToPlaylist animated:YES completion:nil];
     
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return 60;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-
-}
 
 @end

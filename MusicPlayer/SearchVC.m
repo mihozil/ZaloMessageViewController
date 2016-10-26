@@ -20,6 +20,7 @@
     NSMutableArray *items;
     NSDictionary *addedItem;
     MyActivityIndicatorView *activityIndicator;
+    NSString *currentSearch, *nextPageToken;
 }
 
 - (void)viewDidLoad {
@@ -43,6 +44,8 @@
 }
 
 - (void) startActivityIndicatorView{
+    [self stopActivityIndicatorView];
+    
     activityIndicator = [[MyActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
     activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     activityIndicator.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
@@ -54,12 +57,12 @@
     [activityIndicator stopAnimating];
     [activityIndicator removeFromSuperview];
 }
--(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-        [self stopActivityIndicatorView];
-    }
-}
+//-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+//        [self stopActivityIndicatorView];
+//    }
+//}
 
 - (void) addShadow{
     self.navigationController.navigationBar.layer.shadowColor = [[UIColor colorWithRed:178 green:178 blue:178 alpha:1]CGColor];
@@ -75,12 +78,21 @@
 }
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
+    items = [[NSMutableArray alloc]init];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [self createSearchBar];
 }
+- (void) addScreenTracking{
+    id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
+    [tracker set:kGAIScreenName value:@"SearchVC"];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated{
+    [self addScreenTracking];
     [self addAds];
 }
 - (void) addAds{
@@ -100,7 +112,9 @@
     _searchController = [[UISearchController alloc]initWithSearchResultsController:searchResult];
     _searchController.searchResultsUpdater = self;
     _searchController.dimsBackgroundDuringPresentation = YES;
-    _searchController.searchBar.placeholder = @"Search here";
+    if (!currentSearch)
+        _searchController.searchBar.placeholder = @"Search here";
+    else _searchController.searchBar.text = currentSearch;
     _searchController.searchBar.delegate = self;
     _searchController.hidesNavigationBarDuringPresentation = YES;
     [_searchController.searchBar sizeToFit];
@@ -138,6 +152,7 @@
 }
 - (void) playNonFull:(NSString*)idVideo{
     MySingleton *mySingleton = [MySingleton sharedInstance];
+    mySingleton.playingViewCount = (mySingleton.playingViewCount +1)%8;
     
     [VideoPlayingViewController shareInstance].idVideo = idVideo;
     [VideoPlayingViewController shareInstance].playingView = mySingleton.playingView;
@@ -146,6 +161,8 @@
     float width = [[UIScreen mainScreen]bounds].size.width;
     float height = width/16*9;
     [self switchVideowithX:0 andY:0 andWidth:width andHeight:height];
+    
+    [MySingleton sharedInstance].restrictRotation = NO;
     
     [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
        
@@ -159,7 +176,7 @@
     [UIView animateWithDuration:0.0 animations:^{
         _playingView.frame = CGRectMake(x, y, width, height);
     }completion:^(BOOL finish){
-        nil;
+         [[VideoPlayingViewController shareInstance] updateActivityIndicatorPosition];
     }];
     
     [[[UIApplication sharedApplication]keyWindow] bringSubviewToFront:_playingView];
@@ -186,8 +203,12 @@
     [cell.cellButton addTarget:self action:@selector(onButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
     cell.cellButton.tag = indexPath.row;
     
+    if ((indexPath.row == items.count -1) && (nextPageToken) && (currentSearch))
+        [self updateTable];
+    
     return cell;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60;
 }
@@ -198,18 +219,29 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     
 }
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    
+    currentSearch = [currentSearch stringByRemovingPercentEncoding];
+    
+    searchBar.text = currentSearch;
+    
+}
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (searchBar.text){
+        currentSearch = searchBar.text;
         [self didChoseText:searchBar.text];
     }
     
 }
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
     NSString *searchText = searchController.searchBar.text;
-    NSString*path2 = [NSString stringWithFormat:@"https://suggestqueries.google.com/complete/search?ds=yt&hjson=t&client=firefox&alt=json&ie=utf_8&oe=utf_8&q=%@",searchText];
+    
+    NSString *encodeSearch = [searchText stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    NSString*path2 = [NSString stringWithFormat:@"https://suggestqueries.google.com/complete/search?ds=yt&hjson=t&client=firefox&alt=json&ie=utf_8&oe=utf_8&q=%@",encodeSearch];
     
     [IOSRequest requestPath2:path2 onCompletion:^(NSArray*json, NSError*error){
         if (!error){
@@ -218,27 +250,69 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                     [searchResult.tableView reloadData];
             });
-            
+        
         }
     }];
 }
 
-- (void)didChoseText:(NSString *)text{
-    text = [text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,text];
+- (void) updateTable{
+    NSString *currentSearchEncode = [currentSearch stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M&pageToken=%@",maxSongsNumber,currentSearchEncode,nextPageToken];
+    [self addTableItems:path];
+}
+
+- (void) addTableItems:(NSString*)path{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self startActivityIndicatorView];
+    });
     
     [IOSRequest requestPath:path onCompletion:^(NSDictionary*json, NSError*error){
         if (!error){
-            items = json[@"items"];
+            
+            [items addObjectsFromArray:json[@"items"]];
+
+            nextPageToken = json[@"nextPageToken"];
             dispatch_async(dispatch_get_main_queue(), ^{
-                    [_tableView reloadData];
+                [_tableView reloadData];
+                
             });
             
+        } else {
+            
+            items = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableView reloadData];
+                [self alertError:@"Error Searching" andMessenge:[NSString stringWithFormat:@"%@",error.localizedDescription]];
+            });
+            
+        
         }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self stopActivityIndicatorView];
+        });
     }];
-    _searchController.active = false;
     
-    [self startActivityIndicatorView];
+}
+
+- (void)didChoseText:(NSString *)text{
+    text = [text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    currentSearch = [NSString stringWithString:text];
+    NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,text];
+    
+//    NSLog(@"path:%@",path);
+    items = [[NSMutableArray alloc]init];
+    [self addTableItems:path];
+    
+    _searchController.active = false;
+}
+
+- (void) alertError:(NSString*)title andMessenge:(NSString*)messenge{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:messenge preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:action];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void) onButtonTouch:(id) sender{
@@ -246,36 +320,41 @@
     addedItem = items[index];
     [self showOptionALert:(int)[sender tag]];
 }
+
 - (void) showOptionALert:(int) index{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         [self addPlaylist];
     }];
-    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-        [self addShare];
-    }];
-
+//    UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+//        [self addShare:index];
+//    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    
     [alertController addAction:addPlaylistAction];
-    [alertController addAction:addShareAction];
+//    [alertController addAction:addShareAction];
+    [alertController addAction:cancelAction];
     
-    alertController.modalPresentationStyle = UIModalPresentationPopover;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
-    alertController.popoverPresentationController.sourceView = cell.contentView;
-    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
-    
-    
+//    alertController.modalPresentationStyle = UIModalPresentationPopover;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+//    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+//    alertController.popoverPresentationController.sourceView = cell.contentView;
+//    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
     [self presentViewController:alertController animated:YES completion:nil];
 }
-- (void) addShare{
+
+- (void) addShare:(int) index{
     NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/app//id%@",APPID];
     NSString *title = [NSString stringWithFormat:@"Greate Song! Listen it: %@ Available in: %@",addedItem[@"snippet"][@"title"],url];
     
     NSArray *dataShare = @[title];
     UIActivityViewController *activityController = [[UIActivityViewController alloc]initWithActivityItems:dataShare applicationActivities:nil];
     if ( [activityController respondsToSelector:@selector(popoverPresentationController)] ) {
-        activityController.popoverPresentationController.sourceView =
-        self.view;
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+        activityController.popoverPresentationController.sourceView = cell.contentView;
+        activityController.popoverPresentationController.sourceRect = cell.contentView.frame;
     }
     
     activityController.excludedActivityTypes = @[UIActivityTypeAirDrop];
