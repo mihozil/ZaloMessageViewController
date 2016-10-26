@@ -57,7 +57,6 @@
     mysingleton.restrictRotation = YES;
     
 //    [self addAds];
-
     
 }
 

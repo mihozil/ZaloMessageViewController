@@ -36,7 +36,6 @@
     [super viewDidLoad];
     [self addShadow];
     [self initVC];
-//    [self startActivityIndicatorView];
     
     self.navigationController.navigationBar.translucent = NO;
     
@@ -74,11 +73,7 @@
     [activityIndicator stopAnimating];
     [activityIndicator removeFromSuperview];
 }
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if ([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-//        [self stopActivityIndicatorView];
-//    }
-//}
+
 - (void) addScreenTracking{
     id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
     [tracker set:kGAIScreenName value:@"TopchartVC"];
@@ -86,6 +81,11 @@
     
 }
 - (void)viewWillAppear:(BOOL)animated{
+    
+//    NSLog(@"TOP CHART");
+//    int i=-1;
+//    NSLog(@"adsf: %@",items[i]);
+    
     [self addScreenTracking];
     
     [_tableView registerNib:[UINib nibWithNibName:@"CustomTableCell" bundle:nil] forCellReuseIdentifier:@"CustomTableCell"];
@@ -96,8 +96,10 @@
     }
     // remember to remove this 
     [self addAds];
+    NSLog(@"viewWillAppear");
     
 }
+
 - (void) initVC{
     _tableView.separatorColor = [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
     items = [[NSMutableArray alloc]init];
@@ -183,7 +185,7 @@
         });
         
     }];
-    NSLog(@"addtable items");
+
 
 }
 
@@ -285,6 +287,10 @@
     
     [VideoPlayingViewController shareInstance].modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
+        
+        [[VideoPlayingViewController shareInstance]createPlayingControl];
+        [[VideoPlayingViewController shareInstance]updatePlayingControl];
+        [[VideoPlayingViewController shareInstance]addDismissBt];
         
     }];
 }

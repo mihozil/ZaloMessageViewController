@@ -50,11 +50,16 @@ float const controlHeight = 64;
     float sliderEndTime, unupdatedVideoTime;
     int timerCount ;
     BOOL saveHidden;
+    
+    int trialCount ;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    trialCount=0;
+    
     [_tableView registerNib:[UINib nibWithNibName:simpleCellIdentifier bundle:[NSBundle mainBundle]] forCellReuseIdentifier:simpleCellIdentifier];
     [self initBt];
     
@@ -237,25 +242,26 @@ float const controlHeight = 64;
 
 - (void)viewDidAppear:(BOOL)animated{
     
-    NSLog(@"subview: %@",_playingView.subviews);
-
     MySingleton *mySingleton = [MySingleton sharedInstance];
     _videoPlayerViewController = mySingleton.videoPlayerVC;
-    [self initVC]; // add notification to orientation 
+    [self initVC]; // add notification to orientation
     
-    [self createPlayingControl];
-    [self updatePlayingControl];
-    [self addDismissBt];
+//    [self createPlayingControl];
+//    [self updatePlayingControl];
+//    [self addDismissBt];
+    
     [self pickedPlayingList];
     [self updateSongName];
     [self updateSongView];
     
-    [self addBlackView];
+//    [self addBlackView];
     
-//    [self onOrientationChange]; // this is for in case vertical and it will change inmediately
+    //    [self onOrientationChange]; // this is for in case vertical and it will change inmediately
     // take care of this, i might have to turn it on in some case
     
+    NSLog(@"before");
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    NSLog(@"after");
     disappearCount = 1;
     [self performSelector:@selector(barDisappear) withObject:nil afterDelay:4];
     

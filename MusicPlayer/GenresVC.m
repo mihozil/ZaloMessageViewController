@@ -22,6 +22,7 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addShadow];
@@ -65,6 +66,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    
     [self addScreenTracking];
     
     NSString *outGenres = [[NSUserDefaults standardUserDefaults]objectForKey:@"outGenres"];

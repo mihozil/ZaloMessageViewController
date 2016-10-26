@@ -49,5 +49,9 @@ typedef void (^imageCompletion) (UIImage*, NSError*);
 - (void) updateActivityIndicatorPosition;
 - (void) onOrientationChange;
 
+-(void) createPlayingControl;
+- (void) updatePlayingControl;
+- (void) addDismissBt;
+
 
 @end

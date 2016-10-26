@@ -229,7 +229,10 @@
     
     
     [[[[UIApplication sharedApplication]keyWindow] rootViewController] presentViewController: [VideoPlayingViewController shareInstance] animated:YES completion:^{
-        
+       
+        [[VideoPlayingViewController shareInstance]createPlayingControl];
+        [[VideoPlayingViewController shareInstance]updatePlayingControl];
+        [[VideoPlayingViewController shareInstance]addDismissBt];
     }];
 }
 

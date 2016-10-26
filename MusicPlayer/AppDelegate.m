@@ -301,6 +301,10 @@
         
         [currentView presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
             
+            [[VideoPlayingViewController shareInstance]createPlayingControl];
+            [[VideoPlayingViewController shareInstance]updatePlayingControl];
+            [[VideoPlayingViewController shareInstance]addDismissBt];
+            
             [VideoPlayingViewController shareInstance].didDismiss = NO;
             [[VideoPlayingViewController shareInstance]addGesturetoVideo];
             [VideoPlayingViewController shareInstance].controlBar.hidden = YES;
@@ -369,6 +373,10 @@
     
     NSLog(@"alpha: %2.2f",[VideoPlayingViewController shareInstance].view.alpha);
     [currentView presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
+        [[VideoPlayingViewController shareInstance]createPlayingControl];
+        [[VideoPlayingViewController shareInstance]updatePlayingControl];
+        [[VideoPlayingViewController shareInstance]addDismissBt];
+        
         [VideoPlayingViewController shareInstance].didDismiss = NO;
         [[VideoPlayingViewController shareInstance]addGesturetoVideo];
         
