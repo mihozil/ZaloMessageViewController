@@ -138,10 +138,21 @@
     [mailController setSubject:@"MusicPlayer - Feedback"];
     [mailController setToRecipients:@[@"help.bmx2015@gmail.com"]];
     [mailController setMessageBody:@"Music Player" isHTML:NO];
-    [self presentViewController:mailController animated:YES completion:nil];
+    [self presentViewController:mailController animated:YES completion:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+                [MySingleton sharedInstance].playingView.hidden = YES;
+        });
+        
+    }];
 }
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
-    [mailController dismissViewControllerAnimated:YES completion:nil];
+    [mailController dismissViewControllerAnimated:YES completion:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MySingleton sharedInstance].playingView.hidden = NO;
+        });
+        
+    }];
+    
 }
 
 - (void) proVersion{

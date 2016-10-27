@@ -15,6 +15,7 @@
 #import "MPMoviePlayerController+BackgroundPlayback.h"
 #import <iRate/iRate.h>
 #import "Reachability.h"
+#import <MessageUI/MessageUI.h>
 
 @interface AppDelegate ()
 @property (nonatomic, strong) XCDYouTubeVideoPlayerViewController *videoPlayerViewController;
@@ -359,6 +360,7 @@
     
     if ([self.window.rootViewController.presentedViewController isKindOfClass:[UIAlertController class]])
        [self.window.rootViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+
     
     float width = [UIScreen mainScreen].bounds.size.width;
     float height = width/16*9;

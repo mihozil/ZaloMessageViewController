@@ -88,7 +88,7 @@
     id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
     [tracker set:kGAIScreenName value:@"SearchVC"];
     [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -114,7 +114,11 @@
     _searchController.dimsBackgroundDuringPresentation = YES;
     if (!currentSearch)
         _searchController.searchBar.placeholder = @"Search here";
-    else _searchController.searchBar.text = currentSearch;
+    else {
+        currentSearch = [currentSearch stringByRemovingPercentEncoding];
+     _searchController.searchBar.text = currentSearch;
+     
+    }
     _searchController.searchBar.delegate = self;
     _searchController.hidesNavigationBarDuringPresentation = YES;
     [_searchController.searchBar sizeToFit];
@@ -222,21 +226,8 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     
 }
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    
-    currentSearch = [currentSearch stringByRemovingPercentEncoding];
-    
-    searchBar.text = currentSearch;
-    
-}
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-}
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    if (searchBar.text){
-        currentSearch = searchBar.text;
-        [self didChoseText:searchBar.text];
-    }
     
 }
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
@@ -257,6 +248,7 @@
         }
     }];
 }
+
 
 - (void) updateTable{
     NSString *currentSearchEncode = [currentSearch stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -299,16 +291,31 @@
     
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    if (searchBar.text){
+        currentSearch = searchBar.text;
+        [self didChoseText:searchBar.text];
+    }
+    
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    
+    currentSearch = [currentSearch stringByRemovingPercentEncoding];
+    
+    searchBar.text = currentSearch;
+    
+}
+
 - (void)didChoseText:(NSString *)text{
     text = [text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     currentSearch = [NSString stringWithString:text];
     NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,text];
     
-//    NSLog(@"path:%@",path);
     items = [[NSMutableArray alloc]init];
     [self addTableItems:path];
     
-    _searchController.active = false;
+        _searchController.active = false;
 }
 
 - (void) alertError:(NSString*)title andMessenge:(NSString*)messenge{

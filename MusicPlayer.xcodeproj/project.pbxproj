@@ -10,6 +10,7 @@
 		0F62C63B1DB9B64000962318 /* CustomGenresCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F62C6391DB9B64000962318 /* CustomGenresCell.m */; };
 		0F62C63C1DB9B64000962318 /* CustomGenresCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F62C63A1DB9B64000962318 /* CustomGenresCell.xib */; };
 		0F764B251DBDA5AE003A04A0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F764B241DBDA5AE003A04A0 /* Reachability.m */; };
+		0FBAE5831DC0BFB000D15149 /* LaunchImage.launchimage1 in Resources */ = {isa = PBXBuildFile; fileRef = 0FBAE5821DC0BFB000D15149 /* LaunchImage.launchimage1 */; };
 		152C47A40618D06D0272CE3A /* libPods-MusicPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FDACF04BD8676574513A54 /* libPods-MusicPlayer.a */; };
 		2F3B16421F8631830B14921F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51FED9087D85BDC14BD1FE66 /* libPods.a */; };
 		790221671D9E0234006A1455 /* MPMoviePlayerController+BackgroundPlayback.m in Sources */ = {isa = PBXBuildFile; fileRef = 790221661D9E0234006A1455 /* MPMoviePlayerController+BackgroundPlayback.m */; };
@@ -90,6 +91,7 @@
 		0F62C63A1DB9B64000962318 /* CustomGenresCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomGenresCell.xib; sourceTree = "<group>"; };
 		0F764B231DBDA5AE003A04A0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0F764B241DBDA5AE003A04A0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		0FBAE5821DC0BFB000D15149 /* LaunchImage.launchimage1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LaunchImage.launchimage1; sourceTree = "<group>"; };
 		13B1388BE2E5EE5CBBD779DE /* Pods-MusicPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicPlayer/Pods-MusicPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		51FED9087D85BDC14BD1FE66 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FDACF04BD8676574513A54 /* libPods-MusicPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -298,6 +300,7 @@
 		7939ED651D93876600664425 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				0FBAE5821DC0BFB000D15149 /* LaunchImage.launchimage1 */,
 				79E5B74D1DA4E35B003565C6 /* bluetick.png */,
 				7902216F1D9E6573006A1455 /* musicplay.png */,
 			);
@@ -507,6 +510,7 @@
 				794565681DAB579C00D23898 /* SF-UI-Text-Semibold.otf in Resources */,
 				794565581DAB579B00D23898 /* SF-UI-Display-Light.otf in Resources */,
 				79A70C3E1DB6198C00BD846E /* OfferTableViewCell.xib in Resources */,
+				0FBAE5831DC0BFB000D15149 /* LaunchImage.launchimage1 in Resources */,
 				794565541DAB579B00D23898 /* License Agreement for SF UI Font.pdf in Resources */,
 				0F62C63C1DB9B64000962318 /* CustomGenresCell.xib in Resources */,
 				79B405A31DA660D200C74C57 /* Main.storyboard in Resources */,
@@ -745,6 +749,7 @@
 			baseConfigurationReference = F8703ADBDF4C8AA396D5DB62 /* Pods-MusicPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -764,6 +769,7 @@
 			baseConfigurationReference = 13B1388BE2E5EE5CBBD779DE /* Pods-MusicPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

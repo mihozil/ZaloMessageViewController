@@ -120,7 +120,10 @@ float const controlHeight = 64;
 - (void) addAds{
     MySingleton *mySingleton = [MySingleton sharedInstance];
     GADBannerView *bannerView = mySingleton.bannerView;
+    
     float bannerY = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - bannerView.frame.size.height;
+    
+    NSLog(@"bannerY: %2.2f",bannerY);
     
     bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
  
@@ -268,7 +271,7 @@ float const controlHeight = 64;
     _videoPlayerViewController.moviePlayer.view.userInteractionEnabled = YES;
     [self updateIntestitialAds];
     
-    NSLog(@"sunviews: %@",_playingView.subviews);
+    NSLog(@"subviews: %@",_playingView.subviews);
 
 }
 
@@ -319,10 +322,6 @@ float const controlHeight = 64;
     [self getEndingTime];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-    
-    [sliderTimer invalidate];sliderTimer = nil;
-}
 - (void) updateSongName{
     _titleVideo.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"titleVideo"];
 }
@@ -784,9 +783,6 @@ float const controlHeight = 64;
     [_playingView bringSubviewToFront:_controlBar];
     [_playingView bringSubviewToFront:dismissBt];
     [self handleAfterBarAppear];
-    
-//    [self control]
-//       [sliderTimer invalidate]; sliderTimer = nil;   [sliderTimer invalidate]; sliderTimer = nil;
     
     
      pauseBt.tag =0; [pauseBt setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
@@ -1464,6 +1460,7 @@ float const controlHeight = 64;
         [[MySingleton sharedInstance]blackView].alpha = 1;
         [[[MySingleton sharedInstance]blackView]removeFromSuperview];
     }];
+    [sliderTimer invalidate]; sliderTimer = nil;
 }
 
 - (void) startTableActivityIndicatorView{
