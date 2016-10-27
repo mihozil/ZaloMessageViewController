@@ -8,10 +8,12 @@
 
 #ifndef MusicPlayer_Prefix_pch
 #define MusicPlayer_Prefix_pch
-//#define BANNER_ID @"ca-app-pub-4670588189370997/2376252463"
-//#define INTERSTITIAL_ID @"ca-app-pub-4670588189370997/5329718868"
-#define BANNER_ID @"ca-app-pub-4165907565058660/6517980633"
-#define INTERSTITIAL_ID @"ca-app-pub-4165907565058660/7994713830"
+#define BANNER_ID @"ca-app-pub-4670588189370997/2376252463"
+#define INTERSTITIAL_ID @"ca-app-pub-4670588189370997/5329718868"
+
+// this is old ads id 
+//#define BANNER_ID @"ca-app-pub-4165907565058660/6517980633"
+//#define INTERSTITIAL_ID @"ca-app-pub-4165907565058660/7994713830"
 
 #define APPID @"1164842883"
 #define IDIOM UI_USER_INTERFACE_IDIOM()
