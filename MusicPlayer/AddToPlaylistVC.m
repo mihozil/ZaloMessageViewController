@@ -105,8 +105,8 @@
         NSDictionary  *dic = playlists[indexPath.row-1];
         
         if (dic[@"image"])
-            [cell.imgView setImageWithURL:[NSURL URLWithString:dic[@"image"]] placeholderImage:[UIImage imageNamed:@"musicplay.png"]];
-        else cell.imgView.image= [UIImage imageNamed:@"musicplay.png"];
+            [cell.imgView setImageWithURL:[NSURL URLWithString:dic[@"image"]] placeholderImage:[UIImage imageNamed:@"musicplay"]];
+        else cell.imgView.image= [UIImage imageNamed:@"musicplay"];
         
         cell.playlistLabel.text = dic[@"name"];
         cell.detailLabel.text = [NSString stringWithFormat:@"%lu Videos",[dic[@"items"] count]];

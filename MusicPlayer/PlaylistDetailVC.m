@@ -113,7 +113,7 @@
     NSDictionary *item = _items[indexPath.row];
     cell.cellTextLabel.text = item[@"snippet"][@"title"];
     
-    [cell.cellImage setImageWithURL:[NSURL URLWithString:item[@"snippet"][@"thumbnails"][@"high"][@"url"]] placeholderImage:[UIImage imageNamed:@"musicplay.png"]];
+    [cell.cellImage setImageWithURL:[NSURL URLWithString:item[@"snippet"][@"thumbnails"][@"high"][@"url"]] placeholderImage:[UIImage imageNamed:@"musicplay"]];
     cell.playingImage = nil;
     
     return cell;

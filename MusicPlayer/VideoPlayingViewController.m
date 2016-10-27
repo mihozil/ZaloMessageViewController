@@ -741,7 +741,7 @@ float const controlHeight = 64;
     NSDictionary *item = items[indexPath.row];
     
     cell.cellTextLabel.text = item[@"snippet"][@"title"];
-    [cell.cellImage setImageWithURL:[NSURL URLWithString:item[@"snippet"][@"thumbnails"][@"medium"][@"url"]] placeholderImage:[UIImage imageNamed:@"musicplay.png"]];
+    [cell.cellImage setImageWithURL:[NSURL URLWithString:item[@"snippet"][@"thumbnails"][@"medium"][@"url"]] placeholderImage:[UIImage imageNamed:@"musicplay"]];
     
     NSString *currentId = item[@"snippet"][@"resourceId"][@"videoId"];
     if (!currentId) currentId = item[@"id"][@"videoId"];
