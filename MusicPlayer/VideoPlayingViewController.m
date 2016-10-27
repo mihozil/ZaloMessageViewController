@@ -257,14 +257,12 @@ float const controlHeight = 64;
     [self updateSongName];
     [self updateSongView];
     
-//    [self addBlackView];
+    [self addBlackView];
     
     //    [self onOrientationChange]; // this is for in case vertical and it will change inmediately
     // take care of this, i might have to turn it on in some case
     
-    NSLog(@"before");
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    NSLog(@"after");
     disappearCount = 1;
     [self performSelector:@selector(barDisappear) withObject:nil afterDelay:4];
     
@@ -1458,6 +1456,8 @@ float const controlHeight = 64;
         }];
         
         [[MySingleton sharedInstance]blackView].alpha = 1;
+        
+        // dismiss will remove
         [[[MySingleton sharedInstance]blackView]removeFromSuperview];
     }];
     [sliderTimer invalidate]; sliderTimer = nil;

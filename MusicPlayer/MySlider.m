@@ -21,7 +21,7 @@
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
     CGRect bounds = self.bounds;
-    bounds = CGRectInset(bounds, -20, -20);
+    bounds = CGRectInset(bounds, -20, -12);
     return CGRectContainsPoint(bounds, point);
 }
 @end
