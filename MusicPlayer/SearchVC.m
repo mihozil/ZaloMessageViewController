@@ -227,9 +227,7 @@
     
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
-}
+
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
     NSString *searchText = searchController.searchBar.text;
     
@@ -290,17 +288,19 @@
     }];
     
 }
-
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    currentSearch = nil;
+    
+}
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (searchBar.text){
         currentSearch = searchBar.text;
         [self didChoseText:searchBar.text];
     }
-    
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    
+
     currentSearch = [currentSearch stringByRemovingPercentEncoding];
     
     searchBar.text = currentSearch;
@@ -312,6 +312,7 @@
     currentSearch = [NSString stringWithString:text];
     NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=%d&q=%@&type=video&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",maxSongsNumber,text];
     
+    [items removeAllObjects];
     items = [[NSMutableArray alloc]init];
     [self addTableItems:path];
     

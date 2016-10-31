@@ -89,7 +89,7 @@ float const controlHeight = 64;
 
 - (void)viewWillAppear:(BOOL)animated{
     // this is for zoom video from small screen
-    [MySingleton sharedInstance].restrictRotation = NO;
+//    [MySingleton sharedInstance].restrictRotation = NO;
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(onOrientationChange) name:UIDeviceOrientationDidChangeNotification object:[UIDevice currentDevice]];
 
@@ -122,8 +122,6 @@ float const controlHeight = 64;
     GADBannerView *bannerView = mySingleton.bannerView;
     
     float bannerY = MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) - bannerView.frame.size.height;
-    
-    NSLog(@"bannerY: %2.2f",bannerY);
     
     bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
  
@@ -240,7 +238,7 @@ float const controlHeight = 64;
     [self updateActivityIndicatorPosition];
 }
 - (void) updateActivityIndicatorPosition{
-    activityIndicatorView.center = _playingView.center;
+    activityIndicatorView.center = CGPointMake(_playingView.frame.size.width/2, _playingView.frame.size.height/2);
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -269,7 +267,6 @@ float const controlHeight = 64;
     _videoPlayerViewController.moviePlayer.view.userInteractionEnabled = YES;
     [self updateIntestitialAds];
     
-    NSLog(@"subviews: %@",_playingView.subviews);
 
 }
 
@@ -374,6 +371,7 @@ float const controlHeight = 64;
         MySingleton *mySingleton = [MySingleton sharedInstance];
         _videoPlayerViewController = mySingleton.videoPlayerVC;
     }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerViewController.moviePlayer];
      [[NSNotificationCenter defaultCenter]removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayerViewController.moviePlayer];
     [_videoPlayerViewController.moviePlayer.view removeFromSuperview];
@@ -406,7 +404,6 @@ float const controlHeight = 64;
     
     if (_playingView.subviews.count ==2 ) {
         [_playingView bringSubviewToFront:_playingView.subviews.firstObject];
-        NSLog(@"first object: %@",_playingView.subviews.firstObject);
     }
     
     [[NSUserDefaults standardUserDefaults]setObject:@"0" forKey:@"pause"];
@@ -429,18 +426,22 @@ float const controlHeight = 64;
 //    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
 }
 
+
 - (void) movieLoadDidChange:(NSNotification*)notify{
+    
     if (notify.object == _videoPlayerViewController.moviePlayer){
         if (_videoPlayerViewController.moviePlayer.loadState == MPMovieLoadStatePlayable) {
           
             [_videoPlayerViewController.moviePlayer play];
+            
+            
         }
         if (_videoPlayerViewController.moviePlayer.loadState == MPMovieLoadStatePlaythroughOK){
             [_videoPlayerViewController.moviePlayer play];
+            
+          
         }
     }
-        
-    
 }
 - (void) startActivityIndicator{
     
@@ -532,6 +533,7 @@ float const controlHeight = 64;
     } completion:^(BOOL complete){
         [self layoutControlBar];
         _controlBar.hidden = NO;
+        [self updateActivityIndicatorPosition];
     }];
     
 }
@@ -582,11 +584,14 @@ float const controlHeight = 64;
         self.view.frame = CGRectMake(newX, newViewY, self.view.frame.size.width, self.view.frame.size.height);
         self.view.alpha = 1 - (currentPan.y - _startPan.y) / [self smallVideoY];
         [MySingleton sharedInstance].blackView.alpha = 1 - (currentPan.y - _startPan.y) / [self smallVideoY];
-        
+              [self updateActivityIndicatorPosition];
+    } completion:^(BOOL finish){
+
     }];
 }
 
 - (void) playDidChangeNoti:(NSNotificationCenter*)noti{
+    
     if ([_videoPlayerViewController.moviePlayer playbackState] == MPMoviePlaybackStatePlaying){
         [self stopActivityIndicator];
         [self getEndingTime];
@@ -601,6 +606,11 @@ float const controlHeight = 64;
         [self stopActivityIndicator];
         [self startActivityIndicator];
     }
+    
+//    if ([_videoPlayerViewController.moviePlayer playbackState] == MPMoviePlaybackStatePaused ) {
+//        int state = [[[NSUserDefaults standardUserDefaults]objectForKey:@"pause"]intValue];
+//        if (state ==0) [_videoPlayerViewController.moviePlayer play];
+//    }
 }
 - (void) stopActivityIndicator{
     
@@ -640,11 +650,9 @@ float const controlHeight = 64;
     
     disappearCount-=1;
     
-    NSLog(@"disappear count: %d",disappearCount);
 }
 
 - (void) onTap:(id)sender{
-    NSLog(@"ONTAP PLAYINGVIEW");
     
     if ([[[_playingView subviews]lastObject] isEqual:_videoPlayerViewController.moviePlayer.view]){
         [self barAppear];
@@ -686,7 +694,6 @@ float const controlHeight = 64;
     
     if (!dismissBt) saveHidden = YES;
     dismissBt.hidden = YES;
-    
     
 }
 - (void) willZoomIn{
@@ -750,7 +757,6 @@ float const controlHeight = 64;
     return cell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60;
 }
@@ -789,6 +795,7 @@ float const controlHeight = 64;
 
 - (void) updateViewCount{
     NSString *path = [NSString stringWithFormat:@"https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=%@&key=AIzaSyDUknhXUA_YnOef5RY3VCT6IuEhWylTi3M",_idVideo];
+    
     [IOSRequest requestPath:path onCompletion:^(NSDictionary *json, NSError*error){
         if ((!error) && ([json[@"items"] count]>0)){
             NSDictionary *item = json[@"items"][0];
@@ -861,9 +868,25 @@ float const controlHeight = 64;
     }
 }
 
-
+- (BOOL) checkLandscape{
+    UIDeviceOrientation orientation = [[UIDevice currentDevice]orientation];
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if ((orientation == UIDeviceOrientationLandscapeLeft) || (orientation == UIDeviceOrientationLandscapeRight)) {
+        return YES;
+    }
+    
+    if ((interfaceOrientation == UIInterfaceOrientationLandscapeLeft) || (interfaceOrientation == UIInterfaceOrientationLandscapeRight)){
+        return YES;
+    }
+    
+    return NO;
+}
 
 - (void) onDismiss{
+    
+    if ([self checkLandscape]) return;
+    
+    if ([self.presentedViewController isKindOfClass:[UIAlertController class]]) return;
     
     float newWidth = MIN([UIScreen mainScreen].bounds.size.width,[[UIScreen mainScreen]bounds].size.height) /2.5;
     float newHeight = newWidth/16*9;
@@ -886,6 +909,7 @@ float const controlHeight = 64;
     
     _videoPlayerViewController.moviePlayer.view.userInteractionEnabled = NO;
     _didDismiss = YES;
+    
 }
 
 - (BOOL) isPurchased{
@@ -991,11 +1015,14 @@ float const controlHeight = 64;
     }];
     if ([quality isEqualToString:@"Auto"]) actionAuto = [UIAlertAction actionWithTitle:@"Auto" style:UIAlertActionStyleDestructive handler:nil];
     
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    
     
     [alertController addAction:action240];
     [alertController addAction:action360];
     [alertController addAction:action720];
     [alertController addAction:actionAuto];
+    [alertController addAction:actionCancel];
     
     alertController.modalPresentationStyle = UIModalPresentationPopover;
     UIPopoverPresentationController *popOver = [alertController popoverPresentationController];
@@ -1193,8 +1220,8 @@ float const controlHeight = 64;
         
     }else {
         if ([_videoPlayerViewController.moviePlayer playbackState] == MPMoviePlaybackStatePlaying){
-            [_videoPlayerViewController.moviePlayer pause];
             [pauseBt setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+            [_videoPlayerViewController.moviePlayer pause];
         }
     }
     [[NSUserDefaults standardUserDefaults]setObject:@(pauseBt.tag) forKey:@"pause"];
@@ -1351,9 +1378,10 @@ float const controlHeight = 64;
 }
 
 - (void) switchVideowithX:(float)x andY:(float)y andWidth:(float)width andHeight:(float)height{
+    
     [UIView animateWithDuration:0.2 animations:^{
         _playingView.frame = CGRectMake(x, y, width, height);
-        
+        [self updateActivityIndicatorPosition];
     }completion:^(BOOL finish){
         [self layoutControlBar];
     }];
@@ -1361,7 +1389,7 @@ float const controlHeight = 64;
 
 - (IBAction)onMoreBt:(id)sender {
     // 2nd
-    [MySingleton sharedInstance].restrictRotation = YES;
+
     
     int index = [self findCurrentPlayingIndex];
 
@@ -1376,6 +1404,7 @@ float const controlHeight = 64;
 - (void) showOptionALert{
     alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        [MySingleton sharedInstance].restrictRotation = YES;
         [self addPlaylist];
     }];
     UIAlertAction *addShareAction  = [UIAlertAction actionWithTitle:@"Share" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
@@ -1413,6 +1442,7 @@ float const controlHeight = 64;
 }
 
 - (void) addPlaylist{
+    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AddToPlaylistVC *addToPlaylist = [mainStoryboard instantiateViewControllerWithIdentifier:@"addtoplaylistvc"];
     addToPlaylist.item = addedItem;
@@ -1451,6 +1481,7 @@ float const controlHeight = 64;
         self.view.alpha = 0;
         [[MySingleton sharedInstance]blackView].alpha = 0;
     }completion:^(BOOL finish){
+        
         [self dismissViewControllerAnimated:NO completion:^{
                 self.view.alpha = 1;
         }];
@@ -1461,6 +1492,7 @@ float const controlHeight = 64;
         [[[MySingleton sharedInstance]blackView]removeFromSuperview];
     }];
     [sliderTimer invalidate]; sliderTimer = nil;
+    
 }
 
 - (void) startTableActivityIndicatorView{

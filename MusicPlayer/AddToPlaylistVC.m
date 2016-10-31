@@ -179,8 +179,10 @@
     
         [self deSelectCell:currentIndexpath];
         
-        if (indexPath!=currentIndexpath)
-            [self selectCell:indexPath];
+    if (indexPath.row!=currentIndexpath.row){
+        [self selectCell:indexPath];
+    }
+    
         else currentIndexpath = nil;
     
 }

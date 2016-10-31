@@ -96,7 +96,6 @@
     }
     // remember to remove this 
     [self addAds];
-    NSLog(@"viewWillAppear");
     
 }
 
@@ -124,6 +123,7 @@
     GADBannerView *bannerView = mySingleton.bannerView;
     
     float screenHeight = self.view.frame.size.height;
+    
     float bannerY = screenHeight - 49 - bannerView.frame.size.height;
     bannerView.frame = CGRectMake( bannerView.frame.origin.x, bannerY, bannerView.frame.size.width, bannerView.frame.size.height);
     

@@ -36,7 +36,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
     [audioSession setActive:YES error:nil];
@@ -66,9 +65,28 @@
       [[NSUserDefaults standardUserDefaults]setObject:@"Auto" forKey:@"videoquality"];
     
     [self createNotification];
+    [self initMediaPlayingInfoCenter];
     
     return YES;
 }
+
+- (void) initMediaPlayingInfoCenter {
+    [[MPRemoteCommandCenter sharedCommandCenter].playCommand addTarget:self action:@selector(remoteNextPrevTrackCommandReceived:)];
+    [[MPRemoteCommandCenter sharedCommandCenter].nextTrackCommand addTarget:self action:@selector(remoteNextPrevTrackCommandReceived:)];
+    [[MPRemoteCommandCenter sharedCommandCenter].previousTrackCommand addTarget:self action:@selector(remoteNextPrevTrackCommandReceived:)];
+    
+    [[MPRemoteCommandCenter sharedCommandCenter].togglePlayPauseCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].playCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].pauseCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].nextTrackCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].previousTrackCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].seekForwardCommand setEnabled:YES];
+    [[MPRemoteCommandCenter sharedCommandCenter].seekBackwardCommand setEnabled:YES];
+}
+
+- (void) remoteNextPrevTrackCommandReceived:(id)sender{
+}
+
 - (void) routeChange:(NSNotification*) noti{
     NSNumber *reason = [noti.userInfo objectForKey:AVAudioSessionRouteChangeReasonKey];
     if ([reason intValue] == AVAudioSessionRouteChangeReasonNewDeviceAvailable){
@@ -278,15 +296,11 @@
 
 - (void) onPan:(id) sender{
     
-    
     float screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     if ([MySingleton sharedInstance].playingView.frame.size.width >= screenWidth) return;
 
     
     if ([sender state] == UIGestureRecognizerStateBegan){
-        
-        NSLog(@"ONPAN BEGAN");
-    
         
         if ([self.window.rootViewController.presentedViewController isKindOfClass:[UIAlertController class]])
             [self.window.rootViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
@@ -310,16 +324,16 @@
             [[VideoPlayingViewController shareInstance]addGesturetoVideo];
             [VideoPlayingViewController shareInstance].controlBar.hidden = YES;
             
+            [MySingleton sharedInstance].restrictRotation = NO;
+            
         }];
         
     } else if ([sender state] == UIGestureRecognizerStateEnded){
         [[VideoPlayingViewController shareInstance] endPan];
-//        [[VideoPlayingViewController shareInstance].controlBar setHidden:NO];
-        NSLog(@"ONPAN END");
+
         
         
     }else{
-        NSLog(@"PANNING");
         [[VideoPlayingViewController shareInstance]updateFromPan:[sender locationInView:self.window.rootViewController.view]];
     }
     
@@ -351,8 +365,6 @@
     // when video go from small screen to big screen: need to addgesture to video
     // go from small to big
     
-    NSLog(@"ONTAP APPDELEGATE");
-    
     MySingleton *mySingleton = [MySingleton sharedInstance];
     UIView *playingView = mySingleton.playingView;
     float screenWidth = MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
@@ -367,13 +379,17 @@
     
     [UIView animateWithDuration:0.2 animations:^{
         playingView.frame = CGRectMake(0, 0, width, height);
+          [[VideoPlayingViewController shareInstance]updateActivityIndicatorPosition];
+    } completion:^(BOOL finish){
+    
     }];
     
     UIViewController *currentView = self.window.rootViewController.presentedViewController;
     if ([currentView isKindOfClass:[UIAlertController class]])  currentView = nil;
     if (!currentView) currentView = self.window.rootViewController;
     
-    NSLog(@"alpha: %2.2f",[VideoPlayingViewController shareInstance].view.alpha);
+    mySingleton.restrictRotation = NO;  
+    
     [currentView presentViewController:[VideoPlayingViewController shareInstance] animated:NO completion:^{
         [[VideoPlayingViewController shareInstance]createPlayingControl];
         [[VideoPlayingViewController shareInstance]updatePlayingControl];
@@ -480,8 +496,9 @@
 //    [MySingleton sharedInstance].videoPlayerVC.moviePlayer.backgroundPlaybackEnabled = NO;
 //    
 //        NSLog(@"videoVC: %@",[MySingleton sharedInstance].videoPlayerVC);
-    
-//    [[MySingleton sharedInstance].videoPlayerVC.moviePlayer play];
+    int pauseState = [[[NSUserDefaults standardUserDefaults]objectForKey:@"pause"] intValue];
+    if (pauseState ==0)
+       [[MySingleton sharedInstance].videoPlayerVC.moviePlayer play];
 
     
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

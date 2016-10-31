@@ -54,4 +54,5 @@ typedef void (^imageCompletion) (UIImage*, NSError*);
 - (void) addDismissBt;
 
 
+
 @end

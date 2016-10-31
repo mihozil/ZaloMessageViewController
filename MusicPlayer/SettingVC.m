@@ -114,9 +114,6 @@
             [self restorePurchase];
             break;
             
-        case 4:
-            [self specialOffers];
-            
         default:
             break;
     }
@@ -165,11 +162,11 @@
 - (void) restorePurchase{
     [[IAPHelper sharedHelper]restoreCompletedTransaction];
 }
-- (void) specialOffers{
-    ListOfferViewController *offerVC = [[ListOfferViewController alloc]initWithNibName:@"ListOfferViewController" bundle:nil];
-    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:offerVC];
-    [self presentViewController:nav animated:YES completion:nil];
-}
+//- (void) specialOffers{
+//    ListOfferViewController *offerVC = [[ListOfferViewController alloc]initWithNibName:@"ListOfferViewController" bundle:nil];
+//    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:offerVC];
+//    [self presentViewController:nav animated:YES completion:nil];
+//}
 
 - (void)receivedAd{
 
@@ -218,7 +215,6 @@
             if (![tableItems containsObject:@"✨ Remove Ads"]){
                 [tableItems addObject:@"✨ Remove Ads"];
                 [tableItems addObject:@"👌 Restore Purchase"];
-                [tableItems addObject:@"🎉 Special Offers"];
                 
                  [_tableView reloadData];
             }
