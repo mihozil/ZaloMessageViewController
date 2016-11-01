@@ -33,6 +33,7 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
 }
+
 - (void) removeAds{
     // remove ads
     MySingleton *mySingleton = [MySingleton sharedInstance];
@@ -47,7 +48,8 @@
     [self stopActivityIndicatorView];
     
     activityIndicator = [[MyActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
-    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    activityIndicator.color = [UIColor darkGrayColor];
     activityIndicator.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
     activityIndicator.hidesWhenStopped = YES;
     [self.view addSubview:activityIndicator];
@@ -82,7 +84,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    [self createSearchBar];
+//    [self createSearchBar];
 }
 - (void) addScreenTracking{
     id<GAITracker> tracker = [[GAI sharedInstance]defaultTracker];
@@ -117,16 +119,19 @@
     else {
         currentSearch = [currentSearch stringByRemovingPercentEncoding];
      _searchController.searchBar.text = currentSearch;
-     
     }
+    
     _searchController.searchBar.delegate = self;
-    _searchController.hidesNavigationBarDuringPresentation = YES;
+    _searchController.hidesNavigationBarDuringPresentation = NO;
     [_searchController.searchBar sizeToFit];
     self.definesPresentationContext = YES;
     
-    _tableView.tableHeaderView = self.searchController.searchBar;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     
+    _tableView.tableHeaderView = self.searchController.searchBar;
 }
+
+#pragma mark TableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -189,9 +194,6 @@
     [[[UIApplication sharedApplication]keyWindow] bringSubviewToFront:_playingView];
 }
 
-
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
@@ -201,7 +203,7 @@
     if (!cell){
         cell = [[CustomTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    
+    NSLog(@"row: %d - %d",indexPath.row,items.count);
     NSDictionary *item = items[indexPath.row];
     cell.cellTextLabel.text = item[@"snippet"][@"title"];
     
@@ -223,10 +225,20 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return items.count;
 }
+
+#pragma mark SearchBar delegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+    return YES;
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     
 }
-
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController{
     NSString *searchText = searchController.searchBar.text;
@@ -246,7 +258,6 @@
         }
     }];
 }
-
 
 - (void) updateTable{
     NSString *currentSearchEncode = [currentSearch stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -294,6 +305,7 @@
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (searchBar.text){
+        
         currentSearch = searchBar.text;
         [self didChoseText:searchBar.text];
     }
@@ -316,7 +328,7 @@
     items = [[NSMutableArray alloc]init];
     [self addTableItems:path];
     
-        _searchController.active = false;
+    _searchController.active = false;
 }
 
 - (void) alertError:(NSString*)title andMessenge:(NSString*)messenge{
@@ -333,7 +345,7 @@
 }
 
 - (void) showOptionALert:(int) index{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         [self addPlaylist];
     }];
@@ -346,11 +358,11 @@
 //    [alertController addAction:addShareAction];
     [alertController addAction:cancelAction];
     
-//    alertController.modalPresentationStyle = UIModalPresentationPopover;
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-//    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
-//    alertController.popoverPresentationController.sourceView = cell.contentView;
-//    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+    alertController.popoverPresentationController.sourceView = cell.contentView;
+    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
     [self presentViewController:alertController animated:YES completion:nil];
 }
 

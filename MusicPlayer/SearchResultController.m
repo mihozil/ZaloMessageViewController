@@ -21,6 +21,7 @@
     [_tableView registerNib:[UINib nibWithNibName:@"CustomSearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"CustomSearchCell"];
     _tableView.separatorColor= [UIColor colorWithRed:(7/255.0) green:(7/255.0) blue:(204/255.0) alpha:1];
     
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -37,7 +38,8 @@
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"CustomSearchCell" owner:self options:nil];
         cell = [topLevelObjects objectAtIndex:0];
     }
-    cell.resultTextLabel.text = _searchResultArray[indexPath.row];
+    if (_searchResultArray.count >indexPath.row)
+        cell.resultTextLabel.text = _searchResultArray[indexPath.row];
     
     return cell;
 }

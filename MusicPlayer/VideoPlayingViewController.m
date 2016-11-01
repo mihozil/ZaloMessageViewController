@@ -13,6 +13,7 @@
 #import "MPMoviePlayerController+BackgroundPlayback.h"
 #import "MyActivityIndicatorView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "AppDelegate.h"
 
 float const controlHeight = 64;
 
@@ -424,6 +425,10 @@ float const controlHeight = 64;
     [songInfo setObject:[[NSUserDefaults standardUserDefaults]objectForKey:@"titleVideo" ] forKey:MPMediaItemPropertyTitle];
     
 //    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
+    
+    AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.songInfo = songInfo;
+    NSLog(@"songInfo: %@",songInfo);
 }
 
 
@@ -528,20 +533,20 @@ float const controlHeight = 64;
         self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         _playingView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width/16*9);
         self.view.alpha = 1;
+         [self updateActivityIndicatorPosition];
         
         [MySingleton sharedInstance].blackView.alpha = 1;
     } completion:^(BOOL complete){
         [self layoutControlBar];
         _controlBar.hidden = NO;
-        [self updateActivityIndicatorPosition];
     }];
     
 }
 
 - (void) zoomSmallVideo{
     [self onDismiss];
-    
 }
+
 - (float) getVector{
     float newWidth = MIN([UIScreen mainScreen].bounds.size.width,[[UIScreen mainScreen]bounds].size.height) /2.5;
     float newHeight = newWidth/16*9;
@@ -625,6 +630,8 @@ float const controlHeight = 64;
     endTime.text = [self timeFormat:playingTime];
     
     [songInfo setObject:@(playingTime) forKey: MPMediaItemPropertyPlaybackDuration];
+//    [songInfo setObject:[NSNumber numberWithInt:10] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
+    
     [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:songInfo];
 }
 
@@ -1154,6 +1161,7 @@ float const controlHeight = 64;
     [pauseBt addTarget:self action:@selector(onPauseTouch) forControlEvents:UIControlEventTouchUpInside];
     [_controlBar addSubview:pauseBt];
     
+    
 }
 
 - (void) addNext{
@@ -1201,6 +1209,8 @@ float const controlHeight = 64;
     slider.value = _videoPlayerViewController.moviePlayer.currentPlaybackTime;
     
     runningTime.text = [self timeFormat:slider.value];
+    
+//    [songInfo setObject:[NSNumber numberWithFloat:_videoPlayerViewController.moviePlayer.currentPlaybackTime] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
 }
 
 - (void) onPauseTouch{
@@ -1223,6 +1233,8 @@ float const controlHeight = 64;
             [pauseBt setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
             [_videoPlayerViewController.moviePlayer pause];
         }
+        
+        [songInfo setObject:[NSNumber numberWithFloat:_videoPlayerViewController.moviePlayer.currentPlaybackTime] forKey:MPNowPlayingInfoPropertyElapsedPlaybackTime];
     }
     [[NSUserDefaults standardUserDefaults]setObject:@(pauseBt.tag) forKey:@"pause"];
 }
@@ -1498,12 +1510,14 @@ float const controlHeight = 64;
 - (void) startTableActivityIndicatorView{
     
     tableActivityIndicator = [[MyActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
-    tableActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    tableActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    tableActivityIndicator.color = [UIColor darkGrayColor];
     tableActivityIndicator.center = CGPointMake(_tableView.center.x, _tableView.center.y+_playingView.frame.size.height);
     tableActivityIndicator.hidesWhenStopped = YES;
     
     [self.view addSubview:tableActivityIndicator];
     [tableActivityIndicator startAnimating];
+    
 }
 - (void) stopTableActivityIndicatorView{
     [tableActivityIndicator stopAnimating];

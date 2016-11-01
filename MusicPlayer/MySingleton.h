@@ -25,6 +25,8 @@
 @property (nonatomic, assign) BOOL isPurchased;
 @property (nonatomic, assign) BOOL pauseTouch;
 
+
+
 +(instancetype)sharedInstance;
 
 @end

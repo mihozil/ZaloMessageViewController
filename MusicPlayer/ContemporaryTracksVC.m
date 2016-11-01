@@ -61,7 +61,8 @@
 
 - (void) startActivityIndicatorView{
     activityIndicator = [[MyActivityIndicatorView alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
-    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    activityIndicator.color = [UIColor darkGrayColor];
     activityIndicator.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2);
     activityIndicator.hidesWhenStopped = YES;
     [self.view addSubview:activityIndicator];
@@ -255,7 +256,7 @@
     [self showOptionALert:index];
 }
 - (void) showOptionALert:(int) index{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *addPlaylistAction = [UIAlertAction actionWithTitle:@"Add To Playlist" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         [self addPlaylist];
     }];
@@ -264,11 +265,11 @@
 //    }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
     
-//    alertController.modalPresentationStyle = UIModalPresentationPopover;
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
-//    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
-//    alertController.popoverPresentationController.sourceView = cell.contentView;
-//    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
+    alertController.modalPresentationStyle = UIModalPresentationPopover;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    CustomTableCell *cell = (CustomTableCell*)[_tableView cellForRowAtIndexPath:indexPath];
+    alertController.popoverPresentationController.sourceView = cell.contentView;
+    alertController.popoverPresentationController.sourceRect = cell.contentView.frame;
     
     
     [alertController addAction:addPlaylistAction];

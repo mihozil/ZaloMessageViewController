@@ -14,7 +14,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UIGestureRecognizerDelegate, GADInterstitialDelegate, GADBannerViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (nonatomic, strong) NSMutableDictionary *songInfo;
 
 @end
 

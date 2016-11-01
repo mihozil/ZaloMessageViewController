@@ -211,6 +211,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FEB043F1DC8788D008BDF69 /* CustomClasses */ = {
+			isa = PBXGroup;
+			children = (
+				791D398D1D9CC123007F9D34 /* MySlider.h */,
+				791D398E1D9CC123007F9D34 /* MySlider.m */,
+				792F09791DAE126700D48A0C /* MyActivityIndicatorView.h */,
+				792F097A1DAE126700D48A0C /* MyActivityIndicatorView.m */,
+				791170A11D94D2440009D0D1 /* CustomTableCell.h */,
+				791170A21D94D2440009D0D1 /* CustomTableCell.m */,
+				791170A31D94D2440009D0D1 /* CustomTableCell.xib */,
+				79F1C4F21DA34FC400CBE14F /* CustomSearchCell.h */,
+				79F1C4F31DA34FC400CBE14F /* CustomSearchCell.m */,
+				79F1C4F41DA34FC400CBE14F /* CustomSearchCell.xib */,
+				79E5B74F1DA4EE51003565C6 /* CustomPlaylistCell.h */,
+				79E5B7501DA4EE51003565C6 /* CustomPlaylistCell.m */,
+				79E5B7511DA4EE51003565C6 /* CustomPlaylistCell.xib */,
+				79C0C5E51DACC48A00B1918F /* SimpleTableCell.h */,
+				79C0C5E61DACC48A00B1918F /* SimpleTableCell.m */,
+				79C0C5E71DACC48A00B1918F /* SimpleTableCell.xib */,
+				0F62C6381DB9B64000962318 /* CustomGenresCell.h */,
+				0F62C6391DB9B64000962318 /* CustomGenresCell.m */,
+				0F62C63A1DB9B64000962318 /* CustomGenresCell.xib */,
+			);
+			name = CustomClasses;
+			sourceTree = "<group>";
+		};
 		4705A200B2A16B17BD37CD78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,13 +261,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		791170A61D94D3C20009D0D1 /* Singleton */ = {
+		791170A61D94D3C20009D0D1 /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				7939ED811D93DA4D00664425 /* IOSRequest.h */,
+				7939ED821D93DA4D00664425 /* IOSRequest.m */,
 				791170A71D94D4700009D0D1 /* MySingleton.h */,
 				791170A81D94D4700009D0D1 /* MySingleton.m */,
 			);
-			name = Singleton;
+			name = Functions;
 			sourceTree = "<group>";
 		};
 		7939ED421D93806800664425 = {
@@ -265,9 +293,8 @@
 		7939ED4D1D93806800664425 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				791170A61D94D3C20009D0D1 /* Singleton */,
-				7988FB061D99175000055FE4 /* Support */,
-				79F1C4F71DA350AB00CBE14F /* Class */,
+				791170A61D94D3C20009D0D1 /* Functions */,
+				0FEB043F1DC8788D008BDF69 /* CustomClasses */,
 				7939ED781D93BABD00664425 /* ViewController */,
 				7939ED511D93806800664425 /* AppDelegate.h */,
 				7939ED521D93806800664425 /* AppDelegate.m */,
@@ -304,6 +331,7 @@
 		7939ED781D93BABD00664425 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				79F1C4F71DA350AB00CBE14F /* Additional VCs */,
 				7939ED791D93BB0200664425 /* TopchartVC.h */,
 				7939ED7A1D93BB0200664425 /* TopchartVC.m */,
 				79E1ED661D9631E60088BBCB /* TabbarController.h */,
@@ -316,6 +344,8 @@
 				7927CC251DA2679200CEBE54 /* SearchVC.m */,
 				7928E3431DA4A39E001637A4 /* PlaylistVC.h */,
 				7928E3441DA4A39E001637A4 /* PlaylistVC.m */,
+				79E5B7561DA51447003565C6 /* PlaylistDetailVC.h */,
+				79E5B7571DA51447003565C6 /* PlaylistDetailVC.m */,
 				79158AC41DA779B900A41A44 /* SettingVC.h */,
 				79158AC51DA779B900A41A44 /* SettingVC.m */,
 				79E5B74A1DA4DC53003565C6 /* AddToPlaylistVC.h */,
@@ -371,32 +401,6 @@
 			path = "SF-UI-Text";
 			sourceTree = "<group>";
 		};
-		7988FB061D99175000055FE4 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				7939ED811D93DA4D00664425 /* IOSRequest.h */,
-				7939ED821D93DA4D00664425 /* IOSRequest.m */,
-				791170A11D94D2440009D0D1 /* CustomTableCell.h */,
-				791170A21D94D2440009D0D1 /* CustomTableCell.m */,
-				791170A31D94D2440009D0D1 /* CustomTableCell.xib */,
-				79F1C4F21DA34FC400CBE14F /* CustomSearchCell.h */,
-				79F1C4F31DA34FC400CBE14F /* CustomSearchCell.m */,
-				79F1C4F41DA34FC400CBE14F /* CustomSearchCell.xib */,
-				79E5B74F1DA4EE51003565C6 /* CustomPlaylistCell.h */,
-				79E5B7501DA4EE51003565C6 /* CustomPlaylistCell.m */,
-				79E5B7511DA4EE51003565C6 /* CustomPlaylistCell.xib */,
-				79E5B7561DA51447003565C6 /* PlaylistDetailVC.h */,
-				79E5B7571DA51447003565C6 /* PlaylistDetailVC.m */,
-				79C0C5E51DACC48A00B1918F /* SimpleTableCell.h */,
-				79C0C5E61DACC48A00B1918F /* SimpleTableCell.m */,
-				79C0C5E71DACC48A00B1918F /* SimpleTableCell.xib */,
-				0F62C6381DB9B64000962318 /* CustomGenresCell.h */,
-				0F62C6391DB9B64000962318 /* CustomGenresCell.m */,
-				0F62C63A1DB9B64000962318 /* CustomGenresCell.xib */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
 		79B405951DA64FF600C74C57 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,10 +412,6 @@
 				79A70C381DB6198C00BD846E /* OfferTableViewCell.h */,
 				79A70C391DB6198C00BD846E /* OfferTableViewCell.m */,
 				79A70C3A1DB6198C00BD846E /* OfferTableViewCell.xib */,
-				791D398D1D9CC123007F9D34 /* MySlider.h */,
-				791D398E1D9CC123007F9D34 /* MySlider.m */,
-				792F09791DAE126700D48A0C /* MyActivityIndicatorView.h */,
-				792F097A1DAE126700D48A0C /* MyActivityIndicatorView.m */,
 				796F06C91DA8A2F30091C95A /* IAPHelper.h */,
 				796F06CA1DA8A2F30091C95A /* IAPHelper.m */,
 				790221651D9E0234006A1455 /* MPMoviePlayerController+BackgroundPlayback.h */,
@@ -422,7 +422,7 @@
 			name = Libs;
 			sourceTree = "<group>";
 		};
-		79F1C4F71DA350AB00CBE14F /* Class */ = {
+		79F1C4F71DA350AB00CBE14F /* Additional VCs */ = {
 			isa = PBXGroup;
 			children = (
 				791170AA1D951C6A0009D0D1 /* VideoPlayingViewController.h */,
@@ -432,7 +432,7 @@
 				79F1C4F91DA3515600CBE14F /* SearchResultController.m */,
 				79F1C4FA1DA3515600CBE14F /* SearchResultController.xib */,
 			);
-			name = Class;
+			name = "Additional VCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
