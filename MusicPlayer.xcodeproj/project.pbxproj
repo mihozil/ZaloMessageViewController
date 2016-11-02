@@ -62,10 +62,6 @@
 		796F06C81DA89E3A0091C95A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796F06C71DA89E3A0091C95A /* MessageUI.framework */; };
 		796F06CB1DA8A2F30091C95A /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 796F06CA1DA8A2F30091C95A /* IAPHelper.m */; };
 		798A6BA41DB4D7E000D00FA8 /* CustomPresentAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 798A6BA31DB4D7E000D00FA8 /* CustomPresentAnimationController.m */; };
-		79A70C3B1DB6198C00BD846E /* ListOfferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A70C351DB6198C00BD846E /* ListOfferViewController.m */; };
-		79A70C3C1DB6198C00BD846E /* ListOfferViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79A70C361DB6198C00BD846E /* ListOfferViewController.xib */; };
-		79A70C3D1DB6198C00BD846E /* OfferTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A70C391DB6198C00BD846E /* OfferTableViewCell.m */; };
-		79A70C3E1DB6198C00BD846E /* OfferTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79A70C3A1DB6198C00BD846E /* OfferTableViewCell.xib */; };
 		79A70C401DB6228F00BD846E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79A70C3F1DB6228F00BD846E /* SystemConfiguration.framework */; };
 		79B405A31DA660D200C74C57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79B405A11DA660D200C74C57 /* Main.storyboard */; };
 		79C0C5E81DACC48A00B1918F /* SimpleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C0C5E61DACC48A00B1918F /* SimpleTableCell.m */; };
@@ -160,13 +156,7 @@
 		796F06CA1DA8A2F30091C95A /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
 		798A6BA21DB4D7E000D00FA8 /* CustomPresentAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPresentAnimationController.h; sourceTree = "<group>"; };
 		798A6BA31DB4D7E000D00FA8 /* CustomPresentAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPresentAnimationController.m; sourceTree = "<group>"; };
-		79A70C341DB6198C00BD846E /* ListOfferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfferViewController.h; sourceTree = "<group>"; };
-		79A70C351DB6198C00BD846E /* ListOfferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfferViewController.m; sourceTree = "<group>"; };
-		79A70C361DB6198C00BD846E /* ListOfferViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListOfferViewController.xib; sourceTree = "<group>"; };
 		79A70C371DB6198C00BD846E /* MusicPlayer-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
-		79A70C381DB6198C00BD846E /* OfferTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferTableViewCell.h; sourceTree = "<group>"; };
-		79A70C391DB6198C00BD846E /* OfferTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferTableViewCell.m; sourceTree = "<group>"; };
-		79A70C3A1DB6198C00BD846E /* OfferTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfferTableViewCell.xib; sourceTree = "<group>"; };
 		79A70C3F1DB6228F00BD846E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		79B405A21DA660D200C74C57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		79C0C5E51DACC48A00B1918F /* SimpleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTableCell.h; sourceTree = "<group>"; };
@@ -406,12 +396,6 @@
 			children = (
 				0F764B231DBDA5AE003A04A0 /* Reachability.h */,
 				0F764B241DBDA5AE003A04A0 /* Reachability.m */,
-				79A70C341DB6198C00BD846E /* ListOfferViewController.h */,
-				79A70C351DB6198C00BD846E /* ListOfferViewController.m */,
-				79A70C361DB6198C00BD846E /* ListOfferViewController.xib */,
-				79A70C381DB6198C00BD846E /* OfferTableViewCell.h */,
-				79A70C391DB6198C00BD846E /* OfferTableViewCell.m */,
-				79A70C3A1DB6198C00BD846E /* OfferTableViewCell.xib */,
 				796F06C91DA8A2F30091C95A /* IAPHelper.h */,
 				796F06CA1DA8A2F30091C95A /* IAPHelper.m */,
 				790221651D9E0234006A1455 /* MPMoviePlayerController+BackgroundPlayback.h */,
@@ -503,7 +487,6 @@
 			files = (
 				794565681DAB579C00D23898 /* SF-UI-Text-Semibold.otf in Resources */,
 				794565581DAB579B00D23898 /* SF-UI-Display-Light.otf in Resources */,
-				79A70C3E1DB6198C00BD846E /* OfferTableViewCell.xib in Resources */,
 				794565541DAB579B00D23898 /* License Agreement for SF UI Font.pdf in Resources */,
 				0F62C63C1DB9B64000962318 /* CustomGenresCell.xib in Resources */,
 				79B405A31DA660D200C74C57 /* Main.storyboard in Resources */,
@@ -523,7 +506,6 @@
 				7945655E1DAB579B00D23898 /* SF-UI-Text-Bold.otf in Resources */,
 				79C0C5E91DACC48A00B1918F /* SimpleTableCell.xib in Resources */,
 				791170A51D94D2440009D0D1 /* CustomTableCell.xib in Resources */,
-				79A70C3C1DB6198C00BD846E /* ListOfferViewController.xib in Resources */,
 				794565631DAB579C00D23898 /* SF-UI-Text-LightItalic.otf in Resources */,
 				7945655A1DAB579B00D23898 /* SF-UI-Display-Regular.otf in Resources */,
 				794565601DAB579C00D23898 /* SF-UI-Text-Heavy.otf in Resources */,
@@ -610,7 +592,6 @@
 				0F764B251DBDA5AE003A04A0 /* Reachability.m in Sources */,
 				7939ED531D93806800664425 /* AppDelegate.m in Sources */,
 				79E5B7521DA4EE51003565C6 /* CustomPlaylistCell.m in Sources */,
-				79A70C3D1DB6198C00BD846E /* OfferTableViewCell.m in Sources */,
 				79E1ED681D9631E60088BBCB /* TabbarController.m in Sources */,
 				7939ED501D93806800664425 /* main.m in Sources */,
 				7927CC261DA2679200CEBE54 /* SearchVC.m in Sources */,
@@ -623,7 +604,6 @@
 				791170A41D94D2440009D0D1 /* CustomTableCell.m in Sources */,
 				79F1C4F51DA34FC400CBE14F /* CustomSearchCell.m in Sources */,
 				0F62C63B1DB9B64000962318 /* CustomGenresCell.m in Sources */,
-				79A70C3B1DB6198C00BD846E /* ListOfferViewController.m in Sources */,
 				79F1C4FB1DA3515600CBE14F /* SearchResultController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

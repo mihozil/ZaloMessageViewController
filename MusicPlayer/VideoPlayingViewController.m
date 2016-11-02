@@ -428,7 +428,7 @@ float const controlHeight = 64;
     
     AppDelegate *appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     appDelegate.songInfo = songInfo;
-    NSLog(@"songInfo: %@",songInfo);
+
 }
 
 

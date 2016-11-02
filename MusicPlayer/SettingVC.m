@@ -8,7 +8,6 @@
 
 #import "SettingVC.h"
 #import <MessageUI/MessageUI.h>
-#import "ListOfferViewController.h"
 
 @interface SettingVC ()
 
@@ -30,7 +29,7 @@
     [[IAPHelper sharedHelper]requestProducts];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(removeAds) name:@"Purchased" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(receivedAd) name:@"receivedAds" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(productsLoadedNewDevice:) name:kProductsLoadedNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(productsLoadedNewDevice:) name:kProductsLoadedNotification object:nil];
     
 }
 - (BOOL) isPurchased{
@@ -106,13 +105,13 @@
             [self feedBack];
             break;
             
-        case 2:
-            [self proVersion]; // remove ads
-            break;
-            
-        case 3:
-            [self restorePurchase];
-            break;
+//        case 2:
+//            [self proVersion]; // remove ads
+//            break;
+//            
+//        case 3:
+//            [self restorePurchase];
+//            break;
             
         default:
             break;
@@ -126,10 +125,12 @@
     
 }
 - (void) feedBack{
+    
     if (![MFMailComposeViewController canSendMail]) {
         // do something
         return;
     }
+    
     mailController = [[MFMailComposeViewController alloc]init];
     mailController.mailComposeDelegate = self;
     [mailController setSubject:@"MusicPlayer - Feedback"];
@@ -142,6 +143,7 @@
         
     }];
 }
+
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     [mailController dismissViewControllerAnimated:YES completion:^{
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -152,16 +154,18 @@
     
 }
 
-- (void) proVersion{
-    if (([IAPHelper sharedHelper].products.count>0) && ([IAPHelper sharedHelper].purchasedProducts.count==0 )){
-        [[IAPHelper sharedHelper] buyProductIdentifier:[[IAPHelper sharedHelper].products firstObject]];
-    }
+//- (void) proVersion{
+//    if (([IAPHelper sharedHelper].products.count>0) && ([IAPHelper sharedHelper].purchasedProducts.count==0 )){
+//        [[IAPHelper sharedHelper] buyProductIdentifier:[[IAPHelper sharedHelper].products firstObject]];
+//    }
+//
+//}
 
-}
+//
+//- (void) restorePurchase{
+//    [[IAPHelper sharedHelper]restoreCompletedTransaction];
+//}
 
-- (void) restorePurchase{
-    [[IAPHelper sharedHelper]restoreCompletedTransaction];
-}
 //- (void) specialOffers{
 //    ListOfferViewController *offerVC = [[ListOfferViewController alloc]initWithNibName:@"ListOfferViewController" bundle:nil];
 //    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:offerVC];
@@ -201,28 +205,28 @@
     
 }
 
--(void)productsLoadedNewDevice:(NSNotification *)notification
-{
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"Purchase"];
-    NSMutableArray *arrArchive = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    NSNumber *number = [arrArchive objectAtIndex:0];
-    BOOL isPurchase = [number boolValue];
-    
-    if ([IAPHelper sharedHelper].products.count > 0)
-    {
-        if(([IAPHelper sharedHelper].products.count > 0) && ([IAPHelper sharedHelper].purchasedProducts.count == 0) && (!isPurchase))
-        {
-            if (![tableItems containsObject:@"✨ Remove Ads"]){
-                [tableItems addObject:@"✨ Remove Ads"];
-                [tableItems addObject:@"👌 Restore Purchase"];
-                
-                 [_tableView reloadData];
-            }
-        }
-        
-       
-    }
-}
+//-(void)productsLoadedNewDevice:(NSNotification *)notification
+//{
+//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"Purchase"];
+//    NSMutableArray *arrArchive = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//    NSNumber *number = [arrArchive objectAtIndex:0];
+//    BOOL isPurchase = [number boolValue];
+//    
+//    if ([IAPHelper sharedHelper].products.count > 0)
+//    {
+//        if(([IAPHelper sharedHelper].products.count > 0) && ([IAPHelper sharedHelper].purchasedProducts.count == 0) && (!isPurchase))
+//        {
+//            if (![tableItems containsObject:@"✨ Remove Ads"]){
+//                [tableItems addObject:@"✨ Remove Ads"];
+//                [tableItems addObject:@"👌 Restore Purchase"];
+//                
+//                 [_tableView reloadData];
+//            }
+//        }
+//        
+//       
+//    }
+//}
 
 
 @end
