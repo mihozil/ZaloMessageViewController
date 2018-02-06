@@ -1,0 +1,1048 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D83D006EB23747F509740A7 /* libPods-ZaloMessageTableViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BE4B9FC98741FAF8565F1B /* libPods-ZaloMessageTableViewController.a */; };
+		550A3A132000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */; };
+		55321ABB200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321ABA200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m */; };
+		55321ABE200FA3F0009B63FF /* ZaloSuggestionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321ABD200FA3F0009B63FF /* ZaloSuggestionDataSource.m */; };
+		55321AC1200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321AC0200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m */; };
+		5534170A20025CE400D18DAA /* ZaloLoadingProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5534170920025CE400D18DAA /* ZaloLoadingProgress.m */; };
+		5535ACB22009C383002C36A8 /* ZaloPlaceholderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5535ACB12009C383002C36A8 /* ZaloPlaceholderView.m */; };
+		554E9BAD1FF2A5D3004BE184 /* ZaloCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 554E9BAC1FF2A5D3004BE184 /* ZaloCollectionViewLayout.m */; };
+		555CDD27201806FF00CD6DF0 /* ZaloPagedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 555CDD26201806FF00CD6DF0 /* ZaloPagedViewController.m */; };
+		555CDD2C2018087100CD6DF0 /* chatdetail.json in Resources */ = {isa = PBXBuildFile; fileRef = 555CDD2B2018087100CD6DF0 /* chatdetail.json */; };
+		555CDD2F20180AB500CD6DF0 /* ZaloPagedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 555CDD2E20180AB500CD6DF0 /* ZaloPagedDataSource.m */; };
+		555CDD3220180B2800CD6DF0 /* ZaloPagedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 555CDD3120180B2800CD6DF0 /* ZaloPagedCollectionViewCell.m */; };
+		555CDD3520180FEF00CD6DF0 /* ZaloPagedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 555CDD3420180FEF00CD6DF0 /* ZaloPagedModel.m */; };
+		556158DB2003B621006957F1 /* ZaloComposedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 556158DA2003B621006957F1 /* ZaloComposedDataSource.m */; };
+		556158DE2003BDB9006957F1 /* ZaloDataAccessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 556158DD2003BDB9006957F1 /* ZaloDataAccessManager.m */; };
+		55623A91200838EE008A4BB6 /* ZaloDataSourceMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 55623A90200838EE008A4BB6 /* ZaloDataSourceMapping.m */; };
+		556D803E2001A08B008D6800 /* chat.json in Resources */ = {isa = PBXBuildFile; fileRef = 556D803D2001A08B008D6800 /* chat.json */; };
+		556D80402001A926008D6800 /* suggestion.json in Resources */ = {isa = PBXBuildFile; fileRef = 556D803F2001A926008D6800 /* suggestion.json */; };
+		558A72D82012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 558A72D62012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m */; };
+		559CEFC41FF1416F00C1AC4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFC31FF1416F00C1AC4D /* AppDelegate.m */; };
+		559CEFCC1FF1416F00C1AC4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 559CEFCB1FF1416F00C1AC4D /* Assets.xcassets */; };
+		559CEFCF1FF1416F00C1AC4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 559CEFCD1FF1416F00C1AC4D /* LaunchScreen.storyboard */; };
+		559CEFD21FF1416F00C1AC4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFD11FF1416F00C1AC4D /* main.m */; };
+		559CEFDC1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFDB1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.m */; };
+		559CEFE71FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFE61FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.m */; };
+		559CEFF71FF1418D00C1AC4D /* ZaloCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFF61FF1418D00C1AC4D /* ZaloCollectionViewController.m */; };
+		559CEFFA1FF145D100C1AC4D /* ZaloDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 559CEFF91FF145D100C1AC4D /* ZaloDataSource.m */; };
+		559D3E7D201AA644009BFDCE /* ZaloFriendRequestsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E7C201AA644009BFDCE /* ZaloFriendRequestsDataSource.m */; };
+		559D3E80201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E7F201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.m */; };
+		559D3E82201AA6E3009BFDCE /* friendRequest.json in Resources */ = {isa = PBXBuildFile; fileRef = 559D3E81201AA6E3009BFDCE /* friendRequest.json */; };
+		559D3E85201AA84A009BFDCE /* ZaloFriendRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E84201AA84A009BFDCE /* ZaloFriendRequestModel.m */; };
+		559D3E8B201AB112009BFDCE /* ZaloMessageDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E87201AB112009BFDCE /* ZaloMessageDataSource.m */; };
+		559D3E8C201AB112009BFDCE /* ZaloMessegeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E88201AB112009BFDCE /* ZaloMessegeModel.m */; };
+		55B791F11FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */; };
+		55C33462201029F30029F076 /* ZaloSuggestionCollectionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C33461201029F30029F076 /* ZaloSuggestionCollectionViewModel.m */; };
+		55D0DED91FF3F15E000B3602 /* ZaloGesturesToEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D0DED81FF3F15E000B3602 /* ZaloGesturesToEditController.m */; };
+		55D0DEDC1FF3F377000B3602 /* ZaloStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D0DEDB1FF3F377000B3602 /* ZaloStateMachine.m */; };
+		55D0DEDF1FF3F485000B3602 /* ZaloGestureWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D0DEDE1FF3F485000B3602 /* ZaloGestureWrapper.m */; };
+		55D976542009EF3F0074A63F /* ZaloMessengeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D976532009EF3F0074A63F /* ZaloMessengeCollectionViewCell.m */; };
+		55DFF13D1FF72B7D00188C74 /* ZaloMessageFoundations.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DFF13C1FF72B7D00188C74 /* ZaloMessageFoundations.m */; };
+		55DFF1401FF7455F00188C74 /* ZaloMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DFF13F1FF7455F00188C74 /* ZaloMessageViewController.m */; };
+		55DFF1431FF7465B00188C74 /* ZaloBasicDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 55DFF1421FF7465B00188C74 /* ZaloBasicDataSource.m */; };
+		55E482D71FF1CC3A00E71C4B /* ZaloCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E482D61FF1CC3A00E71C4B /* ZaloCollectionViewCell.m */; };
+		55E482DA1FF1D3C600E71C4B /* ZaloActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */; };
+		AB624DCB911AE736CE706343 /* libPods-ZaloMessageTableViewControllerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB7C008847F0140BAC34D2B /* libPods-ZaloMessageTableViewControllerUITests.a */; };
+		BA027E592022FC6300FD0430 /* ZaloLayoutMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */; };
+		BA0C9D792024785D0088BA52 /* ZaloSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0C9D782024785D0088BA52 /* ZaloSectionHeaderView.m */; };
+		F3264DDE2415A7460320ABB1 /* libPods-ZaloMessageTableViewControllerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2712CB4305E056DBB8FE08 /* libPods-ZaloMessageTableViewControllerTests.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		559CEFD81FF1417000C1AC4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 559CEFB71FF1416F00C1AC4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 559CEFBE1FF1416F00C1AC4D;
+			remoteInfo = ZaloMessageTableViewController;
+		};
+		559CEFE31FF1417000C1AC4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 559CEFB71FF1416F00C1AC4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 559CEFBE1FF1416F00C1AC4D;
+			remoteInfo = ZaloMessageTableViewController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		41A139327947BB5BBCB4B294 /* Pods-ZaloMessageTableViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController.debug.xcconfig"; sourceTree = "<group>"; };
+		550A3A112000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionSupplementaryView.h; sourceTree = "<group>"; };
+		550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionSupplementaryView.m; sourceTree = "<group>"; };
+		55321AB9200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionViewCell.h; sourceTree = "<group>"; };
+		55321ABA200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionViewCell.m; sourceTree = "<group>"; };
+		55321ABC200FA3F0009B63FF /* ZaloSuggestionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionDataSource.h; sourceTree = "<group>"; };
+		55321ABD200FA3F0009B63FF /* ZaloSuggestionDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionDataSource.m; sourceTree = "<group>"; };
+		55321ABF200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionViewCellCell.h; sourceTree = "<group>"; };
+		55321AC0200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionViewCellCell.m; sourceTree = "<group>"; };
+		5534170820025CE400D18DAA /* ZaloLoadingProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloLoadingProgress.h; sourceTree = "<group>"; };
+		5534170920025CE400D18DAA /* ZaloLoadingProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloLoadingProgress.m; sourceTree = "<group>"; };
+		5535ACB02009C383002C36A8 /* ZaloPlaceholderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloPlaceholderView.h; sourceTree = "<group>"; };
+		5535ACB12009C383002C36A8 /* ZaloPlaceholderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloPlaceholderView.m; sourceTree = "<group>"; };
+		554E9BAB1FF2A5D3004BE184 /* ZaloCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewLayout.h; sourceTree = "<group>"; };
+		554E9BAC1FF2A5D3004BE184 /* ZaloCollectionViewLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewLayout.m; sourceTree = "<group>"; };
+		555CDD25201806FF00CD6DF0 /* ZaloPagedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloPagedViewController.h; sourceTree = "<group>"; };
+		555CDD26201806FF00CD6DF0 /* ZaloPagedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloPagedViewController.m; sourceTree = "<group>"; };
+		555CDD2B2018087100CD6DF0 /* chatdetail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatdetail.json; sourceTree = "<group>"; };
+		555CDD2D20180AB500CD6DF0 /* ZaloPagedDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloPagedDataSource.h; sourceTree = "<group>"; };
+		555CDD2E20180AB500CD6DF0 /* ZaloPagedDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloPagedDataSource.m; sourceTree = "<group>"; };
+		555CDD3020180B2800CD6DF0 /* ZaloPagedCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloPagedCollectionViewCell.h; sourceTree = "<group>"; };
+		555CDD3120180B2800CD6DF0 /* ZaloPagedCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloPagedCollectionViewCell.m; sourceTree = "<group>"; };
+		555CDD3320180FE100CD6DF0 /* ZaloPagedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloPagedModel.h; sourceTree = "<group>"; };
+		555CDD3420180FEF00CD6DF0 /* ZaloPagedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZaloPagedModel.m; sourceTree = "<group>"; };
+		556158D92003B621006957F1 /* ZaloComposedDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloComposedDataSource.h; sourceTree = "<group>"; };
+		556158DA2003B621006957F1 /* ZaloComposedDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloComposedDataSource.m; sourceTree = "<group>"; };
+		556158DC2003BDB9006957F1 /* ZaloDataAccessManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloDataAccessManager.h; sourceTree = "<group>"; };
+		556158DD2003BDB9006957F1 /* ZaloDataAccessManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloDataAccessManager.m; sourceTree = "<group>"; };
+		55623A8F200838EE008A4BB6 /* ZaloDataSourceMapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloDataSourceMapping.h; sourceTree = "<group>"; };
+		55623A90200838EE008A4BB6 /* ZaloDataSourceMapping.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloDataSourceMapping.m; sourceTree = "<group>"; };
+		556D803D2001A08B008D6800 /* chat.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat.json; sourceTree = "<group>"; };
+		556D803F2001A926008D6800 /* suggestion.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = suggestion.json; sourceTree = "<group>"; };
+		558A72D62012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewLayout_Internal.m; sourceTree = "<group>"; };
+		558A72D72012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewLayout_Internal.h; sourceTree = "<group>"; };
+		559CEFBF1FF1416F00C1AC4D /* ZaloMessageTableViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZaloMessageTableViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		559CEFC21FF1416F00C1AC4D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		559CEFC31FF1416F00C1AC4D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		559CEFCB1FF1416F00C1AC4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		559CEFCE1FF1416F00C1AC4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		559CEFD01FF1416F00C1AC4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		559CEFD11FF1416F00C1AC4D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		559CEFD71FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZaloMessageTableViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		559CEFDB1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloMessageTableViewControllerTests.m; sourceTree = "<group>"; };
+		559CEFDD1FF1417000C1AC4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		559CEFE21FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZaloMessageTableViewControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		559CEFE61FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloMessageTableViewControllerUITests.m; sourceTree = "<group>"; };
+		559CEFE81FF1417000C1AC4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		559CEFF51FF1418D00C1AC4D /* ZaloCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewController.h; sourceTree = "<group>"; };
+		559CEFF61FF1418D00C1AC4D /* ZaloCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewController.m; sourceTree = "<group>"; };
+		559CEFF81FF145D100C1AC4D /* ZaloDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloDataSource.h; sourceTree = "<group>"; };
+		559CEFF91FF145D100C1AC4D /* ZaloDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloDataSource.m; sourceTree = "<group>"; };
+		559D3E7B201AA644009BFDCE /* ZaloFriendRequestsDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloFriendRequestsDataSource.h; sourceTree = "<group>"; };
+		559D3E7C201AA644009BFDCE /* ZaloFriendRequestsDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloFriendRequestsDataSource.m; sourceTree = "<group>"; };
+		559D3E7E201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloFriendRequestsCollectionViewCell.h; sourceTree = "<group>"; };
+		559D3E7F201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloFriendRequestsCollectionViewCell.m; sourceTree = "<group>"; };
+		559D3E81201AA6E3009BFDCE /* friendRequest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = friendRequest.json; sourceTree = "<group>"; };
+		559D3E83201AA84A009BFDCE /* ZaloFriendRequestModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloFriendRequestModel.h; sourceTree = "<group>"; };
+		559D3E84201AA84A009BFDCE /* ZaloFriendRequestModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloFriendRequestModel.m; sourceTree = "<group>"; };
+		559D3E87201AB112009BFDCE /* ZaloMessageDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZaloMessageDataSource.m; sourceTree = "<group>"; };
+		559D3E88201AB112009BFDCE /* ZaloMessegeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZaloMessegeModel.m; sourceTree = "<group>"; };
+		559D3E89201AB112009BFDCE /* ZaloMessegeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloMessegeModel.h; sourceTree = "<group>"; };
+		559D3E8A201AB112009BFDCE /* ZaloMessageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloMessageDataSource.h; sourceTree = "<group>"; };
+		55B791EF1FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
+		55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
+		55C33460201029F30029F076 /* ZaloSuggestionCollectionViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionViewModel.h; sourceTree = "<group>"; };
+		55C33461201029F30029F076 /* ZaloSuggestionCollectionViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionViewModel.m; sourceTree = "<group>"; };
+		55D0DED71FF3F15E000B3602 /* ZaloGesturesToEditController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloGesturesToEditController.h; sourceTree = "<group>"; };
+		55D0DED81FF3F15E000B3602 /* ZaloGesturesToEditController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloGesturesToEditController.m; sourceTree = "<group>"; };
+		55D0DEDA1FF3F377000B3602 /* ZaloStateMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloStateMachine.h; sourceTree = "<group>"; };
+		55D0DEDB1FF3F377000B3602 /* ZaloStateMachine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloStateMachine.m; sourceTree = "<group>"; };
+		55D0DEDD1FF3F485000B3602 /* ZaloGestureWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloGestureWrapper.h; sourceTree = "<group>"; };
+		55D0DEDE1FF3F485000B3602 /* ZaloGestureWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloGestureWrapper.m; sourceTree = "<group>"; };
+		55D976522009EF3F0074A63F /* ZaloMessengeCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloMessengeCollectionViewCell.h; sourceTree = "<group>"; };
+		55D976532009EF3F0074A63F /* ZaloMessengeCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloMessengeCollectionViewCell.m; sourceTree = "<group>"; };
+		55DFF13B1FF72B7D00188C74 /* ZaloMessageFoundations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloMessageFoundations.h; sourceTree = "<group>"; };
+		55DFF13C1FF72B7D00188C74 /* ZaloMessageFoundations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloMessageFoundations.m; sourceTree = "<group>"; };
+		55DFF13E1FF7455F00188C74 /* ZaloMessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloMessageViewController.h; sourceTree = "<group>"; };
+		55DFF13F1FF7455F00188C74 /* ZaloMessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloMessageViewController.m; sourceTree = "<group>"; };
+		55DFF1411FF7465B00188C74 /* ZaloBasicDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloBasicDataSource.h; sourceTree = "<group>"; };
+		55DFF1421FF7465B00188C74 /* ZaloBasicDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloBasicDataSource.m; sourceTree = "<group>"; };
+		55E482D51FF1CC3A00E71C4B /* ZaloCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewCell.h; sourceTree = "<group>"; };
+		55E482D61FF1CC3A00E71C4B /* ZaloCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewCell.m; sourceTree = "<group>"; };
+		55E482D81FF1D3C600E71C4B /* ZaloActionsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloActionsView.h; sourceTree = "<group>"; };
+		55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloActionsView.m; sourceTree = "<group>"; };
+		92DA576EA95DEEA29E8509C2 /* Pods-ZaloMessageTableViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewController.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController.release.xcconfig"; sourceTree = "<group>"; };
+		B7B5ADE1265C18E2AD2C742E /* Pods-ZaloMessageTableViewControllerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerUITests/Pods-ZaloMessageTableViewControllerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BA027E572022FC6300FD0430 /* ZaloLayoutMetrics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloLayoutMetrics.h; sourceTree = "<group>"; };
+		BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloLayoutMetrics.m; sourceTree = "<group>"; };
+		BA0C9D772024785D0088BA52 /* ZaloSectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSectionHeaderView.h; sourceTree = "<group>"; };
+		BA0C9D782024785D0088BA52 /* ZaloSectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSectionHeaderView.m; sourceTree = "<group>"; };
+		C4DFEA087F5B1D69F16AE466 /* Pods-ZaloMessageTableViewControllerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerTests/Pods-ZaloMessageTableViewControllerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C51693ED982C2D86B6B6F88D /* Pods-ZaloMessageTableViewControllerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerUITests/Pods-ZaloMessageTableViewControllerUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C9BE4B9FC98741FAF8565F1B /* libPods-ZaloMessageTableViewController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZaloMessageTableViewController.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAB7C008847F0140BAC34D2B /* libPods-ZaloMessageTableViewControllerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZaloMessageTableViewControllerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC17F64A522B2310BB65EA8C /* Pods-ZaloMessageTableViewControllerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerTests/Pods-ZaloMessageTableViewControllerTests.release.xcconfig"; sourceTree = "<group>"; };
+		FD2712CB4305E056DBB8FE08 /* libPods-ZaloMessageTableViewControllerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZaloMessageTableViewControllerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		559CEFBC1FF1416F00C1AC4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D83D006EB23747F509740A7 /* libPods-ZaloMessageTableViewController.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFD41FF1417000C1AC4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3264DDE2415A7460320ABB1 /* libPods-ZaloMessageTableViewControllerTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFDF1FF1417000C1AC4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB624DCB911AE736CE706343 /* libPods-ZaloMessageTableViewControllerUITests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		555CDD24201806C100CD6DF0 /* PagedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				555CDD3320180FE100CD6DF0 /* ZaloPagedModel.h */,
+				555CDD3420180FEF00CD6DF0 /* ZaloPagedModel.m */,
+				555CDD25201806FF00CD6DF0 /* ZaloPagedViewController.h */,
+				555CDD26201806FF00CD6DF0 /* ZaloPagedViewController.m */,
+				555CDD2D20180AB500CD6DF0 /* ZaloPagedDataSource.h */,
+				555CDD2E20180AB500CD6DF0 /* ZaloPagedDataSource.m */,
+				555CDD3020180B2800CD6DF0 /* ZaloPagedCollectionViewCell.h */,
+				555CDD3120180B2800CD6DF0 /* ZaloPagedCollectionViewCell.m */,
+			);
+			path = PagedViewController;
+			sourceTree = "<group>";
+		};
+		556D803820019F5E008D6800 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				554E9BAB1FF2A5D3004BE184 /* ZaloCollectionViewLayout.h */,
+				554E9BAC1FF2A5D3004BE184 /* ZaloCollectionViewLayout.m */,
+				55B791EF1FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.h */,
+				55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */,
+				558A72D72012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.h */,
+				558A72D62012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m */,
+				BA027E572022FC6300FD0430 /* ZaloLayoutMetrics.h */,
+				BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		556D803920019F6C008D6800 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				55D0DEDD1FF3F485000B3602 /* ZaloGestureWrapper.h */,
+				55D0DEDE1FF3F485000B3602 /* ZaloGestureWrapper.m */,
+				559CEFF51FF1418D00C1AC4D /* ZaloCollectionViewController.h */,
+				559CEFF61FF1418D00C1AC4D /* ZaloCollectionViewController.m */,
+				55D0DED71FF3F15E000B3602 /* ZaloGesturesToEditController.h */,
+				55D0DED81FF3F15E000B3602 /* ZaloGesturesToEditController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		556D803A20019F7D008D6800 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				55E482D51FF1CC3A00E71C4B /* ZaloCollectionViewCell.h */,
+				55E482D61FF1CC3A00E71C4B /* ZaloCollectionViewCell.m */,
+				550A3A112000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.h */,
+				550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */,
+				55E482D81FF1D3C600E71C4B /* ZaloActionsView.h */,
+				55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */,
+				5535ACB02009C383002C36A8 /* ZaloPlaceholderView.h */,
+				5535ACB12009C383002C36A8 /* ZaloPlaceholderView.m */,
+				BA0C9D772024785D0088BA52 /* ZaloSectionHeaderView.h */,
+				BA0C9D782024785D0088BA52 /* ZaloSectionHeaderView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		556D803B20019FA2008D6800 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				559CEFF81FF145D100C1AC4D /* ZaloDataSource.h */,
+				559CEFF91FF145D100C1AC4D /* ZaloDataSource.m */,
+				55DFF1411FF7465B00188C74 /* ZaloBasicDataSource.h */,
+				55DFF1421FF7465B00188C74 /* ZaloBasicDataSource.m */,
+				556158D92003B621006957F1 /* ZaloComposedDataSource.h */,
+				556158DA2003B621006957F1 /* ZaloComposedDataSource.m */,
+				55623A8F200838EE008A4BB6 /* ZaloDataSourceMapping.h */,
+				55623A90200838EE008A4BB6 /* ZaloDataSourceMapping.m */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		556D803C2001A05A008D6800 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				556D803D2001A08B008D6800 /* chat.json */,
+				556D803F2001A926008D6800 /* suggestion.json */,
+				555CDD2B2018087100CD6DF0 /* chatdetail.json */,
+				559D3E81201AA6E3009BFDCE /* friendRequest.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		559995732010E676009112FD /* Suggestion */ = {
+			isa = PBXGroup;
+			children = (
+				55321ABC200FA3F0009B63FF /* ZaloSuggestionDataSource.h */,
+				55321ABD200FA3F0009B63FF /* ZaloSuggestionDataSource.m */,
+				55321ABF200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.h */,
+				55321AC0200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m */,
+				55C33460201029F30029F076 /* ZaloSuggestionCollectionViewModel.h */,
+				55C33461201029F30029F076 /* ZaloSuggestionCollectionViewModel.m */,
+			);
+			path = Suggestion;
+			sourceTree = "<group>";
+		};
+		559CEFB61FF1416F00C1AC4D = {
+			isa = PBXGroup;
+			children = (
+				559CEFC11FF1416F00C1AC4D /* ZaloMessageTableViewController */,
+				559CEFDA1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests */,
+				559CEFE51FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests */,
+				559CEFC01FF1416F00C1AC4D /* Products */,
+				579A7E7D32A684405D5B2EE7 /* Pods */,
+				BED7958D19E92610D290450F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		559CEFC01FF1416F00C1AC4D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				559CEFBF1FF1416F00C1AC4D /* ZaloMessageTableViewController.app */,
+				559CEFD71FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.xctest */,
+				559CEFE21FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		559CEFC11FF1416F00C1AC4D /* ZaloMessageTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				559CEFF41FF1417800C1AC4D /* FrameWork */,
+				55DFF13A1FF716F200188C74 /* Application */,
+				556D803C2001A05A008D6800 /* Resources */,
+				559CEFC21FF1416F00C1AC4D /* AppDelegate.h */,
+				559CEFC31FF1416F00C1AC4D /* AppDelegate.m */,
+				559CEFCB1FF1416F00C1AC4D /* Assets.xcassets */,
+				559CEFCD1FF1416F00C1AC4D /* LaunchScreen.storyboard */,
+				559CEFD01FF1416F00C1AC4D /* Info.plist */,
+				559CEFD11FF1416F00C1AC4D /* main.m */,
+			);
+			path = ZaloMessageTableViewController;
+			sourceTree = "<group>";
+		};
+		559CEFDA1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				559CEFDB1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.m */,
+				559CEFDD1FF1417000C1AC4D /* Info.plist */,
+			);
+			path = ZaloMessageTableViewControllerTests;
+			sourceTree = "<group>";
+		};
+		559CEFE51FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				559CEFE61FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.m */,
+				559CEFE81FF1417000C1AC4D /* Info.plist */,
+			);
+			path = ZaloMessageTableViewControllerUITests;
+			sourceTree = "<group>";
+		};
+		559CEFF41FF1417800C1AC4D /* FrameWork */ = {
+			isa = PBXGroup;
+			children = (
+				55D0DEDA1FF3F377000B3602 /* ZaloStateMachine.h */,
+				55D0DEDB1FF3F377000B3602 /* ZaloStateMachine.m */,
+				55DFF13B1FF72B7D00188C74 /* ZaloMessageFoundations.h */,
+				55DFF13C1FF72B7D00188C74 /* ZaloMessageFoundations.m */,
+				5534170820025CE400D18DAA /* ZaloLoadingProgress.h */,
+				5534170920025CE400D18DAA /* ZaloLoadingProgress.m */,
+				556D803B20019FA2008D6800 /* DataSources */,
+				556D803A20019F7D008D6800 /* Views */,
+				556D803920019F6C008D6800 /* Controllers */,
+				556D803820019F5E008D6800 /* Layout */,
+			);
+			path = FrameWork;
+			sourceTree = "<group>";
+		};
+		559D3E7A201AA5F3009BFDCE /* FriendsRequestSection */ = {
+			isa = PBXGroup;
+			children = (
+				559D3E7B201AA644009BFDCE /* ZaloFriendRequestsDataSource.h */,
+				559D3E7C201AA644009BFDCE /* ZaloFriendRequestsDataSource.m */,
+				559D3E7E201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.h */,
+				559D3E7F201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.m */,
+				559D3E83201AA84A009BFDCE /* ZaloFriendRequestModel.h */,
+				559D3E84201AA84A009BFDCE /* ZaloFriendRequestModel.m */,
+			);
+			path = FriendsRequestSection;
+			sourceTree = "<group>";
+		};
+		559D3E86201AB087009BFDCE /* ChatMessage */ = {
+			isa = PBXGroup;
+			children = (
+				559D3E8A201AB112009BFDCE /* ZaloMessageDataSource.h */,
+				559D3E87201AB112009BFDCE /* ZaloMessageDataSource.m */,
+				559D3E89201AB112009BFDCE /* ZaloMessegeModel.h */,
+				559D3E88201AB112009BFDCE /* ZaloMessegeModel.m */,
+				55D976522009EF3F0074A63F /* ZaloMessengeCollectionViewCell.h */,
+				55D976532009EF3F0074A63F /* ZaloMessengeCollectionViewCell.m */,
+				55321AB9200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.h */,
+				55321ABA200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m */,
+				559995732010E676009112FD /* Suggestion */,
+			);
+			path = ChatMessage;
+			sourceTree = "<group>";
+		};
+		55DFF13A1FF716F200188C74 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				55DFF13E1FF7455F00188C74 /* ZaloMessageViewController.h */,
+				55DFF13F1FF7455F00188C74 /* ZaloMessageViewController.m */,
+				556158DC2003BDB9006957F1 /* ZaloDataAccessManager.h */,
+				556158DD2003BDB9006957F1 /* ZaloDataAccessManager.m */,
+				559D3E86201AB087009BFDCE /* ChatMessage */,
+				559D3E7A201AA5F3009BFDCE /* FriendsRequestSection */,
+				555CDD24201806C100CD6DF0 /* PagedViewController */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		579A7E7D32A684405D5B2EE7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				41A139327947BB5BBCB4B294 /* Pods-ZaloMessageTableViewController.debug.xcconfig */,
+				92DA576EA95DEEA29E8509C2 /* Pods-ZaloMessageTableViewController.release.xcconfig */,
+				C4DFEA087F5B1D69F16AE466 /* Pods-ZaloMessageTableViewControllerTests.debug.xcconfig */,
+				EC17F64A522B2310BB65EA8C /* Pods-ZaloMessageTableViewControllerTests.release.xcconfig */,
+				C51693ED982C2D86B6B6F88D /* Pods-ZaloMessageTableViewControllerUITests.debug.xcconfig */,
+				B7B5ADE1265C18E2AD2C742E /* Pods-ZaloMessageTableViewControllerUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		BED7958D19E92610D290450F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9BE4B9FC98741FAF8565F1B /* libPods-ZaloMessageTableViewController.a */,
+				FD2712CB4305E056DBB8FE08 /* libPods-ZaloMessageTableViewControllerTests.a */,
+				CAB7C008847F0140BAC34D2B /* libPods-ZaloMessageTableViewControllerUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		559CEFBE1FF1416F00C1AC4D /* ZaloMessageTableViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 559CEFEB1FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewController" */;
+			buildPhases = (
+				4A51D3CE0DB136E11E5C3C48 /* [CP] Check Pods Manifest.lock */,
+				559CEFBB1FF1416F00C1AC4D /* Sources */,
+				559CEFBC1FF1416F00C1AC4D /* Frameworks */,
+				559CEFBD1FF1416F00C1AC4D /* Resources */,
+				0A5F53D2717A883B0844E1EE /* [CP] Embed Pods Frameworks */,
+				7A0C9F7CDF2E2BD2DDEA1F1D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZaloMessageTableViewController;
+			productName = ZaloMessageTableViewController;
+			productReference = 559CEFBF1FF1416F00C1AC4D /* ZaloMessageTableViewController.app */;
+			productType = "com.apple.product-type.application";
+		};
+		559CEFD61FF1417000C1AC4D /* ZaloMessageTableViewControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 559CEFEE1FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewControllerTests" */;
+			buildPhases = (
+				83CDD832E868B10CDF6B11C4 /* [CP] Check Pods Manifest.lock */,
+				559CEFD31FF1417000C1AC4D /* Sources */,
+				559CEFD41FF1417000C1AC4D /* Frameworks */,
+				559CEFD51FF1417000C1AC4D /* Resources */,
+				96D7CD39A5CC1CFB987CCB63 /* [CP] Embed Pods Frameworks */,
+				25EF175C7B33DE60336E03C6 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				559CEFD91FF1417000C1AC4D /* PBXTargetDependency */,
+			);
+			name = ZaloMessageTableViewControllerTests;
+			productName = ZaloMessageTableViewControllerTests;
+			productReference = 559CEFD71FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		559CEFE11FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 559CEFF11FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewControllerUITests" */;
+			buildPhases = (
+				B7E925C37F28A57ED4ADBAD7 /* [CP] Check Pods Manifest.lock */,
+				559CEFDE1FF1417000C1AC4D /* Sources */,
+				559CEFDF1FF1417000C1AC4D /* Frameworks */,
+				559CEFE01FF1417000C1AC4D /* Resources */,
+				D217A92465B4754978360F28 /* [CP] Embed Pods Frameworks */,
+				88B751378E9574DBE5577D52 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				559CEFE41FF1417000C1AC4D /* PBXTargetDependency */,
+			);
+			name = ZaloMessageTableViewControllerUITests;
+			productName = ZaloMessageTableViewControllerUITests;
+			productReference = 559CEFE21FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		559CEFB71FF1416F00C1AC4D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = Mihozil;
+				TargetAttributes = {
+					559CEFBE1FF1416F00C1AC4D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					559CEFD61FF1417000C1AC4D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 559CEFBE1FF1416F00C1AC4D;
+					};
+					559CEFE11FF1417000C1AC4D = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 559CEFBE1FF1416F00C1AC4D;
+					};
+				};
+			};
+			buildConfigurationList = 559CEFBA1FF1416F00C1AC4D /* Build configuration list for PBXProject "ZaloMessageTableViewController" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 559CEFB61FF1416F00C1AC4D;
+			productRefGroup = 559CEFC01FF1416F00C1AC4D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				559CEFBE1FF1416F00C1AC4D /* ZaloMessageTableViewController */,
+				559CEFD61FF1417000C1AC4D /* ZaloMessageTableViewControllerTests */,
+				559CEFE11FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		559CEFBD1FF1416F00C1AC4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				555CDD2C2018087100CD6DF0 /* chatdetail.json in Resources */,
+				556D803E2001A08B008D6800 /* chat.json in Resources */,
+				559CEFCF1FF1416F00C1AC4D /* LaunchScreen.storyboard in Resources */,
+				559CEFCC1FF1416F00C1AC4D /* Assets.xcassets in Resources */,
+				556D80402001A926008D6800 /* suggestion.json in Resources */,
+				559D3E82201AA6E3009BFDCE /* friendRequest.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFD51FF1417000C1AC4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFE01FF1417000C1AC4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0A5F53D2717A883B0844E1EE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		25EF175C7B33DE60336E03C6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewControllerTests/Pods-ZaloMessageTableViewControllerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4A51D3CE0DB136E11E5C3C48 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7A0C9F7CDF2E2BD2DDEA1F1D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		83CDD832E868B10CDF6B11C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		88B751378E9574DBE5577D52 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewControllerUITests/Pods-ZaloMessageTableViewControllerUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		96D7CD39A5CC1CFB987CCB63 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewControllerTests/Pods-ZaloMessageTableViewControllerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7E925C37F28A57ED4ADBAD7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D217A92465B4754978360F28 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZaloMessageTableViewControllerUITests/Pods-ZaloMessageTableViewControllerUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		559CEFBB1FF1416F00C1AC4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				559D3E8C201AB112009BFDCE /* ZaloMessegeModel.m in Sources */,
+				55321AC1200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m in Sources */,
+				55B791F11FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m in Sources */,
+				55D0DEDF1FF3F485000B3602 /* ZaloGestureWrapper.m in Sources */,
+				55DFF1431FF7465B00188C74 /* ZaloBasicDataSource.m in Sources */,
+				BA027E592022FC6300FD0430 /* ZaloLayoutMetrics.m in Sources */,
+				55E482D71FF1CC3A00E71C4B /* ZaloCollectionViewCell.m in Sources */,
+				555CDD27201806FF00CD6DF0 /* ZaloPagedViewController.m in Sources */,
+				559D3E7D201AA644009BFDCE /* ZaloFriendRequestsDataSource.m in Sources */,
+				558A72D82012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m in Sources */,
+				556158DB2003B621006957F1 /* ZaloComposedDataSource.m in Sources */,
+				559D3E85201AA84A009BFDCE /* ZaloFriendRequestModel.m in Sources */,
+				559CEFD21FF1416F00C1AC4D /* main.m in Sources */,
+				555CDD3220180B2800CD6DF0 /* ZaloPagedCollectionViewCell.m in Sources */,
+				55C33462201029F30029F076 /* ZaloSuggestionCollectionViewModel.m in Sources */,
+				5535ACB22009C383002C36A8 /* ZaloPlaceholderView.m in Sources */,
+				BA0C9D792024785D0088BA52 /* ZaloSectionHeaderView.m in Sources */,
+				555CDD2F20180AB500CD6DF0 /* ZaloPagedDataSource.m in Sources */,
+				554E9BAD1FF2A5D3004BE184 /* ZaloCollectionViewLayout.m in Sources */,
+				559D3E8B201AB112009BFDCE /* ZaloMessageDataSource.m in Sources */,
+				55D0DED91FF3F15E000B3602 /* ZaloGesturesToEditController.m in Sources */,
+				559CEFFA1FF145D100C1AC4D /* ZaloDataSource.m in Sources */,
+				556158DE2003BDB9006957F1 /* ZaloDataAccessManager.m in Sources */,
+				550A3A132000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m in Sources */,
+				555CDD3520180FEF00CD6DF0 /* ZaloPagedModel.m in Sources */,
+				55321ABB200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m in Sources */,
+				55623A91200838EE008A4BB6 /* ZaloDataSourceMapping.m in Sources */,
+				55D976542009EF3F0074A63F /* ZaloMessengeCollectionViewCell.m in Sources */,
+				5534170A20025CE400D18DAA /* ZaloLoadingProgress.m in Sources */,
+				559CEFF71FF1418D00C1AC4D /* ZaloCollectionViewController.m in Sources */,
+				55DFF13D1FF72B7D00188C74 /* ZaloMessageFoundations.m in Sources */,
+				55E482DA1FF1D3C600E71C4B /* ZaloActionsView.m in Sources */,
+				559D3E80201AA6A4009BFDCE /* ZaloFriendRequestsCollectionViewCell.m in Sources */,
+				55321ABE200FA3F0009B63FF /* ZaloSuggestionDataSource.m in Sources */,
+				559CEFC41FF1416F00C1AC4D /* AppDelegate.m in Sources */,
+				55D0DEDC1FF3F377000B3602 /* ZaloStateMachine.m in Sources */,
+				55DFF1401FF7455F00188C74 /* ZaloMessageViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFD31FF1417000C1AC4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				559CEFDC1FF1417000C1AC4D /* ZaloMessageTableViewControllerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		559CEFDE1FF1417000C1AC4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				559CEFE71FF1417000C1AC4D /* ZaloMessageTableViewControllerUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		559CEFD91FF1417000C1AC4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 559CEFBE1FF1416F00C1AC4D /* ZaloMessageTableViewController */;
+			targetProxy = 559CEFD81FF1417000C1AC4D /* PBXContainerItemProxy */;
+		};
+		559CEFE41FF1417000C1AC4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 559CEFBE1FF1416F00C1AC4D /* ZaloMessageTableViewController */;
+			targetProxy = 559CEFE31FF1417000C1AC4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		559CEFCD1FF1416F00C1AC4D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				559CEFCE1FF1416F00C1AC4D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		559CEFE91FF1417000C1AC4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		559CEFEA1FF1417000C1AC4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		559CEFEC1FF1417000C1AC4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41A139327947BB5BBCB4B294 /* Pods-ZaloMessageTableViewController.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vng.ZaloMessageTableViewController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		559CEFED1FF1417000C1AC4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 92DA576EA95DEEA29E8509C2 /* Pods-ZaloMessageTableViewController.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewController/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vng.ZaloMessageTableViewController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		559CEFEF1FF1417000C1AC4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4DFEA087F5B1D69F16AE466 /* Pods-ZaloMessageTableViewControllerTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mihozil.ZaloMessageTableViewControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZaloMessageTableViewController.app/ZaloMessageTableViewController";
+			};
+			name = Debug;
+		};
+		559CEFF01FF1417000C1AC4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC17F64A522B2310BB65EA8C /* Pods-ZaloMessageTableViewControllerTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mihozil.ZaloMessageTableViewControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZaloMessageTableViewController.app/ZaloMessageTableViewController";
+			};
+			name = Release;
+		};
+		559CEFF21FF1417000C1AC4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C51693ED982C2D86B6B6F88D /* Pods-ZaloMessageTableViewControllerUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewControllerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mihozil.ZaloMessageTableViewControllerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ZaloMessageTableViewController;
+			};
+			name = Debug;
+		};
+		559CEFF31FF1417000C1AC4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7B5ADE1265C18E2AD2C742E /* Pods-ZaloMessageTableViewControllerUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T52DMNDUT3;
+				INFOPLIST_FILE = ZaloMessageTableViewControllerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mihozil.ZaloMessageTableViewControllerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ZaloMessageTableViewController;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		559CEFBA1FF1416F00C1AC4D /* Build configuration list for PBXProject "ZaloMessageTableViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				559CEFE91FF1417000C1AC4D /* Debug */,
+				559CEFEA1FF1417000C1AC4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		559CEFEB1FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				559CEFEC1FF1417000C1AC4D /* Debug */,
+				559CEFED1FF1417000C1AC4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		559CEFEE1FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				559CEFEF1FF1417000C1AC4D /* Debug */,
+				559CEFF01FF1417000C1AC4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		559CEFF11FF1417000C1AC4D /* Build configuration list for PBXNativeTarget "ZaloMessageTableViewControllerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				559CEFF21FF1417000C1AC4D /* Debug */,
+				559CEFF31FF1417000C1AC4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 559CEFB71FF1416F00C1AC4D /* Project object */;
+}

@@ -1,0 +1,119 @@
+{
+    "delayResult" : 2.5,
+    "result" : [
+                {
+                    "identifier" : "0",
+                    "title" : "Tu Anh",
+                    "icon" : "chat0",
+                    "sender" : "Tu Anh",
+                    "detail" : "Hallo Leute",
+                    "lastUpdate" : "22 minutes"
+                },
+                {
+                    "identifier" : "1",
+                    "title" : "MediaBox",
+                    "icon" : "chat1",
+                    "sender" : "Zalo",
+                    "detail" : "New Zalo Feast",
+                    "lastUpdate" : "23 minutes",
+                    "position" : 4
+                },
+                {
+                    "identifier" : "2",
+                    "title" : "Friends",
+                    "icon" : "chat2",
+                    "sender" : "Steve",
+                    "detail" : "Hallo Ive",
+                    "lastUpdate" : "3 minutes"
+                },
+                {
+                    "identifier" : "3",
+                    "title" : "Zalo IOS",
+                    "icon" : "chat3",
+                    "sender" : "Stranger",
+                    "detail" : "How can this be fixed",
+                    "lastUpdate" : "33 minutes"
+                },
+                {
+                    "identifier" : "4",
+                    "title" : "Strangers",
+                    "icon" : "chat4",
+                    "sender" : "Stranger",
+                    "detail" : "Wo bist du",
+                    "lastUpdate" : "12 minutes"
+                },
+                {
+                    "identifier" : "5",
+                    "title" : "Ha Tran",
+                    "icon" : "chat5",
+                    "sender" : "Ha Tran",
+                    "detail" : "Are you free this weekend?",
+                    "lastUpdate" : "1 minutes"
+                },
+                {
+                    "identifier" : "6",
+                    "title" : "Football team",
+                    "icon" : "chat0",
+                    "sender" : "Neymar",
+                    "detail" : "See you in Paris",
+                    "lastUpdate" : "23 years"
+                },
+                {
+                    "identifier" : "7",
+                    "title" : "Zing MP3",
+                    "icon" : "chat1",
+                    "sender" : "Zalo",
+                    "detail" : "Top week songs",
+                    "lastUpdate" : "12 minutes"
+                },
+                {
+                    "identifier" : "8",
+                    "title" : "Bao Moi",
+                    "icon" : "chat2",
+                    "sender" : "Bao Moi",
+                    "detail" : "How are you?",
+                    "lastUpdate" : "22 minutes"
+                },
+                {
+                    "identifier" : "9",
+                    "title" : "Tuoc Du",
+                    "icon" : "chat3",
+                    "sender" : "Me",
+                    "detail" : "Wo gehst du?",
+                    "lastUpdate" : "2 minutes"
+                },
+                {
+                    "identifier" : "10",
+                    "title" : "Europe",
+                    "icon" : "chat0",
+                    "sender" : "Enrique",
+                    "detail" : "See you in Paris",
+                    "lastUpdate" : "12 years"
+                },
+                {
+                    "identifier" : "11",
+                    "title" : "Fox Beauty",
+                    "icon" : "chat1",
+                    "sender" : "Fox",
+                    "detail" : "Top Sales",
+                    "lastUpdate" : "22 seconds"
+                },
+                {
+                    "identifier" : "12",
+                    "title" : "Bao Moi",
+                    "icon" : "chat2",
+                    "sender" : "News",
+                    "detail" : "Shock Viet Nam football team",
+                    "lastUpdate" : "22 minutes"
+                },
+                {
+                    "identifier" : "13",
+                    "title" : "Taylor",
+                    "icon" : "chat3",
+                    "sender" : "Me",
+                    "detail" : "Was machen Sie?",
+                    "lastUpdate" : "2 minutes"
+                }
+
+    ]
+}
