@@ -1,0 +1,118 @@
+{
+"delayResult" : 1.0,
+"result" : [
+            {
+            "identifier" : "0",
+            "title" : "Detail 0",
+            "icon" : "chat0",
+            "sender" : "Tu Anh",
+            "detail" : "Hallo Leute",
+            "lastUpdate" : "22 minutes"
+            },
+            {
+            "identifier" : "1",
+            "title" : "Detail 1",
+            "icon" : "chat1",
+            "sender" : "Zalo",
+            "detail" : "New Zalo Feast",
+            "lastUpdate" : "23 minutes",
+            "position" : 4
+            },
+            {
+            "identifier" : "2",
+            "title" : "Detail 2",
+            "icon" : "chat2",
+            "sender" : "Steve",
+            "detail" : "Hallo Ive",
+            "lastUpdate" : "3 minutes"
+            },
+            {
+            "identifier" : "3",
+            "title" : "Detail 3",
+            "icon" : "chat3",
+            "sender" : "Stranger",
+            "detail" : "How can this be fixed",
+            "lastUpdate" : "33 minutes"
+            },
+            {
+            "identifier" : "4",
+            "title" : "Detail 4",
+            "icon" : "chat4",
+            "sender" : "Stranger",
+            "detail" : "Wo bist du",
+            "lastUpdate" : "12 minutes"
+            },
+            {
+            "identifier" : "5",
+            "title" : "Detail 5",
+            "icon" : "chat5",
+            "sender" : "Ha Tran",
+            "detail" : "Are you free this weekend?",
+            "lastUpdate" : "1 minutes"
+            },
+            {
+            "identifier" : "6",
+            "title" : "Detail 6",
+            "icon" : "chat0",
+            "sender" : "Neymar",
+            "detail" : "See you in Paris",
+            "lastUpdate" : "23 years"
+            },
+            {
+            "identifier" : "7",
+            "title" : "Detail 7",
+            "icon" : "chat1",
+            "sender" : "Zalo",
+            "detail" : "Top week songs",
+            "lastUpdate" : "12 minutes"
+            },
+            {
+            "identifier" : "8",
+            "title" : "Detail 8",
+            "icon" : "chat2",
+            "sender" : "Bao Moi",
+            "detail" : "How are you?",
+            "lastUpdate" : "22 minutes"
+            },
+            {
+            "identifier" : "9",
+            "title" : "Detail 9",
+            "icon" : "chat3",
+            "sender" : "Me",
+            "detail" : "Wo gehst du?",
+            "lastUpdate" : "2 minutes"
+            },
+            {
+            "identifier" : "10",
+            "title" : "Detail 10",
+            "icon" : "chat0",
+            "sender" : "Enrique",
+            "detail" : "See you in Paris",
+            "lastUpdate" : "12 years"
+            },
+            {
+            "identifier" : "11",
+            "title" : "Detail 11",
+            "icon" : "chat1",
+            "sender" : "Fox",
+            "detail" : "Top Sales",
+            "lastUpdate" : "22 seconds"
+            },
+            {
+            "identifier" : "12",
+            "title" : "Detail 12",
+            "icon" : "chat2",
+            "sender" : "News",
+            "detail" : "Shock Viet Nam football team",
+            "lastUpdate" : "22 minutes"
+            },
+            {
+            "identifier" : "13",
+            "title" : "Detail 13",
+            "icon" : "chat3",
+            "sender" : "Me",
+            "detail" : "Was machen Sie?",
+            "lastUpdate" : "2 minutes"
+            }
+        ]
+}
