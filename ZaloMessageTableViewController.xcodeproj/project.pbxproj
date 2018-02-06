@@ -40,7 +40,6 @@
 		559D3E85201AA84A009BFDCE /* ZaloFriendRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E84201AA84A009BFDCE /* ZaloFriendRequestModel.m */; };
 		559D3E8B201AB112009BFDCE /* ZaloMessageDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E87201AB112009BFDCE /* ZaloMessageDataSource.m */; };
 		559D3E8C201AB112009BFDCE /* ZaloMessegeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 559D3E88201AB112009BFDCE /* ZaloMessegeModel.m */; };
-		55B742712029FE2000B3B832 /* ZaloCustomDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B742702029FE2000B3B832 /* ZaloCustomDatasource.m */; };
 		55B791F11FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */; };
 		55C33462201029F30029F076 /* ZaloSuggestionCollectionViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C33461201029F30029F076 /* ZaloSuggestionCollectionViewModel.m */; };
 		55D0DED91FF3F15E000B3602 /* ZaloGesturesToEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D0DED81FF3F15E000B3602 /* ZaloGesturesToEditController.m */; };
@@ -138,8 +137,6 @@
 		559D3E88201AB112009BFDCE /* ZaloMessegeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZaloMessegeModel.m; sourceTree = "<group>"; };
 		559D3E89201AB112009BFDCE /* ZaloMessegeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloMessegeModel.h; sourceTree = "<group>"; };
 		559D3E8A201AB112009BFDCE /* ZaloMessageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZaloMessageDataSource.h; sourceTree = "<group>"; };
-		55B7426F2029FE2000B3B832 /* ZaloCustomDatasource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCustomDatasource.h; sourceTree = "<group>"; };
-		55B742702029FE2000B3B832 /* ZaloCustomDatasource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCustomDatasource.m; sourceTree = "<group>"; };
 		55B791EF1FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		55C33460201029F30029F076 /* ZaloSuggestionCollectionViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionViewModel.h; sourceTree = "<group>"; };
@@ -275,8 +272,6 @@
 				556158DA2003B621006957F1 /* ZaloComposedDataSource.m */,
 				55623A8F200838EE008A4BB6 /* ZaloDataSourceMapping.h */,
 				55623A90200838EE008A4BB6 /* ZaloDataSourceMapping.m */,
-				55B7426F2029FE2000B3B832 /* ZaloCustomDatasource.h */,
-				55B742702029FE2000B3B832 /* ZaloCustomDatasource.m */,
 			);
 			path = DataSources;
 			sourceTree = "<group>";
@@ -728,7 +723,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				559D3E8C201AB112009BFDCE /* ZaloMessegeModel.m in Sources */,
-				55B742712029FE2000B3B832 /* ZaloCustomDatasource.m in Sources */,
 				55321AC1200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m in Sources */,
 				55B791F11FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m in Sources */,
 				55D0DEDF1FF3F485000B3602 /* ZaloGestureWrapper.m in Sources */,
