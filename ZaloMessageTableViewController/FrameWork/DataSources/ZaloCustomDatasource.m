@@ -10,4 +10,8 @@
 
 @implementation ZaloCustomDatasource
 
+  - (void) aMethod {
+  NSLog(@"Mihozil");
+}
+  
 @end
