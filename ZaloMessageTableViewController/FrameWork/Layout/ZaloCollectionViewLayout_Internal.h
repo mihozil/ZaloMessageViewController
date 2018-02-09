@@ -61,6 +61,7 @@ extern NSString *const ZaloCollectionElementKindHeader;
 @property (weak, nonatomic) ZaloLayoutSection*sectionInfo;
 @property (assign, nonatomic) BOOL isSuggestionCell; // temporary. i think this is not true putting here
 @property (weak, nonatomic) ZaloLayoutRow *rowInfo;
+@property (assign, nonatomic) BOOL editable;
 
 @end
 

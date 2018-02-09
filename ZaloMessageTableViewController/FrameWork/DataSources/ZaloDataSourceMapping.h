@@ -15,6 +15,10 @@
 @property (strong, nonatomic)ZaloDataSource *dataSource;
 @property (readonly, nonatomic)NSInteger numberOfSections;
 
+- (instancetype)initWithDataSource:(ZaloDataSource*)dataSource startGlobalSection:(NSInteger)globalSection;
+- (instancetype)initWithDataSource:(ZaloDataSource*)dataSource;
+
+#pragma mark map
 - (NSInteger)globalSectionFromLocalSection:(NSInteger)localSection;
 - (NSInteger)localSectionFromGlobalSection:(NSInteger)globalSection;
 
@@ -23,10 +27,7 @@
 
 - (NSIndexPath*)globalIndexPathFromLocalIndexPath:(NSIndexPath*)localIndexPath;
 - (NSArray<NSIndexPath*>*)globalIndexPathsFromLocalIndexPaths:(NSArray<NSIndexPath*>*)localIndexPaths;
-
-- (instancetype)initWithDataSource:(ZaloDataSource*)dataSource startGlobalSection:(NSInteger)globalSection;
-- (instancetype)initWithDataSource:(ZaloDataSource*)dataSource;
-
+#pragma mark update
 - (void)updateMappingStartGlobalIndex:(NSInteger)globalSection withBlock:(void(^)(NSInteger globalSection))block;
 
 @end

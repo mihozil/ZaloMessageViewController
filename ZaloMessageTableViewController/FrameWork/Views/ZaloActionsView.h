@@ -28,7 +28,7 @@
 - (instancetype)initWithTitle:(NSString*)title selector:(SEL)selector;
 @end
 
-// the actionView shown when swipe collectionViewCell
+
 @interface ZaloActionsView : UIView
 
 @property (strong, nonatomic)NSArray<ZaloActionView*> *editingActions;

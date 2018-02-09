@@ -21,4 +21,5 @@
 @property (copy, nonatomic) NSString *title,*detail,*lastUpdate;
 @property (strong, nonatomic) NSString *icon;
 
+
 @end

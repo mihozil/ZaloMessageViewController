@@ -70,14 +70,6 @@ NSString * const ZaloGestureStateLongTouching = @"LongTouchingState";
     
 }
 
-#pragma mark property
-- (void)setCurrentState:(NSString *)currentState {
-    if (![_currentState isEqualToString:currentState]) {
-        _currentState = currentState;
-        _stateMachine.currentState = currentState;
-    }
-}
-
 #pragma mark gesturesActions
 
 - (void)handlepanGesture:(UIPanGestureRecognizer*)gesture {
@@ -248,6 +240,13 @@ NSString * const ZaloGestureStateLongTouching = @"LongTouchingState";
 }
 
 #pragma mark public
+
+- (void)setCurrentState:(NSString *)currentState {
+    if (![_currentState isEqualToString:currentState]) {
+        _currentState = currentState;
+        _stateMachine.currentState = currentState;
+    }
+}
 
 - (void)setEditing:(BOOL)editing {
     // take it later

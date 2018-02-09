@@ -46,6 +46,8 @@
     _globalSectionsToLocalSection[numGlobal] = numLocal; // this doesn't seem to be true
 }
 
+#pragma mark map indexPaths
+
 - (NSIndexPath*)localIndexPathFromGlobalIndexPath:(NSIndexPath*)globalIndexPath {
     NSInteger localSection = [self.globalSectionsToLocalSection[@(globalIndexPath.section)] integerValue];
     if (localSection == NSNotFound)
@@ -97,6 +99,8 @@
     } else
         return NSNotFound;
 }
+
+#pragma mark update
 
 - (void)updateMappingStartGlobalIndex:(NSInteger)globalSection withBlock:(void(^)(NSInteger))block {
     _numberOfSections = self.dataSource.numberOfSections;

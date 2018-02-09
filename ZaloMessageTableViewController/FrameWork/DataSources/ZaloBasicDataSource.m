@@ -27,6 +27,8 @@
     }
 }
 
+#pragma mark update
+
 - (void)removeItemAtIndexPath:(NSIndexPath *)indexPath {
     [self removeItemsAtIndexPaths:@[indexPath]];
 }
@@ -35,7 +37,7 @@
     
     NSMutableIndexSet *indexSet = [NSMutableIndexSet new];
     for (NSIndexPath *indexPath in indexPaths) {
-        [indexSet addIndex:indexPath.row];
+        [indexSet addIndex:indexPath.item];
     }
 
     NSMutableArray *models = [_models mutableCopy];

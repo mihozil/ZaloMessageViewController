@@ -10,6 +10,7 @@
 #import "ZaloDataAccessManager.h"
 #import "ZaloFriendRequestsCollectionViewCell.h"
 #import "ZaloSectionHeaderView.h"
+#import "ZaloCollectionViewController.h"
 
 @implementation ZaloFriendRequestsDataSource
 
@@ -60,6 +61,21 @@
 - (void)registerReusableViewsWithCollectionView:(UICollectionView *)collectionView {
     [super registerReusableViewsWithCollectionView:collectionView];
     [collectionView registerClass:[ZaloFriendRequestsCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([ZaloFriendRequestsCollectionViewCell class])];
+}
+
+- (BOOL)canDeleteItemAtIndexPath:(NSIndexPath *)indexPath {
+    return true;
+}
+
+- (BOOL)canEditItemAtIndexPath:(NSIndexPath *)indexPath {
+    return true;
+}
+
+- (NSArray<ZaloActionView *> *)actionsForItemAtIndexPath:(NSIndexPath *)indexPath {
+    ZaloActionView *deleteAction = [[ZaloActionView alloc]initWithTitle:@"Delete" selector:@selector(deleteActionFromCell:)];
+    ZaloActionView *muteAction = [[ZaloActionView alloc]initWithTitle:@"Mute" selector:@selector(muteActionFromCell:)];
+    ZaloActionView *hideAction = [[ZaloActionView alloc]initWithTitle:@"Hide" selector:@selector(hideActionFromCell:)];
+    return @[deleteAction,muteAction,hideAction];
 }
 
 @end

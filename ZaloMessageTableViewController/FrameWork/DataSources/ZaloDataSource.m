@@ -12,7 +12,7 @@
 #import "ZaloPlaceholderView.h"
 #import "ZaloSectionHeaderView.h"
 
-NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
+NSString *const ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
 
 @interface ZaloDataSourcePlaceholder()
 
@@ -23,6 +23,8 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
 @interface ZaloDataSource() < ZaloStateMachineDelegate>
 
 @property (strong, nonatomic)ZaloLoadingStateMachine *stateMachine;
+@property (strong, nonatomic) ZaloDataSourcePlaceholder *placeHolder;
+@property (strong, nonatomic) NSMutableArray *headers; 
 
 @end
 
@@ -31,7 +33,7 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.collectionSuggetionIndex = 5;// default
+        self.collectionSuggetionIndex = -1;// default
     }
     return self;
 }
@@ -83,33 +85,56 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     [self notifyEndLoadingWithError:error];
 }
 
-- (void)setLoadingError:(NSError *)loadingError {
+- (NSString *)loadingState {
+    if (!_stateMachine) {
+        return ZaloLoadingStateInitial;
+    } else return _stateMachine.currentState;
+}
+
+- (void)setLoadingState:(NSString *)loadingState {
+    ZaloLoadingStateMachine *stateMachine = self.stateMachine;
+    if (stateMachine.currentState!=loadingState) {
+        stateMachine.currentState = loadingState;
+    }
+}
+
+- (void)didEnterLoadingState {
+    [self presentActivityIndicatorForSections:nil];
+}
+
+- (void)didExitLoadingState {
+    [self dismissPlaceHolderForSections:nil];
+}
+
+- (void)didEnterLoadedState {
     
 }
 
-- (void)notifyEndLoadingWithError:(NSError*)error {
-    dispatch_block_t loadingCompletionBlock = self.loadingCompletionBlock;
-    self.loadingCompletionBlock = nil;
-    if (loadingCompletionBlock)
-        loadingCompletionBlock();
+- (void)didEnterErrorState {
+    if (self.loadErrorPlaceholder)
+        [self presentPlaceHolder:self.loadErrorPlaceholder forSection:nil];
     
-    if ([self.delegate respondsToSelector:@selector(dataSource:notifyDidLoadContentWithError:)])
-        [self.delegate dataSource:self notifyDidLoadContentWithError:error];
 }
 
-- (void)whenLoaded:(dispatch_block_t)block {
-    dispatch_block_t oldCompletionBlock = self.loadingCompletionBlock;
-    self.loadingCompletionBlock = ^{ // when loadingCompletionBlock trigger, block trigger
-      if (oldCompletionBlock)
-          oldCompletionBlock();
-        
-        if (block)
-            block();
-    };
+- (void)didExitErrorState {
+    if (self.loadErrorPlaceholder)
+        [self dismissPlaceHolderForSections:nil];
 }
+
+- (void)didEnterNoContentState {
+    if (self.noContentPlaceholder)
+        [self presentPlaceHolder:self.noContentPlaceholder forSection:nil];
+}
+
+- (void)didExitNoContentState {
+    if (self.noContentPlaceholder)
+        [self dismissPlaceHolderForSections:nil];
+}
+
+#pragma mark update
 
 - (void)performUpdate:(dispatch_block_t)blockUpdate completion:(dispatch_block_t)completion{
-   
+    
     if ([self.loadingState isEqualToString:ZaloLoadingStateLoading] || [self.loadingState isEqualToString:ZaloLoadingStateRefreshing]) {
         __weak ZaloDataSource *weakSelf = self;
         [self enqueueBlock:^{
@@ -146,33 +171,66 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     }
 }
 
-- (NSString *)loadingState {
-    if (!_stateMachine) {
-        return ZaloLoadingStateInitial;
-    } else return _stateMachine.currentState;
+- (void)notifyEndLoadingWithError:(NSError*)error {
+    dispatch_block_t loadingCompletionBlock = self.loadingCompletionBlock;
+    self.loadingCompletionBlock = nil;
+    if (loadingCompletionBlock)
+        loadingCompletionBlock();
+    
+    if ([self.delegate respondsToSelector:@selector(dataSource:notifyDidLoadContentWithError:)])
+        [self.delegate dataSource:self notifyDidLoadContentWithError:error];
 }
 
-- (void)setLoadingState:(NSString *)loadingState {
-    ZaloLoadingStateMachine *stateMachine = self.stateMachine;
-    if (stateMachine.currentState!=loadingState) {
-        stateMachine.currentState = loadingState;
+- (void)whenLoaded:(dispatch_block_t)block {
+    dispatch_block_t oldCompletionBlock = self.loadingCompletionBlock;
+    self.loadingCompletionBlock = ^{ // when loadingCompletionBlock trigger, block trigger
+        if (oldCompletionBlock)
+            oldCompletionBlock();
+        
+        if (block)
+            block();
+    };
+}
+
+#pragma mark dataSourceAPI
+- (void)registerReusableViewsWithCollectionView:(UICollectionView *)collectionView {
+    // placeholder
+    [collectionView registerClass:[ZaloPlaceholderView class] forSupplementaryViewOfKind:ZaloCollectionElementKindPlaceHolder withReuseIdentifier:NSStringFromClass([ZaloPlaceholderView class])];
+    
+    for (ZaloLayoutSupplementaryItem *item in self.headers) {
+        
+        [collectionView registerClass:item.supplementaryViewClass forSupplementaryViewOfKind:item.elementKind withReuseIdentifier:NSStringFromClass(item.supplementaryViewClass)];
     }
 }
 
-- (ZaloLoadingStateMachine *)stateMachine {
-    if (_stateMachine)
-        return _stateMachine;
-    _stateMachine = [[ZaloLoadingStateMachine alloc]init];
-    _stateMachine.delegate = self;
-    return _stateMachine;
+- (NSArray<ZaloActionsView*> *)actionsForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return nil;
 }
 
-//- (void)didEnterRefreshingState {
-//    [self presentActivityIndicatorForSections:nil];
-//}
+- (BOOL)canEditItemAtIndexPath:(NSIndexPath *)indexPath {
+    return true;
+}
 
-- (void)didEnterLoadingState {
-    [self presentActivityIndicatorForSections:nil];
+- (BOOL)canDeleteItemAtIndexPath:(NSIndexPath *)indexPath {
+    return true;
+}
+
+- (ZaloDataSource *)dataSourceForSectionAtIndex:(NSInteger)sectionIndex {
+    return self;
+}
+
+#pragma mark zaloSectionInfo
+- (NSInteger)numberOfSections {
+    return 1;
+}
+
+- (NSInteger)numberOfHeadersForSectionAtIndex:(NSInteger)index includeChildDataSource:(BOOL)includeChildDataSource {
+    NSInteger numberOfHeaders = _headers.count;
+    if (includeChildDataSource) {
+        
+    }
+    return numberOfHeaders;
 }
 
 - (void)presentActivityIndicatorForSections:(NSIndexSet*)sections {
@@ -181,7 +239,7 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     
     ZaloDataSourcePlaceholder *placeHolder = [ZaloDataSourcePlaceholder placeholderWithActivityIndicator];
     dispatch_block_t block = ^{
-
+        
         self.placeHolder = placeHolder;
         
         if ([self.delegate respondsToSelector:@selector(dataSource:didShowActivityIndicatorAtSections:)]) {
@@ -192,33 +250,20 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     [self performInternalUpdate:block completion:nil];
 }
 
-- (void)didExitLoadingState {
-    [self dismissPlaceHolderForSections:nil];
-}
 
-- (void)didEnterLoadedState {
+- (void)presentPlaceHolder:(ZaloDataSourcePlaceholder*)placeHolder forSection:(NSIndexSet*)sections{
     
-}
-
-- (void)didEnterErrorState {
-    if (self.loadErrorPlaceholder)
-        [self presentPlaceHolder:self.loadErrorPlaceholder forSection:nil];
+    if (!sections)
+        sections = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.numberOfSections)];
     
-}
-
-- (void)didExitErrorState {
-    if (self.loadErrorPlaceholder)
-        [self dismissPlaceHolderForSections:nil];
-}
-
-- (void)didEnterNoContentState {
-    if (self.noContentPlaceholder)
-        [self presentPlaceHolder:self.noContentPlaceholder forSection:nil];
-}
-
-- (void)didExitNoContentState {
-    if (self.noContentPlaceholder)
-        [self dismissPlaceHolderForSections:nil];
+    dispatch_block_t block = ^{
+        self.placeHolder = placeHolder;
+        
+        if ([self.delegate respondsToSelector:@selector(dataSource:didRefreshSections:)])
+            [self.delegate dataSource:self didRefreshSections:sections];
+    };
+    
+    [self performUpdate:block completion:nil];
 }
 
 - (void)dismissPlaceHolderForSections:(NSIndexSet*)sections {
@@ -237,79 +282,6 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     [self performUpdate:blockUpdate completion:nil];
 }
 
-// for loadedState, no need of the didEnter, because the subClassDataSource will handle
-
-- (void)presentPlaceHolder:(ZaloDataSourcePlaceholder*)placeHolder forSection:(NSIndexSet*)sections{
-    
-    if (!sections)
-        sections = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.numberOfSections)];
-    
-    dispatch_block_t block = ^{
-        self.placeHolder = placeHolder;
-        
-        if ([self.delegate respondsToSelector:@selector(dataSource:didRefreshSections:)])
-            [self.delegate dataSource:self didRefreshSections:sections];
-    };
-    
-    [self performUpdate:block completion:nil];
-}
-
-// other state and exit later
-
-#pragma mark other
-
-- (void)registerReusableViewsWithCollectionView:(UICollectionView *)collectionView {
-    // placeholder
-    [collectionView registerClass:[ZaloPlaceholderView class] forSupplementaryViewOfKind:ZaloCollectionElementKindPlaceHolder withReuseIdentifier:NSStringFromClass([ZaloPlaceholderView class])];
-    
-    for (ZaloLayoutSupplementaryItem *item in self.headers) {
-        
-        [collectionView registerClass:item.supplementaryViewClass forSupplementaryViewOfKind:item.elementKind withReuseIdentifier:NSStringFromClass(item.supplementaryViewClass)];
-    }
-}
-
-// this should be done at subClass
-- (NSArray<ZaloActionsView*> *)actionsForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return nil;
-}
-
-- (BOOL)canEditItemAtIndexPath:(NSIndexPath *)indexPath {
-    return true;
-}
-
-- (BOOL)canDeleteItemAtIndexPath:(NSIndexPath *)indexPath {
-    return true;
-}
-
-- (NSInteger)numberOfSections {
-    return 1;
-}
-
-// subClass
-//- (NSArray *)snapShotLayoutSectionsFromDataSource {
-//
-//    NSMutableArray *sections = [NSMutableArray array];
-//
-//    NSInteger numberOfSection = self.numberOfSectionsInCollectionView;
-//    for (NSInteger sectionIndex = 0; sectionIndex < numberOfSection; sectionIndex++) {
-//        ZaloLayoutSection *section = [self snapShotLayoutSectionAtIndex:sectionIndex];
-//        [sections addObject:section];
-//    }
-//
-//    return sections;
-//}
-
-
-// subClass
-- (void)snapShotDataSourceToSection:(ZaloLayoutSection *)sectionInfo {
-    // for singleDataSources 's placeholder
-    if (self.placeHolder) {
-        ZaloLayoutPlaceHolder *placeHolder = [sectionInfo.layoutInfo newPlaceholderInfoBeginAtSection:sectionInfo.sectionIndex];
-        [sectionInfo setPlaceholderInfo:placeHolder];
-    }
-}
-
 - (ZaloLayoutSection *)snapShotSectionInfoAtIndex:(NSInteger)sectionIndex {
     ZaloLayoutSection *sectionInfo = [[ZaloLayoutSection alloc]init];
     // header
@@ -326,6 +298,7 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     
     // items
     sectionInfo.collectionSuggestionIndex = self.collectionSuggetionIndex;
+//    for () 
     
     return sectionInfo;
 }
@@ -340,6 +313,20 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     return header;
 }
 
+- (void) findSupplementaryItemAtIndexPath:(NSIndexPath*)indexPath withBlock:(void(^)(ZaloLayoutSupplementaryItem *, ZaloDataSource *, NSIndexPath *localIndexPath)) block {
+    
+    NSInteger numberOfHeaders = self.headers.count;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.item<numberOfHeaders) { // the header taken is from right this dataSource
+            if (block)
+                block(self.headers[indexPath.item],self,indexPath);
+        }
+    }
+    
+    
+};
+
 #pragma mark collectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -352,10 +339,6 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     return nil;
-}
-
-- (ZaloDataSource *)dataSourceForSectionAtIndex:(NSInteger)sectionIndex {
-    return self;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -392,21 +375,17 @@ NSString const* ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     return nil;
 }
 
-- (void) findSupplementaryItemAtIndexPath:(NSIndexPath*)indexPath withBlock:(void(^)(ZaloLayoutSupplementaryItem *, ZaloDataSource *, NSIndexPath *localIndexPath)) block {
-    
-    NSInteger numberOfHeaders = self.headers.count;
-    
-    if (indexPath.section == 0) {
-        if (indexPath.item<numberOfHeaders) { // the header taken is from right this dataSource
-            if (block)
-                block(self.headers[indexPath.item],self,indexPath);
-        }
-    }
-    
-    
-};
 
-#pragma mark zaloStateMachineDelegate
+#pragma mark stateMachine
+
+- (ZaloLoadingStateMachine *)stateMachine {
+    if (_stateMachine)
+        return _stateMachine;
+    _stateMachine = [[ZaloLoadingStateMachine alloc]init];
+    _stateMachine.delegate = self;
+    return _stateMachine;
+}
+
 - (NSString *)missingTransitionFromState:(NSString *)fromState toState:(NSString *)toState {
     // reset content
     // but at the moment i haven't implement the reseting content

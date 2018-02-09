@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2D83D006EB23747F509740A7 /* libPods-ZaloMessageTableViewController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9BE4B9FC98741FAF8565F1B /* libPods-ZaloMessageTableViewController.a */; };
-		550A3A132000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */; };
 		55321ABB200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321ABA200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m */; };
 		55321ABE200FA3F0009B63FF /* ZaloSuggestionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321ABD200FA3F0009B63FF /* ZaloSuggestionDataSource.m */; };
 		55321AC1200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55321AC0200FA7E7009B63FF /* ZaloSuggestionCollectionViewCellCell.m */; };
@@ -52,7 +51,6 @@
 		55E482D71FF1CC3A00E71C4B /* ZaloCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E482D61FF1CC3A00E71C4B /* ZaloCollectionViewCell.m */; };
 		55E482DA1FF1D3C600E71C4B /* ZaloActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */; };
 		AB624DCB911AE736CE706343 /* libPods-ZaloMessageTableViewControllerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB7C008847F0140BAC34D2B /* libPods-ZaloMessageTableViewControllerUITests.a */; };
-		BA027E592022FC6300FD0430 /* ZaloLayoutMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */; };
 		BA0C9D792024785D0088BA52 /* ZaloSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0C9D782024785D0088BA52 /* ZaloSectionHeaderView.m */; };
 		F3264DDE2415A7460320ABB1 /* libPods-ZaloMessageTableViewControllerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD2712CB4305E056DBB8FE08 /* libPods-ZaloMessageTableViewControllerTests.a */; };
 /* End PBXBuildFile section */
@@ -76,8 +74,6 @@
 
 /* Begin PBXFileReference section */
 		41A139327947BB5BBCB4B294 /* Pods-ZaloMessageTableViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewController.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController.debug.xcconfig"; sourceTree = "<group>"; };
-		550A3A112000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionSupplementaryView.h; sourceTree = "<group>"; };
-		550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionSupplementaryView.m; sourceTree = "<group>"; };
 		55321AB9200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionCollectionViewCell.h; sourceTree = "<group>"; };
 		55321ABA200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSuggestionCollectionViewCell.m; sourceTree = "<group>"; };
 		55321ABC200FA3F0009B63FF /* ZaloSuggestionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSuggestionDataSource.h; sourceTree = "<group>"; };
@@ -161,8 +157,6 @@
 		55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloActionsView.m; sourceTree = "<group>"; };
 		92DA576EA95DEEA29E8509C2 /* Pods-ZaloMessageTableViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewController.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewController/Pods-ZaloMessageTableViewController.release.xcconfig"; sourceTree = "<group>"; };
 		B7B5ADE1265C18E2AD2C742E /* Pods-ZaloMessageTableViewControllerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerUITests/Pods-ZaloMessageTableViewControllerUITests.release.xcconfig"; sourceTree = "<group>"; };
-		BA027E572022FC6300FD0430 /* ZaloLayoutMetrics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloLayoutMetrics.h; sourceTree = "<group>"; };
-		BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloLayoutMetrics.m; sourceTree = "<group>"; };
 		BA0C9D772024785D0088BA52 /* ZaloSectionHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZaloSectionHeaderView.h; sourceTree = "<group>"; };
 		BA0C9D782024785D0088BA52 /* ZaloSectionHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaloSectionHeaderView.m; sourceTree = "<group>"; };
 		C4DFEA087F5B1D69F16AE466 /* Pods-ZaloMessageTableViewControllerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZaloMessageTableViewControllerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZaloMessageTableViewControllerTests/Pods-ZaloMessageTableViewControllerTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,8 +219,6 @@
 				55B791F01FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m */,
 				558A72D72012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.h */,
 				558A72D62012EEFE009F89EA /* ZaloCollectionViewLayout_Internal.m */,
-				BA027E572022FC6300FD0430 /* ZaloLayoutMetrics.h */,
-				BA027E582022FC6300FD0430 /* ZaloLayoutMetrics.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -249,8 +241,6 @@
 			children = (
 				55E482D51FF1CC3A00E71C4B /* ZaloCollectionViewCell.h */,
 				55E482D61FF1CC3A00E71C4B /* ZaloCollectionViewCell.m */,
-				550A3A112000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.h */,
-				550A3A122000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m */,
 				55E482D81FF1D3C600E71C4B /* ZaloActionsView.h */,
 				55E482D91FF1D3C600E71C4B /* ZaloActionsView.m */,
 				5535ACB02009C383002C36A8 /* ZaloPlaceholderView.h */,
@@ -727,7 +717,6 @@
 				55B791F11FF8E45600C7250A /* ZaloCollectionViewLayoutAttributes.m in Sources */,
 				55D0DEDF1FF3F485000B3602 /* ZaloGestureWrapper.m in Sources */,
 				55DFF1431FF7465B00188C74 /* ZaloBasicDataSource.m in Sources */,
-				BA027E592022FC6300FD0430 /* ZaloLayoutMetrics.m in Sources */,
 				55E482D71FF1CC3A00E71C4B /* ZaloCollectionViewCell.m in Sources */,
 				555CDD27201806FF00CD6DF0 /* ZaloPagedViewController.m in Sources */,
 				559D3E7D201AA644009BFDCE /* ZaloFriendRequestsDataSource.m in Sources */,
@@ -745,7 +734,6 @@
 				55D0DED91FF3F15E000B3602 /* ZaloGesturesToEditController.m in Sources */,
 				559CEFFA1FF145D100C1AC4D /* ZaloDataSource.m in Sources */,
 				556158DE2003BDB9006957F1 /* ZaloDataAccessManager.m in Sources */,
-				550A3A132000DC090019E84E /* ZaloSuggestionCollectionSupplementaryView.m in Sources */,
 				555CDD3520180FEF00CD6DF0 /* ZaloPagedModel.m in Sources */,
 				55321ABB200FA16B009B63FF /* ZaloSuggestionCollectionViewCell.m in Sources */,
 				55623A91200838EE008A4BB6 /* ZaloDataSourceMapping.m in Sources */,

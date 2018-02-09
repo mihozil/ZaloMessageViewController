@@ -98,16 +98,20 @@
     for (ZaloDataSource *dataSource in dataSources) {
         
         if (dataSource.loadingState != ZaloLoadingStateLoading && dataSource.loadingState != ZaloLoadingStateRefreshing) {
-            return;
+            continue;
         };
         
         dispatch_group_enter(groupLoading);
+        
         [dataSource whenLoaded:^{
+            
             dispatch_group_leave(groupLoading);
         }];
     }
     
+    
     dispatch_group_notify(groupLoading, dispatch_get_main_queue(), ^{
+        NSLog(@"notify");
         NSMutableSet *loadingStateSet = [NSMutableSet new];
         for (ZaloDataSource *dataSource in dataSources) {
             [loadingStateSet addObject:dataSource.loadingState];
@@ -126,7 +130,31 @@
     
 }
 
-#pragma mark ZaloDataSourceDelegate
+
+#pragma mark dataSourceDelegate
+- (void)dataSource:(ZaloDataSource *)dataSource didMoveItemFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    ZaloDataSourceMapping *mapping = [self.dataSourceToMapping objectForKey:dataSource];
+    NSIndexPath *globalFromIndexPath = [mapping globalIndexPathFromLocalIndexPath:fromIndexPath];
+    NSIndexPath *globalToIndexPath = [mapping globalIndexPathFromLocalIndexPath:toIndexPath];
+    
+    if ([self.delegate respondsToSelector:@selector(dataSource:didMoveItemFromIndexPath:toIndexPath:)]
+        && globalToIndexPath && globalFromIndexPath) {
+        [self.delegate dataSource:self didMoveItemFromIndexPath:globalFromIndexPath toIndexPath:globalToIndexPath];
+    }
+}
+
+- (void)dataSource:(ZaloDataSource *)dataSource didRemoveItemsAtIndexPaths:(NSArray *)indexPaths {
+    
+    ZaloDataSourceMapping *mapping = [self.dataSourceToMapping objectForKey:dataSource];
+    NSArray *globalIndexPaths = [mapping globalIndexPathsFromLocalIndexPaths:indexPaths];
+    
+    if ([self.delegate respondsToSelector:@selector(dataSource:didRemoveItemsAtIndexPaths:)]
+        && globalIndexPaths.count>0) {
+        
+        [self.delegate dataSource:self didRemoveItemsAtIndexPaths:globalIndexPaths];
+    }
+}
+
 - (void)dataSource:(ZaloDataSource *)dataSource perFormBatchUpdate:(dispatch_block_t)update completion:(dispatch_block_t)completion{
     
     [self performUpdate:update completion:completion];
@@ -186,35 +214,6 @@
     [self updateMappings];
 }
 
-- (ZaloDataSource *)dataSourceForSectionAtIndex:(NSInteger)sectionIndex {
-    ZaloDataSourceMapping *mapping = self.globalSectionsToMappings[@(sectionIndex)];
-    
-    return mapping.dataSource;
-}
-
-- (void)dataSource:(ZaloDataSource *)dataSource didRemoveItemsAtIndexPaths:(NSArray *)indexPaths {
-    
-    ZaloDataSourceMapping *mapping = [self.dataSourceToMapping objectForKey:dataSource];
-    NSArray *globalIndexPaths = [mapping globalIndexPathsFromLocalIndexPaths:indexPaths];
-    
-    if ([self.delegate respondsToSelector:@selector(dataSource:didRemoveItemsAtIndexPaths:)]
-        && globalIndexPaths.count>0) {
-        
-        [self.delegate dataSource:self didRemoveItemsAtIndexPaths:globalIndexPaths];
-    }
-}
-
-- (void)dataSource:(ZaloDataSource *)dataSource didMoveItemFromIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-    ZaloDataSourceMapping *mapping = [self.dataSourceToMapping objectForKey:dataSource];
-    NSIndexPath *globalFromIndexPath = [mapping globalIndexPathFromLocalIndexPath:fromIndexPath];
-    NSIndexPath *globalToIndexPath = [mapping globalIndexPathFromLocalIndexPath:toIndexPath];
-    
-    if ([self.delegate respondsToSelector:@selector(dataSource:didMoveItemFromIndexPath:toIndexPath:)]
-        && globalToIndexPath && globalFromIndexPath) {
-        [self.delegate dataSource:self didMoveItemFromIndexPath:globalFromIndexPath toIndexPath:globalToIndexPath];
-    }
-}
-
 #pragma mark collectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -236,6 +235,7 @@
     return [childDataSource collectionView:collectionView cellForItemAtIndexPath:localIndexPath];
 }
 
+#pragma mark helper
 - (void)updateMappings {
     _numberOfSections = 0;
     
@@ -247,53 +247,13 @@
     }
 }
 
-- (void)findSupplementaryItemAtIndexPath:(NSIndexPath *)indexPath withBlock:(void (^)(ZaloLayoutSupplementaryItem *, ZaloDataSource *, NSIndexPath *))block {
-    NSInteger numberOfHeaders = self.headers.count;
-    NSInteger itemIndex = indexPath.item;
-    
-    if (indexPath.section == 0) {
-        if (indexPath.item<numberOfHeaders) {
-            [super findSupplementaryItemAtIndexPath:indexPath withBlock:block];
-            return;
-        } else {
-            itemIndex-=numberOfHeaders;
-        }
-    }
-    
-    NSIndexPath *globalIndexPath = [NSIndexPath indexPathForItem:itemIndex inSection:indexPath.section];
-    ZaloDataSourceMapping *mapping = self.globalSectionsToMappings[@(globalIndexPath.section)];
-    ZaloDataSource *dataSource = mapping.dataSource;
-    NSIndexPath *localIndexPath = [mapping localIndexPathFromGlobalIndexPath:globalIndexPath];
-    [dataSource findSupplementaryItemAtIndexPath:localIndexPath withBlock:block];
-    
-}
-
-
-#pragma mark subClass
-- (NSInteger)numberOfSections {
-    [self updateMappings];
-    return _numberOfSections;
-}
-
+#pragma mark dataSourceAPI
 - (void)registerReusableViewsWithCollectionView:(UICollectionView *)collectionView {
     
     [super registerReusableViewsWithCollectionView:collectionView];
     [self.dataSources enumerateObjectsUsingBlock:^(ZaloDataSource*dataSource, NSUInteger idx, BOOL*stop){
         [dataSource registerReusableViewsWithCollectionView:collectionView];
     }];
-    
-}
-
-- (ZaloLayoutSection *)snapShotSectionInfoAtIndex:(NSInteger)sectionIndex {
-    ZaloDataSourceMapping *mapping = _globalSectionsToMappings[@(sectionIndex)];
-    ZaloDataSource *childDataSource = mapping.dataSource;
-    NSInteger localSection = [mapping localSectionFromGlobalSection:sectionIndex];
-    ZaloLayoutSection *childSectionInfo = [childDataSource snapShotSectionInfoAtIndex:localSection];
-    
-    ZaloLayoutSection *enclosingSectionInfo = [super snapShotSectionInfoAtIndex:sectionIndex];
-    [enclosingSectionInfo applyInformationFromSection:childSectionInfo];
-    
-    return enclosingSectionInfo;
     
 }
 
@@ -324,10 +284,52 @@
     return [childDataSource actionsForItemAtIndexPath:localIndexPath];
 }
 
+- (ZaloDataSource *)dataSourceForSectionAtIndex:(NSInteger)sectionIndex {
+    ZaloDataSourceMapping *mapping = self.globalSectionsToMappings[@(sectionIndex)];
+    
+    return mapping.dataSource;
+}
 
+#pragma mark sectionInfo
+- (NSInteger)numberOfSections {
+    [self updateMappings];
+    return _numberOfSections;
+}
 
+- (ZaloLayoutSection *)snapShotSectionInfoAtIndex:(NSInteger)sectionIndex {
+    ZaloDataSourceMapping *mapping = _globalSectionsToMappings[@(sectionIndex)];
+    ZaloDataSource *childDataSource = mapping.dataSource;
+    NSInteger localSection = [mapping localSectionFromGlobalSection:sectionIndex];
+    ZaloLayoutSection *childSectionInfo = [childDataSource snapShotSectionInfoAtIndex:localSection];
+    
+    ZaloLayoutSection *enclosingSectionInfo = [super snapShotSectionInfoAtIndex:sectionIndex];
+    [enclosingSectionInfo applyInformationFromSection:childSectionInfo];
+    
+    return enclosingSectionInfo;
+    
+}
 
-#pragma mark edit
+- (void)findSupplementaryItemAtIndexPath:(NSIndexPath *)indexPath withBlock:(void (^)(ZaloLayoutSupplementaryItem *, ZaloDataSource *, NSIndexPath *))block {
+    NSInteger numberOfHeaders = [self numberOfHeadersForSectionAtIndex:indexPath.section includeChildDataSource:NO];
+    NSInteger itemIndex = indexPath.item;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.item<numberOfHeaders) {
+            [super findSupplementaryItemAtIndexPath:indexPath withBlock:block];
+            return;
+        } else {
+            itemIndex-=numberOfHeaders;
+        }
+    }
+    
+    NSIndexPath *globalIndexPath = [NSIndexPath indexPathForItem:itemIndex inSection:indexPath.section];
+    ZaloDataSourceMapping *mapping = self.globalSectionsToMappings[@(globalIndexPath.section)];
+    ZaloDataSource *dataSource = mapping.dataSource;
+    NSIndexPath *localIndexPath = [mapping localIndexPathFromGlobalIndexPath:globalIndexPath];
+    [dataSource findSupplementaryItemAtIndexPath:localIndexPath withBlock:block];
+    
+}
+#pragma mark update
 // viewForSupplementary later
 - (void)removeItemAtIndexPath:(NSIndexPath *)indexPath {
     ZaloDataSourceMapping *mapping = [self.globalSectionsToMappings objectForKey:@(indexPath.section)];
@@ -338,9 +340,32 @@
 }
 
 - (void)removeItemsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
-    
+    NSMutableDictionary *sectionToRemovedIndexPaths = [NSMutableDictionary new];
     for (NSIndexPath *indexPath in indexPaths) {
-        [self removeItemAtIndexPath:indexPath]; 
+        NSInteger section = indexPath.section;
+        NSMutableArray *toRemoveIndexPaths = sectionToRemovedIndexPaths[@(section)];
+        if (!toRemoveIndexPaths)
+            toRemoveIndexPaths = [NSMutableArray new];
+        if (![toRemoveIndexPaths containsObject:indexPath]) {
+            [toRemoveIndexPaths addObject:indexPath];
+        }
+        [sectionToRemovedIndexPaths setObject:toRemoveIndexPaths forKey:@(section)];
+    }
+    
+    for (NSNumber *section in sectionToRemovedIndexPaths.allKeys) {
+        ZaloDataSourceMapping *mapping = [self.globalSectionsToMappings objectForKey:section];
+        ZaloDataSource *childDataSource = mapping.dataSource;
+        NSMutableArray *toRemoveIndexPaths = sectionToRemovedIndexPaths[section];
+        if (!toRemoveIndexPaths) {
+            continue;
+        }
+        
+        NSMutableArray *localIndexPaths = [NSMutableArray new];
+        for (NSIndexPath *indexPath in toRemoveIndexPaths) {
+            NSIndexPath *localIndexPath = [mapping localIndexPathFromGlobalIndexPath:indexPath];
+            [localIndexPaths addObject:localIndexPath];
+        }
+        [childDataSource removeItemsAtIndexPaths:localIndexPaths];
     }
 }
 

@@ -9,7 +9,6 @@
 #import "ZaloMessageViewController.h"
 #import "ZaloCollectionViewCell.h"
 #import "ZaloMessageDataSource.h"
-#import "ZaloSuggestionCollectionSupplementaryView.h"
 #import "ZaloCollectionViewLayout.h"
 #import "ZaloPagedViewController.h"
 #import "ZaloCollectionViewLayout.h"
@@ -56,16 +55,18 @@
 
 - (ZaloMessageDataSource*)newMessageDataSource {
     ZaloMessageDataSource* messageDataSource = [[ZaloMessageDataSource alloc]init];
+    messageDataSource.collectionSuggetionIndex = 5;
     messageDataSource.noContentPlaceholder = [ZaloDataSourcePlaceholder placeholderWithTitle:@"No Content" message:@"There are no content loaded" image:nil];
     messageDataSource.loadErrorPlaceholder = [ZaloDataSourcePlaceholder placeholderWithTitle:@"Error" message:@"There seems to be an error loading content. Please try again." image:nil];
     return messageDataSource;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // temporary. will change because not just 1 section
-    ZaloCollectionViewLayout *collectionViewLayout = [[ZaloCollectionViewLayout alloc]init];
-    ZaloPagedViewController *pageViewController = [[ZaloPagedViewController alloc]initWithCollectionViewLayout:collectionViewLayout];
-    [self.navigationController pushViewController:pageViewController animated:true];
+    if (indexPath.section == 0) {
+        ZaloCollectionViewLayout *collectionViewLayout = [[ZaloCollectionViewLayout alloc]init];
+        ZaloPagedViewController *pageViewController = [[ZaloPagedViewController alloc]initWithCollectionViewLayout:collectionViewLayout];
+        [self.navigationController pushViewController:pageViewController animated:true];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +74,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark subClass
+//#pragma mark subClass
 
 
 //- (void)dataSource:(ZaloDataSource *)dataSource perFormBatchUpdate:(dispatch_block_t)update {
@@ -92,7 +93,8 @@
 */
 
 
-#pragma mark <UICollectionViewDelegate>
+//#pragma mark <UICollectionViewDelegate>
+
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking

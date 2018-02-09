@@ -34,6 +34,8 @@
     return self;
 }
 
+#pragma mark UIcollectionViewCellAPI
+
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
     
     if ([layoutAttributes isKindOfClass:[ZaloCollectionViewLayoutAttributes class]]) {
@@ -56,6 +58,8 @@
     }
 }
 
+#pragma mark helpers
+
 - (void)showEditingControl { // animation
     UIView *contentView = [super contentView];
     
@@ -68,17 +72,11 @@
     [_removedButton addTarget:self action:@selector(handleRemovedButton) forControlEvents:UIControlEventTouchDown];
     [_privateContentView remakeConstraints:^(MASConstraintMaker*make){
         make.top.and.bottom.and.right.equalTo(@0);
-        make.left.equalTo(_removedButton.right).with.offset(0);
+        make.left.equalTo(_removedButton.right).with.offset(0).with.priority(999);
     }];
     [UIView animateWithDuration:0.1 animations:^{
         [contentView layoutIfNeeded];
     }];
-}
-
-- (void)handleRemovedButton {
-    if (self.removedAction) {
-        self.removedAction();
-    }
 }
 
 - (void)hideEditingControl {
@@ -90,6 +88,7 @@
         make.right.equalTo(contentView.left).with.offset(0);
         make.height.equalTo(_removedButton.width);
     }];
+    
     [_privateContentView remakeConstraints:^(MASConstraintMaker*make){
         make.top.and.bottom.right.and.left.equalTo(@0);
     }];
@@ -136,23 +135,10 @@
 
 #pragma mark actions
 
-- (void)setToDeleteSelected:(BOOL)toDeleteSelected {
-    if (_toDeleteSelected != toDeleteSelected) {
-        _toDeleteSelected = toDeleteSelected;
-        
-        UIImage *removeImage;
-        removeImage = toDeleteSelected? [UIImage imageNamed:@"cellRemoveSelected"] : [UIImage imageNamed:@"cellRemoveUnSelected"];
-        [self.removedButton setImage:removeImage forState:UIControlStateNormal];
+- (void)handleRemovedButton {
+    if (self.removedAction) {
+        self.removedAction();
     }
-}
-
-- (void)setEditingActions:(NSArray *)editingActions {
-    _editingActions = editingActions;
-    _actionsView.editingActions = editingActions;
-}
-
-- (void)setRemovedAction:(dispatch_block_t)removedAction {
-    _removedAction = removedAction;
 }
 
 - (void)handleAction:(SEL)selector {
@@ -173,7 +159,8 @@
     [self handleAction:@selector(didSelectRemoveButtonFromCell:)];
 }
 
-#pragma mark swipe move
+
+#pragma mark swipe
 - (void)panDidBegin:(CGPoint)position {
 //    NSLog(@"panDidBegin topSubView: %@",self.contentView.subviews.firstObject);
     _previousPanPoint = position;
@@ -219,14 +206,34 @@
     }];
 }
 
-#pragma mark subClass
+#pragma mark publics
 // subclass
 - (void)setModel:(id)model {
     
 }
 
+- (void)setToDeleteSelected:(BOOL)toDeleteSelected {
+    if (_toDeleteSelected != toDeleteSelected) {
+        _toDeleteSelected = toDeleteSelected;
+        
+        UIImage *removeImage;
+        removeImage = toDeleteSelected? [UIImage imageNamed:@"cellRemoveSelected"] : [UIImage imageNamed:@"cellRemoveUnSelected"];
+        [self.removedButton setImage:removeImage forState:UIControlStateNormal];
+    }
+}
+
 - (void)shutActionPane {
     [self panDidEnd:CGPointZero velocity:CGPointMake(1.0, 0.0)];
 }
+
+- (void)setEditingActions:(NSArray *)editingActions {
+    _editingActions = editingActions;
+    _actionsView.editingActions = editingActions;
+}
+
+- (void)setRemovedAction:(dispatch_block_t)removedAction {
+    _removedAction = removedAction;
+}
+
 
 @end

@@ -32,6 +32,7 @@ static NSString * const reuseIdentifier = @"Cell";
     } else {
         // Fallback on earlier versions
     }
+    
     self.gesturesController = [[ZaloGesturesToEditController alloc]initWithCollectionView:self.collectionView];
     self.gesturesController.delegate = self;
     self.performingUpdates = false;
@@ -57,7 +58,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 
-#pragma mark gestureDelegate
+#pragma mark gesture
 
 - (void)setEditing:(BOOL)editing {
     
@@ -158,11 +159,24 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
+
 // subClass
 
 // when pressDelete:
 //1. data: deleteData
 //2. UI: delete selectedIndexPath
+
+#pragma mark collectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (![cell isKindOfClass:[ZaloCollectionViewCell class]])
+        return;
+    
+    ZaloCollectionViewCell *zaloCell = (ZaloCollectionViewCell*)cell;
+    if ([_toDeleteIndexPaths containsObject:indexPath]) {
+        zaloCell.toDeleteSelected = true;
+    } else
+        zaloCell.toDeleteSelected = false;
+}
 
 #pragma mark ZaloDataSourceDeleagate
 - (void)dataSource:(ZaloDataSource *)dataSource didShowActivityIndicatorAtSections:(NSIndexSet *)sections {
@@ -179,9 +193,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)dataSource:(ZaloDataSource *)dataSource perFormBatchUpdate:(dispatch_block_t)update completion:(dispatch_block_t)completion{
     if (self.performingUpdates) {
-        //1: chain the completionHandle ??
         
-        //2:
         if (update)
             update();
         

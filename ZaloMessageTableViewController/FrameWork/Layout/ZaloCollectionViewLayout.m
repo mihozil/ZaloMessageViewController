@@ -51,6 +51,11 @@
     [self registerClass:[ZaloCollectionViewSeparatorView class] forDecorationViewOfKind:ZaloCollectionElementKindRowSeparator];
 }
 
+#pragma mark collectionViewLayoutAPI
+//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
+//    return NO;
+//}
+
 - (void)prepareLayout {
     
     if (!CGRectIsEmpty(self.collectionView.bounds)) {
@@ -60,87 +65,6 @@
     [super prepareLayout];
 }
 
-- (void)buildLayout {
-
-    
-    [self createLayoutInfoFromDataSource]; 
-    
-    NSInteger numberOfSection = self.collectionView.numberOfSections;
-    CGFloat start =0;
-    // here, we can take things like sectionIndex; placeholder index; sectionINdex
-    
-    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
-        ZaloLayoutSection *section = [self.layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
-        start = [section layoutSectionWithOrigin:start];
-    }
-    
-    _layoutSize = CGSizeMake(self.collectionView.bounds.size.width, start);
-}
-
-- (void)resetLayoutInfo {
-    _oldLayoutInfo = _layoutInfo;
-    //1. resetLayoutInfo
-    _layoutInfo = [[ZaloLayoutInfo alloc]initWithLayout:self];
-    _layoutInfo.collectionViewWidth = self.collectionView.bounds.size.width; // where should I put this ?
-}
-
-- (void)createLayoutInfoFromDataSource {
-    [self resetLayoutInfo];
-    
-    ZaloDataSource *datasource = (ZaloDataSource*)self.collectionView.dataSource;
-    if (![datasource isKindOfClass:[ZaloDataSource class]])
-        return;
-    
-    NSInteger numberOfSection = datasource.numberOfSections; // also update Mapping
-    
-    // snapShotDataSource
-    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
-        ZaloLayoutSection *sectionInfo = [datasource snapShotSectionInfoAtIndex:sectionIndex];
-        sectionInfo.sectionIndex = sectionIndex;
-        [_layoutInfo addSection:sectionInfo];
-    }
-    
-    // placeholders
-    id placeholder = nil;
-    ZaloLayoutPlaceHolder *placeholderInfo = nil;
-    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
-        ZaloLayoutSection *sectionInfo = [_layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
-        if (sectionInfo.placeHolder) {
-            if (sectionInfo.placeHolder != placeholder) {
-                placeholderInfo = [_layoutInfo newPlaceholderInfoBeginAtSection:sectionIndex];
-                [sectionInfo setPlaceholderInfo:placeholderInfo];
-            }
-            
-            placeholder = sectionInfo.placeHolder;
-            [sectionInfo setPlaceholderInfo:placeholderInfo];
-        }
-        
-    }
-    
-    // populateSection : items
-    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
-        [self populateSectionAtIndex:sectionIndex];
-    }
-}
-
-- (void)populateSectionAtIndex:(NSInteger)sectionIndex {
-    
-    NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:sectionIndex];
-    ZaloLayoutSection *sectionInfo = [_layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
-    
-    for (NSInteger itemIndex = 0; itemIndex<numberOfItems; itemIndex++) {
-        ZaloLayoutCell *itemInfo = [[ZaloLayoutCell alloc]init];
-        if (sectionInfo.collectionSuggestionIndex == itemIndex)
-            itemInfo.isSuggestionCell = true;
-        itemInfo.itemIndex = itemIndex;
-        [sectionInfo addItem:itemInfo];
-    }
-}
-
-#pragma mark collectionViewLayoutAPI
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-    return YES;
-}
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
     ZaloCollectionViewLayoutAttributes *layoutAttributes = [self.layoutInfo layoutAttributesForSupplementaryViewOfKind:elementKind atIndexPath:indexPath];
@@ -186,6 +110,7 @@
 }
 
 - (NSArray<NSIndexPath *> *)indexPathsToDeleteForDecorationViewOfKind:(NSString *)elementKind {
+
     NSMutableArray *toDeleteIndexPaths = [[super indexPathsToDeleteForDecorationViewOfKind:elementKind] mutableCopy];
     NSArray *additionalDeleteIndexPaths = [[self.additionalDeletedIndexPath objectForKey:elementKind] copy];
     if (additionalDeleteIndexPaths.count>0)
@@ -199,7 +124,9 @@
     
     [self.layoutInfo enumerateSectionsWithCompletionBlock:^(ZaloLayoutSection*sectionInfo, NSUInteger sectionIndex, BOOL*stop){
         [sectionInfo enumerateLayoutAttributesWithCompletionBlock:^(ZaloCollectionViewLayoutAttributes*attributes, BOOL *stop){
-            [layoutAttributes addObject:attributes];
+            if (CGRectIntersectsRect(attributes.frame, rect)) {
+                [layoutAttributes addObject:attributes];
+            }
         }];
     }];
     
@@ -208,17 +135,6 @@
 
 - (CGSize)collectionViewContentSize {
     return _layoutSize;
-}
-
-- (void)recordAdditionalDeleteIndexPath:(NSIndexPath*)indexPath forElementKind:(NSString*)elementKind {
-    NSMutableArray *kindIndexPaths = [self.additionalInsertedIndexPath[elementKind] mutableCopy];
-    if (!kindIndexPaths)
-        kindIndexPaths = [NSMutableArray array];
-    if (indexPath)
-        [kindIndexPaths addObject:indexPath];
-    
-    [self.additionalDeletedIndexPath setObject:kindIndexPaths forKey:elementKind];
-    
 }
 
 - (void)prepareForCollectionViewUpdates:(NSArray<UICollectionViewUpdateItem *> *)updateItems {
@@ -239,6 +155,97 @@
     [super prepareForCollectionViewUpdates:updateItems];
 }
 
+#pragma mark helpers
+
+- (void)buildLayout {
+    
+    
+    [self createLayoutInfoFromDataSource];
+    
+    NSInteger numberOfSection = self.collectionView.numberOfSections;
+    CGFloat start =0;
+    // here, we can take things like sectionIndex; placeholder index; sectionINdex
+    
+    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
+        ZaloLayoutSection *section = [self.layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
+        start = [section layoutSectionWithOrigin:start];
+    }
+    
+    _layoutSize = CGSizeMake(self.collectionView.bounds.size.width, start);
+}
+
+- (void)resetLayoutInfo {
+    _oldLayoutInfo = _layoutInfo;
+    //1. resetLayoutInfo
+    _layoutInfo = [[ZaloLayoutInfo alloc]initWithLayout:self];
+    _layoutInfo.collectionViewWidth = self.collectionView.bounds.size.width; // where should I put this ?
+}
+
+- (void)createLayoutInfoFromDataSource {
+    [self resetLayoutInfo];
+    
+    ZaloDataSource *datasource = (ZaloDataSource*)self.collectionView.dataSource;
+    if (![datasource isKindOfClass:[ZaloDataSource class]])
+        return;
+    
+    NSInteger numberOfSection = datasource.numberOfSections; // also update Mapping
+    
+    // snapShotDataSource
+    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
+        ZaloLayoutSection *sectionInfo = [datasource snapShotSectionInfoAtIndex:sectionIndex];
+        
+        sectionInfo.sectionIndex = sectionIndex;
+        [_layoutInfo addSection:sectionInfo];
+    }
+    
+    // placeholders
+    id placeholder = nil;
+    ZaloLayoutPlaceHolder *placeholderInfo = nil;
+    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
+        ZaloLayoutSection *sectionInfo = [_layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
+        if (sectionInfo.placeHolder) {
+            if (sectionInfo.placeHolder != placeholder) {
+                placeholderInfo = [_layoutInfo newPlaceholderInfoBeginAtSection:sectionIndex];
+                [sectionInfo setPlaceholderInfo:placeholderInfo];
+            }
+            
+            placeholder = sectionInfo.placeHolder;
+            [sectionInfo setPlaceholderInfo:placeholderInfo];
+        }
+        
+    }
+    
+    // populateSection : items
+    for (NSInteger sectionIndex = 0; sectionIndex<numberOfSection; sectionIndex++) {
+        [self populateSectionAtIndex:sectionIndex];
+    }
+}
+
+- (void)populateSectionAtIndex:(NSInteger)sectionIndex {
+    
+    NSInteger numberOfItems = [self.collectionView numberOfItemsInSection:sectionIndex];
+    ZaloLayoutSection *sectionInfo = [_layoutInfo sectionInfoForSectionAtIndex:sectionIndex];
+    
+    for (NSInteger itemIndex = 0; itemIndex<numberOfItems; itemIndex++) {
+        ZaloLayoutCell *itemInfo = [[ZaloLayoutCell alloc]init];
+        if (sectionInfo.collectionSuggestionIndex == itemIndex)
+            itemInfo.isSuggestionCell = true;
+        itemInfo.itemIndex = itemIndex;
+        [sectionInfo addItem:itemInfo];
+    }
+}
+
+- (void)recordAdditionalDeleteIndexPath:(NSIndexPath*)indexPath forElementKind:(NSString*)elementKind {
+    NSMutableArray *kindIndexPaths = [self.additionalDeletedIndexPath[elementKind] mutableCopy];
+    
+    if (!kindIndexPaths)
+        kindIndexPaths = [NSMutableArray array];
+    if (indexPath)
+        [kindIndexPaths addObject:indexPath];
+    
+    [self.additionalDeletedIndexPath setObject:kindIndexPaths forKey:elementKind];
+    
+}
 
 #pragma mark publics
 - (BOOL)canEditItemAtIndexPath:(NSIndexPath *)indexPath {

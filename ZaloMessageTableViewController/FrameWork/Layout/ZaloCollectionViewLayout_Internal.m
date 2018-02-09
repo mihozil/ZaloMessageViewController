@@ -94,6 +94,7 @@ NSString *const ZaloCollectionElementKindHeader = @"ZaloCollectionElementKindHea
     layoutAttributes.frame = self.frame;
     layoutAttributes.editing = layout.editing? [layout canEditItemAtIndexPath:self.indexPath] : NO;
     
+    
     return layoutAttributes;
 }
 
@@ -142,6 +143,10 @@ NSString *const ZaloCollectionElementKindHeader = @"ZaloCollectionElementKindHea
 
 - (void)setFrame:(CGRect)frame {
     _frame = frame;
+}
+
+- (CGRect)frame {
+    return _frame;
 }
 
 @end
@@ -259,7 +264,6 @@ NSString *const ZaloCollectionElementKindHeader = @"ZaloCollectionElementKindHea
     [placeholderInfo wasAddedToSection:self];
 }
 
-
 - (CGFloat)layoutSectionWithOrigin:(CGFloat)start {
     ZaloLayoutInfo *layoutInfo = self.layoutInfo;
     CGFloat collectionViewWidth = layoutInfo.collectionViewWidth;
@@ -280,6 +284,7 @@ NSString *const ZaloCollectionElementKindHeader = @"ZaloCollectionElementKindHea
         
         CGFloat supplementaryItemHeight = supplementaryItem.height;
         supplementaryItem.frame = CGRectMake(0, start, collectionViewWidth, supplementaryItemHeight);
+        
         originY+= supplementaryItemHeight + padding;
     };
     [self.headers enumerateObjectsUsingBlock:supplementaryItemBlock];

@@ -10,7 +10,6 @@
 #import "ZaloCollectionViewLayoutAttributes.h"
 #import "ZaloCollectionViewLayout.h"
 #import "ZaloCollectionViewController.h"
-#import "ZaloSuggestionCollectionSupplementaryView.h"
 #import "ZaloDataAccessManager.h"
 #import "ZaloMessegeModel.h"
 #import "ZaloMessengeCollectionViewCell.h"
@@ -60,6 +59,13 @@
     ZaloActionView *muteAction = [[ZaloActionView alloc]initWithTitle:@"Mute" selector:@selector(muteActionFromCell:)];
     ZaloActionView *hideAction = [[ZaloActionView alloc]initWithTitle:@"Hide" selector:@selector(hideActionFromCell:)];
     return @[deleteAction,muteAction,hideAction];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    ZaloMessengeCollectionViewCell *cell = (ZaloMessengeCollectionViewCell*)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    id<ZaloMessageModelProtocol>model = [self.models objectAtIndex:indexPath.item];
+    
+    return cell;
 }
 
 #pragma mark subClass

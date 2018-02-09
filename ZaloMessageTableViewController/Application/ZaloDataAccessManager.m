@@ -10,8 +10,9 @@
 
 @interface ZaloDataAccessManager ()
 
-@property (strong, nonatomic) NSArray *chatArray;
-@property (strong, nonatomic) NSArray *suggestionArray;
+@property (strong, nonatomic) NSArray<id<ZaloMessageModelProtocol>> *chatArray;
+@property (strong, nonatomic) NSArray<id<ZaloSuggestionCollectionViewModelProtocol>> *suggestionArray;
+@property (strong, nonatomic) NSArray<id<ZaloFriendRequestModelProtocol>> *friendRequestArray;
 
 @end
 
@@ -112,12 +113,22 @@
 }
 
 - (void)fetchFriendRequestsWithCompletionHandle:(void (^)(NSArray<id<ZaloFriendRequestModelProtocol>> *, NSError *))completion {
-    [self fetchJsonResourceWithName:@"friendRequest" completionHandle:^(NSDictionary *json, NSError*error){
-        NSArray *requests = json[@"result"];
-        NSArray<id<ZaloFriendRequestModelProtocol>> *requestModels = [self createModelsFromFriendRequests:requests];
-        if (completion)
+    if (completion) {
+        if (self.friendRequestArray) {
+            completion(self.friendRequestArray,nil);
+            return;
+        }
+        
+        __weak ZaloDataAccessManager *weakSelf = self;
+        [self fetchJsonResourceWithName:@"friendRequest" completionHandle:^(NSDictionary *json, NSError*error){
+            NSArray *requests = json[@"result"];
+            NSArray<id<ZaloFriendRequestModelProtocol>> *requestModels = [self createModelsFromFriendRequests:requests];
+            weakSelf.friendRequestArray = requestModels;
             completion(requestModels,error);
-    }];
+                
+        }];
+    }
+    
 }
 
 #pragma mark modelsFromJson
