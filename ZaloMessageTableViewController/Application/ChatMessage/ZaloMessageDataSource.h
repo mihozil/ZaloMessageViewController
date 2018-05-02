@@ -8,6 +8,7 @@
 
 #import "ZaloBasicDataSource.h"
 
+// minhnhtAdded: Trial3
 @interface ZaloMessageDataSource : ZaloBasicDataSource
 
 @end
