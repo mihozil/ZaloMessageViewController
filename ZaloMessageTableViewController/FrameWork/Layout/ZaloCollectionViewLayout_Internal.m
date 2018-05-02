@@ -90,7 +90,7 @@ NSString *const ZaloCollectionElementKindHeader = @"ZaloCollectionElementKindHea
     ZaloCollectionViewLayout *layout = self.sectionInfo.layoutInfo.layout;
     
     ZaloCollectionViewLayoutAttributes *layoutAttributes = [ZaloCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:self.indexPath]; // it already contains thing like copywithzone ..
-    
+
     layoutAttributes.frame = self.frame;
     layoutAttributes.editing = layout.editing? [layout canEditItemAtIndexPath:self.indexPath] : NO;
     

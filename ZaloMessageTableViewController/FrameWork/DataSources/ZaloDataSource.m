@@ -298,7 +298,6 @@ NSString *const ZaloDataSourceTitleHeaderKey = @"ZaloDataSourceTitleHeaderKey";
     
     // items
     sectionInfo.collectionSuggestionIndex = self.collectionSuggetionIndex;
-//    for () 
     
     return sectionInfo;
 }

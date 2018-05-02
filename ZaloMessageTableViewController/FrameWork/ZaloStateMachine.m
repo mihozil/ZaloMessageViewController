@@ -16,7 +16,7 @@
     [self attemptToSetCurrentState:currentState];
 }
 
-- (BOOL)attemptToSetCurrentState:(NSString*)newState {
+- (BOOL) attemptToSetCurrentState:(NSString*)newState {
     NSString *fromState = _currentState;
     NSString *appliedState = [self validateTransitionFromState:fromState toState:newState];
     if (!appliedState)
