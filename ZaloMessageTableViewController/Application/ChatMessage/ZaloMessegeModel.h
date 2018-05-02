@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
+// minhnht: trial4 commit
 @protocol ZaloMessageModelProtocol <NSObject>
 
 @property (readonly, copy, nonatomic) NSString *title,*detail,*lastUpdate;
