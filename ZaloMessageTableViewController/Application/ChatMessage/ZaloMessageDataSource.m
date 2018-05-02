@@ -38,7 +38,6 @@
         [self createSuggestionObjects];
         // registerReuse...
     }
-    // minhnht added
     return self;
 }
 
